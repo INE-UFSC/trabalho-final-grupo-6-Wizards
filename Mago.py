@@ -13,7 +13,7 @@ import math
 
 class Mago(Actor):
     def __init__(self, id: int, vida_max: int, lista_magias: list, 
-    dano_base: int, ang: int, impulse: bool, grupo,Image_dict:dict, vel_ang: 0, accel: 0.5):
+    dano_base: int, ang: int, impulse: bool, grupo,Image_dict:dict, vel_ang = 0, accel = 0.5):
         self.__id = id
         self.__vida_max = vida_max
         self.__lista_magias = lista_magias
