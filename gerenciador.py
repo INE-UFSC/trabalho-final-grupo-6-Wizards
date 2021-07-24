@@ -3,13 +3,20 @@ import pygame as pg
 from Mago import Mago
 from pygame.constants import K_0
 
+import os
 
 class Gerenciador():
 
     def __init__(self, canvas, window):
         self.canvas = canvas
         self.window = window
+        self.menu_images = [pg.image.load(os.path.join('images','menu_'+str(i)+'.png')) for i in range(3) ]
         self.Redefinir()
+
+    def Menu(self):
+        self.canvas.blit(self.menu_images[0],(0,0))
+        self.window.blit(self.canvas,(0,0))
+        pg.display.update()
 
     def Redefinir(self):
         self.M_grupo = pg.sprite.Group()
