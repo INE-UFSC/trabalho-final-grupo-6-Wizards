@@ -3,20 +3,22 @@ import pygame as pg
 from Mago import Mago
 from pygame.constants import K_0
 
+
 class Gerenciador():
 
-    def __init__(self,canvas,window):
+    def __init__(self, canvas, window):
         self.canvas = canvas
         self.window = window
         self.Redefinir()
+
     def Redefinir(self):
         self.M_grupo = pg.sprite.Group()
 
         Mage_image = pg.Surface((80, 80), pg.SRCALPHA)
         pg.draw.circle(Mage_image, (255, 0, 0), (40, 40), 40)
-        M_image_dict = {'bola':Mage_image}
+        M_image_dict = {'bola': Mage_image}
 
-        self.MagoTest = Mago(0, 0, [], 2, 1, self.M_grupo,M_image_dict)
+        self.MagoTest = Mago(0, 0, [], 2, 1, self.M_grupo, M_image_dict)
 
     def partida(self):
         FPS = 60
@@ -28,11 +30,10 @@ class Gerenciador():
         while running:
 
             clock.tick(FPS)
-            
+
             now = time.time()
             dt = (now - prev_time)*60
             prev_time = now
-            
 
             for event in pg.event.get():
 
@@ -45,10 +46,9 @@ class Gerenciador():
                 self.MagoTest.acelerar()
 
             self.canvas.fill((0, 200, 200))
-            
+
             self.MagoTest.update(self.canvas, dt, (0, 0))
             self.M_grupo.draw(self.canvas)
 
             self.window.blit(self.canvas, (0, 0))
             pg.display.update()
-
