@@ -10,10 +10,11 @@ Created on Fri Jul 16 18:02:51 2021
 """
 from pygame.sprite import Sprite
 from pygame import Rect
+import pygame as pg
 
 class Actor(Sprite):
     def __init__(self, radius: float, image_dict: dict, size: tuple, framerate: float,
-                 vel = (0, 0), groups = None):
+                 vel = (0,0),groups = None):
         """
         Parameters
         ----------
@@ -24,13 +25,14 @@ class Actor(Sprite):
         size : tuple
             Tamanho do Ator.
         framerate : float
-            Quantidade de frames por segundo.
+            Quantidade de frames por segundo
         vel : TYPE, optional
             Velocidade inicial. The default is (0, 0).
         groups : TYPE, optional
             Grupo inicial. The default is None.
         """
-        self.__radius = radius
+
+        self.radius = radius
         self.__image_dict = image_dict
         self.__size = size
         self.__framerate = framerate
@@ -38,9 +40,22 @@ class Actor(Sprite):
         super().__init__(groups)
 
         self.__rect = Rect(0, 0, *size)
-        self.__image = self.__image_dict[list(self.__image_dict.values())[0]]
+        self.image = self.__image_dict[list(self.__image_dict.keys())[0]]
 
-    def update(self, new_pos = None):
+    @property
+    def rect(self):
+        return self.__rect
+
+    @property
+    def vel(self):
+        return self.__vel
+    
+    @vel.setter
+    def vel(self,vel):
+        self.__vel = vel
+
+
+    def update(self, tela,dt,new_pos = None):
         """
         Parameters
         ----------
@@ -53,9 +68,19 @@ class Actor(Sprite):
         -------
         new_pos: tuple
             Nova posição do Ator.
+
         """
-        if not new_pos:
-            new_pos = (self.__rect.x + self.__vel[0]/self.__framerate,
-                       self.__rect.y + self.__vel[1]/self.__framerate)
-        self.__rect.move_ip(*new_pos)
-        return new_pos
+        #teste 
+        
+
+        
+        self.radius = 40
+        #tela.blit(self.image,(self.rect.x,self.rect.y))
+        #tela.blit(self.image,(0,0))
+        
+       
+        new_pos = (self.vel[0],
+                   self.vel[1])
+        self.rect.move_ip(*new_pos)
+   
+

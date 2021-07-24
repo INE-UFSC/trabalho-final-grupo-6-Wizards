@@ -10,8 +10,8 @@ Created on Fri Jul 16 18:02:51 2021
 """
 from Actor import Actor
 
-class Mago():
-    def __init__(self, id: int, vida_max: int, lista_magias: list, dano_base: int, accel: float):
+class Mago(Actor):
+    def __init__(self, id: int, vida_max: int, lista_magias: list, dano_base: int, accel: float,grupo,Image_dict:dict):
         self.__id = id
         self.__vida_max = vida_max
         self.__lista_magias = lista_magias
@@ -21,7 +21,11 @@ class Mago():
         self.__slots = [None, None, None]
         self.__efeitos = {}
         self.__vivo = True
+        super().__init__(40,Image_dict,(0,0),1,(1,0),grupo)
     
+ 
+
+
     @property
     def id(self):
         return self.__id
@@ -75,7 +79,7 @@ class Mago():
         pass
 
     def acelerar(self):
-        pass
+        self.vel = (2,0)
 
     def rotacionar(self, sentido_horario: bool):
         pass
