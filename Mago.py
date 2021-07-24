@@ -88,7 +88,7 @@ class Mago(Actor):
     def rotacionar(self, sentido_horario: bool):
         pass
 
-    def angle_vector(ang):
+    def angle_vector(self,ang):
         return (math.cos(ang), -math.sin(ang))
 
     def update(self):
@@ -98,14 +98,15 @@ class Mago(Actor):
         
         if self.impulse: ## mover para frente se ha impulso
             self.forward = self.angle_vector(math.radians(self.ang))
-            self.vel[0] += self.forward[0] * self.__accel
-            self.vel[1] += self.forward[1] * self.__accel
+            new_vel = list((self.vel[0] + self.forward[0] * self.__accel,
+            self.vel[1] + self.forward[1] * self.__accel))
 
         ##perda de velocidade por atrito: 
-        self.vel[0] *= (1 - atr)
-        self.vel[1] *= (1 - atr)
-
-        super().update()
+        new_vel[0] *= (1 - atr)
+        new_vel[1] *= (1 - atr)
+        self.vel = (new_vel[0],new_vel[1])
+        super().update(1)#tem q passar dt
+        
 
     
         

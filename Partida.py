@@ -18,7 +18,7 @@ class Partida():
         pg.draw.circle(Mage_image, (255, 0, 0), (40, 40), 40)
         M_image_dict = {'bola': Mage_image}
 
-        self.MagoTest = Mago(0, 0, [], 2, 1, self.M_grupo, M_image_dict)
+        self.MagoTest = Mago(0, 0, [], 2, 1, 1,self.M_grupo, M_image_dict)
 
     def run(self):
         FPS = 60
@@ -47,7 +47,7 @@ class Partida():
 
             self.canvas.fill((0, 200, 200))
 
-            self.MagoTest.update(self.canvas, dt, (0, 0))
+            self.MagoTest.update()
             self.M_grupo.draw(self.canvas)
 
             self.window.blit(self.canvas, (0, 0))

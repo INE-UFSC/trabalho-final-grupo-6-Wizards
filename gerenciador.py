@@ -11,12 +11,11 @@ class Gerenciador():
         self.canvas = canvas
         self.window = window
         self.menu_images = [pg.image.load(os.path.join('images','menu_'+str(i)+'.png')) for i in range(3) ]
+
         self.Redefinir()
 
-    def Menu(self):
-        self.canvas.blit(self.menu_images[0],(0,0))
-        self.window.blit(self.canvas,(0,0))
-        pg.display.update()
+        self.testVar = 0
+
 
     def Redefinir(self):
         self.M_grupo = pg.sprite.Group()
