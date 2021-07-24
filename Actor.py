@@ -13,8 +13,8 @@ from pygame import Rect
 import pygame as pg
 
 class Actor(Sprite):
-    def __init__(self, radius: float, image_dict: dict, size: tuple, framerate: float,
-                 vel = (0,0),groups = None):
+    def __init__(self, radius: float, image_dict: dict, size: tuple, framerate: float, ang: int,
+                 vel = (0,0), groups = None):
         """
         Parameters
         ----------
@@ -37,10 +37,12 @@ class Actor(Sprite):
         self.__size = size
         self.__framerate = framerate
         self.__vel = vel
+        self.ang = ang
         super().__init__(groups)
 
         self.__rect = Rect(0, 0, *size)
         self.image = self.__image_dict[list(self.__image_dict.keys())[0]]
+        
 
     @property
     def rect(self):
@@ -55,7 +57,7 @@ class Actor(Sprite):
         self.__vel = vel
 
 
-    def update(self, tela,dt,new_pos = None):
+    def update(self, dt):
         """
         Parameters
         ----------
@@ -70,17 +72,6 @@ class Actor(Sprite):
             Nova posição do Ator.
 
         """
-        #teste 
-        
-
-        
-        self.radius = 40
-        #tela.blit(self.image,(self.rect.x,self.rect.y))
-        #tela.blit(self.image,(0,0))
-        
-       
-        new_pos = (self.vel[0],
-                   self.vel[1])
-        self.rect.move_ip(*new_pos)
+        self.rect.move_ip(*self.vel)
    
 
