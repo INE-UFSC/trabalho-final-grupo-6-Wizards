@@ -8,31 +8,36 @@
 """
 import pygame as pg
 
+from gerenciadores.Config import Config
+from gerenciadores.estados.Estado import Estado
+from gerenciadores.estados.Menu import Menu
+from gerenciadores.estados.Partida import Partida
 
-from pygame.constants import K_0
-from core.gerenciador import Gerenciador
-from core.Mago import Mago
-from core.Menu import Menu
-from core.Partida import Partida
+config = Config()
+pg.init()
 
-
-pg.init()  # inicia pggame
-DISPLAY_W, DISPLAY_H = 900, 500
-canvas = pg.Surface((DISPLAY_W+500, DISPLAY_H+500))
-window = pg.display.set_mode(((DISPLAY_W, DISPLAY_H)))
-
+# Janela
+window = pg.display.set_mode(config.screen_size)
 
 # Controle de tempo
-menu = Menu(canvas, window)
-partida = Partida(canvas, window)
-f = 0
+clock = pg.time.Clock()
+
+# Estados do jogo
+estados_enum = {"Menu": 0, "Partida": 1}
+estados: list[Estado] = [Menu(window, config), Partida(window, config)]
+e = 1  # estado atual
+
+estados[1].Iniciar(n_players = 1)  # Inicia a partida
 
 run = True
 while run:
-    for event in pg.event.get():
-
-        if event.type == pg.QUIT:
-
+    estados[e].display()
+    clock.tick(config.FPS)
+    if pg.event.get(eventtype=pg.QUIT):
+        if e == 1:
             run = False
-    menu.run()
-partida.run()
+        else:
+            e += 1
+    estados[e].run()
+print("end")
+pg.display.quit()

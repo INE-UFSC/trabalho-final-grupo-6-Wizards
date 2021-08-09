@@ -11,10 +11,10 @@ import math
 
 
 class Mago(Actor):
-    def __init__(self, id: int, vida_max: int, lista_magias: list,
-                 dano_base: int, ang: int, impulse: bool, grupo,
-                 Image_dict: dict, vel_ang=0, accel=0.5):
-        self.__id = id
+    def __init__(self, idx: int, vida_max: int, lista_magias: list,
+                 dano_base: int, ang: float, grupo, Image_dict: dict, 
+                 acc_ang=5, accel=0.5, atr=0.95):
+        self.__idx = idx
         self.__vida_max = vida_max
         self.__lista_magias = lista_magias
         self.__dano_base = dano_base
@@ -22,14 +22,20 @@ class Mago(Actor):
         self.__vida = vida_max
         self.__slots = [None, None, None]
         self.__efeitos = {}
+        self.__atr = atr
+        super().__init__(radius=40, image_dict=Image_dict, size=(0, 0),
+                         ang=ang, vel=(0, 0), groups=grupo)
         self.__vivo = True
-        self.impulse = impulse
-        super().__init__(40, Image_dict, (0, 0), 1, ang, (1, 0), grupo)
-        self.vel_ang = vel_ang
+        self.__impulse = False
+        self.__acc_ang = acc_ang
+        self.__vel_ang = 5
+        self.__rotacionando = False
+        self.__sentido_horario = False
+        self.calc_angle_vector()
 
     @property
-    def id(self):
-        return self.__id
+    def idx(self):
+        return self.__idx
 
     @property
     def vida_max(self):
@@ -79,26 +85,27 @@ class Mago(Actor):
         pass
 
     def acelerar(self):
-        self.vel = (2, 0)
+        self.__impulse = True
 
     def rotacionar(self, sentido_horario: bool):
-        pass
-
-    def angle_vector(self, ang):
-        return (math.cos(ang), -math.sin(ang))
+        self.__rotacionando = True
+        self.__sentido_horario = sentido_horario
 
     def update(self):
-        atr = self.__accel / 20
+        if self.__rotacionando:
+            if self.__sentido_horario:
+                self.ang -= self.__vel_ang
+            else:
+                self.ang += self.__vel_ang
+            self.__rotacionando = False
 
-        self.ang += self.vel_ang  # deslocamento angular
-
-        if self.impulse:  # mover para frente se ha impulso
-            self.forward = self.angle_vector(math.radians(self.ang))
-            new_vel = list((self.vel[0] + self.forward[0] * self.__accel,
-                            self.vel[1] + self.forward[1] * self.__accel))
+        if self.__impulse:  # mover para frente se ha impulso
+            new_vel = (self.vel[0] + self.angle_vector[0] * self.__accel,
+                       self.vel[1] + self.angle_vector[1] * self.__accel)
+            self.__impulse = False
+        else:
+            new_vel = self.vel
 
         # perda de velocidade por atrito:
-        new_vel[0] *= (1 - atr)
-        new_vel[1] *= (1 - atr)
-        self.vel = (new_vel[0], new_vel[1])
+        self.vel = (new_vel[0]*self.__atr, new_vel[1]*self.__atr)
         super().update(1)  # tem q passar dt

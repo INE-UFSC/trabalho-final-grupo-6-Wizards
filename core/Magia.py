@@ -5,6 +5,8 @@
     Lucas Yuki Imamura
     Maria Fernanda Bittelbrunn Toniasso
     Vitor Hugo Homem Marzarotto
+
+    Classe base para as magias
 """
 from abc import ABC, abstractmethod
 from core.Actor import Actor

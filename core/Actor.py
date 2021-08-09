@@ -7,12 +7,13 @@
     Vitor Hugo Homem Marzarotto
 """
 from pygame.sprite import Sprite
-from pygame import Rect
+import pygame as pg
+import math
 
 
 class Actor(Sprite):
     def __init__(self, radius: float, image_dict: dict, size: tuple,
-                 framerate: float, ang: int, vel=(0, 0), groups=None):
+                 ang: float, vel=(0, 0), groups=None):
         """
         Parameters
         ----------
@@ -30,20 +31,26 @@ class Actor(Sprite):
             Grupo inicial. The default is None.
         """
 
-        self.radius = radius
+        self.__radius = radius
         self.__image_dict = image_dict
         self.__size = size
-        self.__framerate = framerate
-        self.__vel = vel
+        self.vel = vel
+        self.__rect = pg.Rect(0, 0, *size)
         self.ang = ang
+        self.__change_ang = True
+        self.state = list(self.__image_dict.keys())[0]
         super().__init__(groups)
 
-        self.__rect = Rect(0, 0, *size)
-        self.image = self.__image_dict[list(self.__image_dict.keys())[0]]
+        self.__new_angle = True
+        self.__moving = True
 
     @property
-    def rect(self):
-        return self.__rect
+    def radius(self):
+        return self.__radius
+
+    @property
+    def size(self):
+        return self.__size
 
     @property
     def vel(self):
@@ -52,6 +59,40 @@ class Actor(Sprite):
     @vel.setter
     def vel(self, vel):
         self.__vel = vel
+        if abs(self.__vel[0]) + abs(self.__vel[1]) > 0:
+            self.__moving = True
+        else:
+            self.__moving = False
+
+    @property
+    def ang(self):
+        return self.__ang
+
+    @ang.setter
+    def ang(self, ang):
+        self.__ang = ang
+        self.__new_angle = True
+        self.calc_angle_vector()
+
+    @property
+    def angle_vector(self):
+        return self.__angle_vector
+
+    def calc_angle_vector(self):
+        ang = math.radians(self.ang)
+        self.__angle_vector = (math.cos(ang), -math.sin(ang))
+
+    @property
+    def rect(self):
+        return self.__rect
+
+    @property
+    def image(self):
+        return self.__image
+
+    def __rotate(self):
+        self.__image = pg.transform.rotate(self.__image_dict[self.state],
+                                           self.ang)
 
     def update(self, dt):
         """
@@ -68,4 +109,7 @@ class Actor(Sprite):
             Nova posição do Ator.
 
         """
-        self.rect.move_ip(*self.vel)
+        if self.__moving:
+            self.rect.move_ip(*self.vel)
+        if self.__new_angle:
+            self.__rotate()
