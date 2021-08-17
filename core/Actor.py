@@ -101,9 +101,11 @@ class Actor(Sprite):
         self.__image = pg.transform.rotate(self.__image_dict[self.state],
                                            self.ang)
         new_center = self.__image.get_rect().center
-        self.rect.move_ip(old_center[0]-new_center[1],
-                          old_center[0]-new_center[1])
-
+    
+        self.rect.update(self.rect[0]+old_center[0]-new_center[0],
+                         self.rect[1]+old_center[1]-new_center[1],
+                         *self.__image.get_size() )
+        
     def update(self, dt):
         """
         Parameters

@@ -13,7 +13,7 @@ import math
 class Mago(Actor):
     def __init__(self, idx: int, vida_max: int, lista_magias: list,
                  dano_base: int, ang: float, grupo, Image_dict: dict, 
-                 acc_ang=5, accel=0.5, atr=0.95):
+                 acc_ang=5, accel=0.5, atr=0.99):
         self.__idx = idx
         self.__vida_max = vida_max
         self.__lista_magias = lista_magias
@@ -82,7 +82,9 @@ class Mago(Actor):
         self.__vivo = vivo
 
     def jogarMagia(self, n_slot: int):
-        self.lista_magias[n_slot].cast(self.rect)
+        self.lista_magias[n_slot].cast(self)
+        print(self.rect.center)
+        print(self.rect)
         
 
     def acelerar(self):
@@ -92,7 +94,7 @@ class Mago(Actor):
         self.__rotacionando = True
         self.__sentido_horario = sentido_horario
 
-    def update(self):
+    def update(self,dt):
         if self.__rotacionando:
             if self.__sentido_horario:
                 self.ang -= self.__vel_ang
@@ -109,4 +111,4 @@ class Mago(Actor):
 
         # perda de velocidade por atrito:
         self.vel = (new_vel[0]*self.__atr, new_vel[1]*self.__atr)
-        super().update(1)  # tem q passar dt
+        super().update(dt)  # tem q passar dt
