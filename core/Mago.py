@@ -6,22 +6,23 @@
     Maria Fernanda Bittelbrunn Toniasso
     Vitor Hugo Homem Marzarotto
 """
+from sys import displayhook
 from core.Actor import Actor
 import math
 
 
 class Mago(Actor):
-    def __init__(self, idx: int, vida_max: int, lista_magias: list,
+    def __init__(self, idx: int,life_max: int, lista_magias: list,
                  dano_base: int, ang: float, grupo, Image_dict: dict, 
                  acc_ang=5, accel=0.5, atr=0.99):
         self.__idx = idx
-        self.__vida_max = vida_max
+        self._life_max =life_max
         self.__lista_magias = lista_magias
         self.__dano_base = dano_base
         self.__accel = accel
-        self.__vida = vida_max
+        self.__life =life_max
         self.__slots = [None, None, None]
-        self.__efeitos = {}
+        self.__effects = [self.damage(2)]
         self.__atr = atr
         super().__init__(radius=25, image_dict=Image_dict, size=(50, 50),
                          ang=ang, vel=(0, 0), groups=grupo)
@@ -38,8 +39,8 @@ class Mago(Actor):
         return self.__idx
 
     @property
-    def vida_max(self):
-        return self.__vida_max
+    def life_max(self):
+        return self._life_max
 
     @property
     def lista_magias(self):
@@ -54,12 +55,12 @@ class Mago(Actor):
         return self.__accel
 
     @property
-    def vida(self):
-        return self.__vida
+    def life(self):
+        return self._life
 
-    @vida.setter
-    def vida(self, vida: int):
-        self.__vida = vida
+    life.setter
+    def life(self,life: int):
+        self._life =life
 
     @property
     def slots(self):
@@ -70,7 +71,7 @@ class Mago(Actor):
         return self.__efeitos
 
     @efeitos.setter
-    def efeitos(self, efeitos: dict):
+    def efeitos(self, efeitos: list):
         self.__efeitos = efeitos
 
     @property
@@ -111,4 +112,27 @@ class Mago(Actor):
 
         # perda de velocidade por atrito:
         self.vel = (new_vel[0]*self.__atr, new_vel[1]*self.__atr)
+
+        for effect in self.__effects:
+            effect(self)
+
         super().update(dt)  # tem q passar dt
+
+    def damage(self, damage):
+        if self.protection() in self.__effects:
+            pass
+        else:
+            self.life -= damage 
+
+    def speed(self, time):
+        self.acelerar()
+
+    def protection(self):
+        pass
+
+    
+
+
+
+        
+
