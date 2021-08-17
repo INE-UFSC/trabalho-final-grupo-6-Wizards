@@ -43,6 +43,8 @@ class Actor(Sprite):
 
         self.__new_angle = True
         self.__moving = True
+        self.__image = self.__image_dict[self.state]
+        self.__savedgroup = groups  
 
     @property
     def radius(self):
@@ -89,10 +91,18 @@ class Actor(Sprite):
     @property
     def image(self):
         return self.__image
+    
+    def revive(self):
+        for g in self.__savedgroup:
+            g.add(self)
 
     def __rotate(self):
+        old_center = self.__image.get_rect().center
         self.__image = pg.transform.rotate(self.__image_dict[self.state],
                                            self.ang)
+        new_center = self.__image.get_rect().center
+        self.rect.move_ip(old_center[0]-new_center[1],
+                          old_center[0]-new_center[1])
 
     def update(self, dt):
         """

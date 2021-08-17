@@ -23,7 +23,7 @@ class Mago(Actor):
         self.__slots = [None, None, None]
         self.__efeitos = {}
         self.__atr = atr
-        super().__init__(radius=40, image_dict=Image_dict, size=(80, 80),
+        super().__init__(radius=25, image_dict=Image_dict, size=(50, 50),
                          ang=ang, vel=(0, 0), groups=grupo)
         self.__vivo = True
         self.__impulse = False
@@ -82,7 +82,8 @@ class Mago(Actor):
         self.__vivo = vivo
 
     def jogarMagia(self, n_slot: int):
-        pass
+        self.lista_magias[n_slot].cast(self.rect)
+        
 
     def acelerar(self):
         self.__impulse = True

@@ -15,20 +15,24 @@ from pygame.constants import K_0
 from gerenciadores.Inputs import Inputs
 from gerenciadores.estados.Estado import Estado
 from core.Mago import Mago
+from core.Magias.Curse import Curse
 
 
 class Partida(Estado):
     def Redefinir(self):
         self.M_grupo = pg.sprite.Group()
+        R = 25
 
-        Mage_image = pg.Surface((80, 80), pg.SRCALPHA)
-        pg.draw.circle(Mage_image, (255, 0, 0), (40, 40), 40)
-        width = 6
+        Mage_image = pg.Surface((R*2, R*2), pg.SRCALPHA)
+        pg.draw.circle(Mage_image, (255, 0, 0), (R, R), R)
+        width = 3
         pg.draw.rect(Mage_image, (0, 255, 0),
-                     pg.Rect(40, 40-width/2, 40, width))
+                     pg.Rect(R, R-width/2, R, width))
         M_image_dict = {'bola': Mage_image}
-
-        self.Magos = [Mago(idx=0, vida_max=10, lista_magias=[], dano_base=2,
+        mago = Mago(idx=0, vida_max=10, lista_magias=[Curse(self.M_grupo)], dano_base=2,
+                           ang=0, grupo=self.M_grupo, accel=0.5, atr=0.995,
+                           Image_dict=M_image_dict)
+        self.Magos = [mago,Mago(idx=0, vida_max=10, lista_magias=[Curse(self.M_grupo)], dano_base=2,
                            ang=0, grupo=self.M_grupo, accel=1,
                            Image_dict=M_image_dict)]
 
@@ -54,7 +58,7 @@ class Partida(Estado):
                 pass  # desacelerar
 
             if 4 in actions[p]:  # slot0
-                pass
+                self.Magos[p].jogarMagia(0)
             if 5 in actions[p]:  # slot1
                 pass
             if 6 in actions[p]:  # slot2

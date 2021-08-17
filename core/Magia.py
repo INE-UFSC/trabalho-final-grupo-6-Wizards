@@ -17,7 +17,7 @@ class Magia(ABC, Actor):
     def __init__(self, nome: str, icone: str, som: str,
                 radius: float, image_dict: dict, size: tuple,
                 ang: float, vel=(0, 0), groups=None):
-        super(Actor).__init__(radius, image_dict, size, ang, vel, groups)
+        super(Magia, self).__init__(radius, image_dict, size, ang, vel, groups)
         self.__nome = nome
         self.__icone = icone
         self.__som = som
@@ -44,7 +44,7 @@ class Magia(ABC, Actor):
         return self.__actor
 
     @abstractmethod
-    def lancarMagia(self):
+    def cast(self):
         pass
 
     @abstractmethod
