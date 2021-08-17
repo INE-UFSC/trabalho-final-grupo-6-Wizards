@@ -13,14 +13,15 @@ from core.Actor import Actor
 from core.Mago import Mago
 
 
-class Magia(ABC):
-    def __init__(self, nome: str, icone: str, som: str, mago: Mago,
-                 actor: Actor):
+class Magia(ABC, Actor):
+    def __init__(self, nome: str, icone: str, som: str,
+                radius: float, image_dict: dict, size: tuple,
+                ang: float, vel=(0, 0), groups=None):
+        super(Actor).__init__(radius, image_dict, size, ang, vel, groups)
         self.__nome = nome
         self.__icone = icone
         self.__som = som
-        self.__mago = mago
-        self.__actor = actor
+        
 
     @property
     def nome(self):
