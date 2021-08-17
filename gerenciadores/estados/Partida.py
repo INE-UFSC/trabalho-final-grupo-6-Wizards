@@ -29,7 +29,7 @@ class Partida(Estado):
         M_image_dict = {'bola': Mage_image}
 
         self.Magos = [Mago(idx=0, vida_max=10, lista_magias=[], dano_base=2,
-                           ang=315, grupo=self.M_grupo, accel=5,
+                           ang=315, grupo=self.M_grupo, accel=1,
                            Image_dict=M_image_dict)]
 
         self.inputs = Inputs(self.config.p0)

@@ -39,8 +39,11 @@ class Inputs():
 
     def get(self) -> list[list[str]]:
         pressed: list[list[str]] = [[]]*self.__n_players
-        for event in pg.event.get(eventtype=pg.KEYDOWN):
-            if event.key in self.__inputs:
-                for player, command in self.__inputs[event.key]:
+        
+        keys = pg.key.get_pressed()
+        for key in self.__inputs:
+            
+            if keys[key]:
+                for player, command in self.__inputs[key]:
                     pressed[player].append(command)
         return pressed
