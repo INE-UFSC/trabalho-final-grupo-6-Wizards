@@ -1,6 +1,6 @@
 import pygame as pg
 from core.Magia import Magia
-
+import time 
 
 class Curse(Magia):
     def __init__(self,grupo):
@@ -12,8 +12,14 @@ class Curse(Magia):
         self.kill()
 
     def cast(self, mago): 
+        self.__spawned_time = time.time()
         super().cast(mago)
       
+    def update(self,dt):
+        
+        if time.time() > self.__spawned_time + 5:
+            self.kill()
+        super().update(1)
 
     def colisao(self):
       #if self.rect.colliderect()
