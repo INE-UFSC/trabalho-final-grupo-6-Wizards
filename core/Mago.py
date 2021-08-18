@@ -12,17 +12,17 @@ import math
 
 
 class Mago(Actor):
-    def __init__(self, idx: int,life_max: int, lista_magias: list,
-                 dano_base: int, ang: float, grupo, Image_dict: dict, 
+    def __init__(self, idx: int, max_life: int, lista_magias: list,
+                 dano_base: int, ang: float, grupo, Image_dict: dict,
                  acc_ang=5, accel=0.5, atr=0.99):
         self.__idx = idx
-        self._life_max =life_max
+        self._max_life = max_life
         self.__lista_magias = lista_magias
         self.__dano_base = dano_base
         self.__accel = accel
-        self.__life =life_max
+        self.__life = max_life
         self.__slots = [None, None, None]
-        self.__effects = [self.damage(2)]
+        self.__effects = []
         self.__atr = atr
         super().__init__(radius=25, image_dict=Image_dict, size=(50, 50),
                          ang=ang, vel=(0, 0), groups=grupo)
@@ -39,8 +39,8 @@ class Mago(Actor):
         return self.__idx
 
     @property
-    def life_max(self):
-        return self._life_max
+    def max_life(self):
+        return self._max_life
 
     @property
     def lista_magias(self):
@@ -58,9 +58,9 @@ class Mago(Actor):
     def life(self):
         return self._life
 
-    life.setter
-    def life(self,life: int):
-        self._life =life
+    @life.setter
+    def life(self, life: int):
+        self._life = life
 
     @property
     def slots(self):
@@ -86,7 +86,6 @@ class Mago(Actor):
         self.lista_magias[n_slot].cast(self)
         print(self.rect.center)
         print(self.rect)
-        
 
     def acelerar(self):
         self.__impulse = True
@@ -95,7 +94,7 @@ class Mago(Actor):
         self.__rotacionando = True
         self.__sentido_horario = sentido_horario
 
-    def update(self,dt):
+    def update(self, dt):
         if self.__rotacionando:
             if self.__sentido_horario:
                 self.ang -= self.__vel_ang
@@ -118,20 +117,11 @@ class Mago(Actor):
 
         super().update(dt)  # tem q passar dt
 
-    def add_efects (self, effect):
+    def add_efects(self, effect):
         self.__effects.append(effect)
 
-        
     def damage(self, damage):
         if self.protection() in self.__effects:
             pass
         else:
-            self.life -= damage 
-
-
-    
-
-
-
-        
-
+            self.life -= damage
