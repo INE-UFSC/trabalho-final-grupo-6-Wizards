@@ -11,8 +11,8 @@ import pygame as pg
 import math
 
 
-class Actor(Sprite):
-    def __init__(self, radius: float, image_dict: dict, size: tuple,
+class GameObject(Sprite):
+    def __init__(self, image_dict: dict, sound_dict: dict,
                  ang: float, vel=(0, 0), groups=None):
         """
         Parameters
@@ -30,21 +30,18 @@ class Actor(Sprite):
         groups : TYPE, optional
             Grupo inicial. The default is None.
         """
+        self.__rect = pg.Rect(0, 0, 0, 0)
 
-        self.__radius = radius
-        self.__radius2 = radius*radius
         self.__image_dict = image_dict
-        self.__size = size
         self.vel = vel
-        self.__rect = pg.Rect(0, 0, *size)
         self.ang = ang
         self.__change_ang = True
         self.state = list(self.__image_dict.keys())[0]
+
         super().__init__(groups)
 
         self.__new_angle = True
         self.__moving = True
-        self.__image = self.__image_dict[self.state]
         self.__savedgroup = groups
 
     @property
@@ -59,10 +56,6 @@ class Actor(Sprite):
     @property
     def radius2(self):
         return self.__radius2
-
-    @property
-    def size(self):
-        return self.__size
 
     @property
     def vel(self):
@@ -101,7 +94,19 @@ class Actor(Sprite):
     @property
     def image(self):
         return self.__image
-    
+
+    @property
+    def state(self):
+        return self.__state
+
+    @state.setter
+    def state(self, new_state):
+        self.__state = new_state
+        self.__image = self.__image_dict[self.__state]
+        self.__rect = pg.Rect(self.__rect.x, self.__rect.y,
+                              *self.__image.size)
+        self.radius = self.__image.radius
+
     def revive(self):
         for g in self.__savedgroup:
             g.add(self)
@@ -111,11 +116,11 @@ class Actor(Sprite):
         self.__image = pg.transform.rotate(self.__image_dict[self.state],
                                            self.ang)
         new_center = self.__image.get_rect().center
-    
+
         self.rect.update(self.rect[0]+old_center[0]-new_center[0],
                          self.rect[1]+old_center[1]-new_center[1],
-                         *self.__image.get_size() )
-        
+                         *self.__image.get_size())
+
     def update(self, dt):
         """
         Parameters

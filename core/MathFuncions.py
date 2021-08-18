@@ -1,4 +1,11 @@
-
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+@author:
+    Lucas Yuki Imamura
+    Maria Fernanda Bittelbrunn Toniasso
+    Vitor Hugo Homem Marzarotto
+"""
 
 def dist_sq(p1, p2):
     dx = p1[0]-p2[0]

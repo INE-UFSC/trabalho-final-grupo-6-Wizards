@@ -8,42 +8,43 @@
 """
 import pygame as pg
 
-from gerenciadores.Config import Config
-from gerenciadores.estados.Estado import Estado
-from gerenciadores.estados.Menu import Menu
-from gerenciadores.estados.Partida import Partida
+from managers.Config import Config
+from managers.states import State
+from managers.states import Menu
+from managers.states import Match
 
 
 class Game():
     def __init__(self):
         pg.init()
         self.config = Config()
-        self.estados_enum = {"Menu": 0, "Partida": 1}
+        self.states_enum = {"Menu": 0, "Match": 1}
 
     def run(self):
-        # Janela
+        # Initializa window
         self.window = pg.display.set_mode(self.config.screen_size)
 
-        # Controle de tempo
+        # Time control
         self.clock = pg.time.Clock()
 
-        # Estados do jogo
+        # Game states
         menu = Menu(self.window, self.config)
-        partida = Partida(self.window, self.config)
-        self.estados: list[Estado] = [menu, partida]
-        self.e = 1  # estado atual
+        match = Match(self.window, self.config)
+        self.__states: list[State] = [menu, match]
+        self.__current_state = 1
 
-        partida.Iniciar(n_players=1)  # Inicia a partida
+        match.Start(n_players=1)
 
         run = True
         while run:
-            self.estados[self.e].display()
+            self.__states[self.__current_state].display()
             self.clock.tick(self.config.FPS)
+
             if pg.event.get(eventtype=pg.QUIT):
-                if self.e == 1:
+                if self.__current_state == 1:
                     run = False
                 else:
-                    self.e += 1
-            self.estados[self.e].run()
+                    self.__current_state += 1
+            self.__states[self.__current_state].run()
         print("end")
         pg.display.quit()
