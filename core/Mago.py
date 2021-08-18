@@ -6,9 +6,11 @@
     Maria Fernanda Bittelbrunn Toniasso
     Vitor Hugo Homem Marzarotto
 """
+from hashlib import new
 from sys import displayhook
 from core.Actor import Actor
-import math
+import random
+import time
 
 
 class Mago(Actor):
@@ -24,6 +26,7 @@ class Mago(Actor):
         self.__slots = [None, None, None]
         self.__effects = []
         self.__atr = atr
+        self.__cooldown = 1
         super().__init__(radius=25, image_dict=Image_dict, size=(50, 50),
                          ang=ang, vel=(0, 0), groups=grupo)
         self.__vivo = True
@@ -33,6 +36,12 @@ class Mago(Actor):
         self.__rotacionando = False
         self.__sentido_horario = False
         self.calc_angle_vector()
+
+        for x in range(3):
+            self.slots[x] = self.lista_magias[x]
+        
+        self.__lista_magias = [self.slots[1]]
+        self.delay = [3,3,3]
 
     @property
     def idx(self):
@@ -83,9 +92,22 @@ class Mago(Actor):
         self.__vivo = vivo
 
     def jogarMagia(self, n_slot: int):
-        self.lista_magias[n_slot].cast(self)
-        print(self.rect.center)
-        print(self.rect)
+        
+        now = time.time()
+        if self.delay[n_slot] < now:  
+            print("slots",self.slots)  
+            print("magias",self.lista_magias)
+            self.slots[n_slot].cast(self)
+            spell_casted = self.slots[n_slot]
+            new_spell = random.choice(self.lista_magias)
+            self.slots[n_slot]= new_spell
+            self.lista_magias.remove(new_spell)
+            self.lista_magias.append(spell_casted)
+            self.delay[n_slot] = time.time() + self.__cooldown 
+            print("pós slots",self.slots)  
+            print("pós magias",self.lista_magias)
+            
+            
 
     def acelerar(self):
         self.__impulse = True

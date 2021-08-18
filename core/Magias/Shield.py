@@ -22,4 +22,7 @@ class Shield(Magia):
             self.kill()
         super().update(dt)
 
+    def colisao(self, mago):
+        pass
+
     
