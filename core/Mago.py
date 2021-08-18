@@ -118,17 +118,16 @@ class Mago(Actor):
 
         super().update(dt)  # tem q passar dt
 
+    def add_efects (self, effect):
+        self.__effects.append(effect)
+
+        
     def damage(self, damage):
         if self.protection() in self.__effects:
             pass
         else:
             self.life -= damage 
 
-    def speed(self, time):
-        self.acelerar()
-
-    def protection(self):
-        pass
 
     
 
