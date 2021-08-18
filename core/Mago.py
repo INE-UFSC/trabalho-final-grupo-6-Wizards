@@ -87,7 +87,7 @@ class Mago(Actor):
         print(self.rect.center)
         print(self.rect)
 
-    def acelerar(self):
+    def accelerate(self):
         self.__impulse = True
 
     def rotacionar(self, sentido_horario: bool):
@@ -117,8 +117,11 @@ class Mago(Actor):
 
         super().update(dt)  # tem q passar dt
 
-    def add_efects(self, effect):
+    def add_effect(self, effect):
         self.__effects.append(effect)
+
+    def effect_remove(self, effect):
+        self.__effects.remove(effect)
 
     def damage(self, damage):
         if self.protection() in self.__effects:

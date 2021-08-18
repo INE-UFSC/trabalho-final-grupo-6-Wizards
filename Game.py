@@ -17,9 +17,10 @@ from gerenciadores.estados.Partida import Partida
 class Game():
     def __init__(self):
         pg.init()
+        self.config = Config()
+        self.estados_enum = {"Menu": 0, "Partida": 1}
 
     def run(self):
-        self.config = Config()
         # Janela
         self.window = pg.display.set_mode(self.config.screen_size)
 
@@ -27,7 +28,6 @@ class Game():
         self.clock = pg.time.Clock()
 
         # Estados do jogo
-        self.estados_enum = {"Menu": 0, "Partida": 1}
         menu = Menu(self.window, self.config)
         partida = Partida(self.window, self.config)
         self.estados: list[Estado] = [menu, partida]

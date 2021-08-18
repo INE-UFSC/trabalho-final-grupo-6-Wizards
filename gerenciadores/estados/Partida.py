@@ -17,6 +17,8 @@ from gerenciadores.estados.Estado import Estado
 from core.Mago import Mago
 from core.Magias.Curse import Curse
 from core.Magias.Bullet import Bullet
+from core.MathFuncions import circle_colide
+
 
 class Partida(Estado):
     def Redefinir(self):
@@ -43,7 +45,7 @@ class Partida(Estado):
             mago = Mago(idx=0, max_life=10, lista_magias=lista_magias,
                         dano_base=2, ang=0, grupo=self.Wizard_group,
                         accel=0.25, atr=0.99, Image_dict=M_image_dict)
-            
+
             self.Magos.append(mago)
 
     def __process_inputs(self):
@@ -57,7 +59,7 @@ class Partida(Estado):
 
             if 2 in actions[p]:  # acc
                 if 3 not in actions[p]:  # dacc
-                    self.Magos[p].acelerar()
+                    self.Magos[p].accelerate()
             elif 3 in actions[p]:  # dacc
                 pass  # desacelerar
 
@@ -71,7 +73,12 @@ class Partida(Estado):
                 pass
 
     def run(self):
-        #pg.sprite.groupcollide()
+        colided = pg.sprite.groupcollide(self.Wizard_group, self.Spell_group,
+                                         False, False, circle_colide)
+        for wizard, spells in colided.items():
+            for spell in spells:
+                spell.colisao(wizard)
+
         self.__process_inputs()
 
         self.canvas.fill((0, 200, 200))

@@ -32,6 +32,7 @@ class Actor(Sprite):
         """
 
         self.__radius = radius
+        self.__radius2 = radius*radius
         self.__image_dict = image_dict
         self.__size = size
         self.vel = vel
@@ -44,11 +45,20 @@ class Actor(Sprite):
         self.__new_angle = True
         self.__moving = True
         self.__image = self.__image_dict[self.state]
-        self.__savedgroup = groups  
+        self.__savedgroup = groups
 
     @property
     def radius(self):
         return self.__radius
+
+    @radius.setter
+    def radius(self, radius: float):
+        self.__radius = radius
+        self.__radius2 = radius*radius
+
+    @property
+    def radius2(self):
+        return self.__radius2
 
     @property
     def size(self):
