@@ -6,7 +6,7 @@ import time
 class Bullet(Magia):
     def __init__(self,grupo):
         self.__spawned_time = 0 
-        self.__abs_vel = 2.0
+        self.__abs_vel = 5.0
         R = 7
         Bullet_image = pg.Surface((2*R, 2*R), pg.SRCALPHA)
         pg.draw.circle(Bullet_image, (100, 100, 255), (R, R), R)

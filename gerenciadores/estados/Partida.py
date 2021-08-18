@@ -17,8 +17,12 @@ from gerenciadores.estados.Estado import Estado
 from core.Mago import Mago
 from core.Magias.Curse import Curse
 from core.Magias.Bullet import Bullet
+<<<<<<< HEAD
 from core.MathFuncions import circle_colide
 
+=======
+from core.Magias.Shield import Shield
+>>>>>>> 846ef1bb456e92c3785b087fc3ead5f524791ab8
 
 class Partida(Estado):
     def Redefinir(self):
@@ -40,7 +44,7 @@ class Partida(Estado):
             pg.draw.rect(Mage_image, (0, 255, 0),
                          pg.Rect(R, R-width/2, R, width))
             M_image_dict = {'bola': Mage_image}
-            lista_magias = [Curse(self.Spell_group), Bullet(self.Spell_group)]
+            lista_magias = [Curse(self.Spell_group), Bullet(self.Spell_group),Shield(self.Spell_group)]
 
             mago = Mago(idx=0, max_life=10, lista_magias=lista_magias,
                         dano_base=2, ang=0, grupo=self.Wizard_group,
@@ -68,7 +72,7 @@ class Partida(Estado):
             if 5 in actions[p]:  # slot1
                 self.Magos[p].jogarMagia(1)
             if 6 in actions[p]:  # slot2
-                pass
+                self.Magos[p].jogarMagia(2)
             if 7 in actions[p]:  # slot3
                 pass
 
