@@ -44,7 +44,7 @@ class Magia(ABC, Actor):
         return self.__actor
 
     @abstractmethod
-    def cast(self, mago): 
+    def cast(self, mago):
         rect = mago.rect.center
         x =rect[0] - self.size[0]/2 
         y =rect[1] - self.size[1]/2

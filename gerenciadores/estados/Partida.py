@@ -20,28 +20,31 @@ from core.Magias.Bullet import Bullet
 
 class Partida(Estado):
     def Redefinir(self):
-        self.M_grupo = pg.sprite.Group()
-        self.Magia_grupo = pg.sprite.Group()
-        R = 25
-
-        Mage_image = pg.Surface((R*2, R*2), pg.SRCALPHA)
-        pg.draw.circle(Mage_image, (255, 0, 0), (R, R), R)
-        width = 3
-        pg.draw.rect(Mage_image, (0, 255, 0),
-                     pg.Rect(R, R-width/2, R, width))
-        M_image_dict = {'bola': Mage_image}
-        mago = Mago(idx=0, vida_max=10, lista_magias=[Curse(self.Magia_grupo),Bullet(self.Magia_grupo)], dano_base=2,
-                           ang=0, grupo=self.M_grupo, accel=0.25, atr=0.99,
-                           Image_dict=M_image_dict)
-        self.Magos = [mago,Mago(idx=0, vida_max=10, lista_magias=[Curse(self.M_grupo)], dano_base=2,
-                           ang=0, grupo=self.M_grupo, accel=1,
-                           Image_dict=M_image_dict)]
-
+        self.Wizard_group = pg.sprite.Group()
+        self.Spell_group = pg.sprite.Group()
         self.inputs = Inputs(self.config.p0)
 
     def Iniciar(self, n_players: int = 1):
-        self.__n_players = n_players
         self.Redefinir()
+
+        self.__n_players = n_players
+
+        R = 25
+        self.Magos = []
+        for p in range(n_players):
+            Mage_image = pg.Surface((R*2, R*2), pg.SRCALPHA)
+            pg.draw.circle(Mage_image, (255, 0, 0), (R, R), R)
+            width = 3
+            pg.draw.rect(Mage_image, (0, 255, 0),
+                         pg.Rect(R, R-width/2, R, width))
+            M_image_dict = {'bola': Mage_image}
+            lista_magias = [Curse(self.Spell_group), Bullet(self.Spell_group)]
+
+            mago = Mago(idx=0, max_life=10, lista_magias=lista_magias,
+                        dano_base=2, ang=0, grupo=self.Wizard_group,
+                        accel=0.25, atr=0.99, Image_dict=M_image_dict)
+            
+            self.Magos.append(mago)
 
     def __process_inputs(self):
         actions = self.inputs.get()
@@ -68,15 +71,14 @@ class Partida(Estado):
                 pass
 
     def run(self):
+        #pg.sprite.groupcollide()
         self.__process_inputs()
 
         self.canvas.fill((0, 200, 200))
 
-        
+        self.Spell_group.draw(self.canvas)
+        self.Spell_group.update(1)
+        self.Wizard_group.draw(self.canvas)
+        self.Wizard_group.update(1)
 
-        self.Magia_grupo.draw(self.canvas)
-        self.Magia_grupo.update(1)
-        self.M_grupo.draw(self.canvas)
-        self.M_grupo.update(1)
-        
         return 1
