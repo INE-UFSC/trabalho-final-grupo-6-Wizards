@@ -7,7 +7,7 @@ class Shield(Magia):
         Shield_image = pg.Surface((100, 100), pg.SRCALPHA)
         pg.draw.circle(Shield_image, (110, 0, 150), (50, 50), 50)
         super().__init__(nome="Shield", icone = "shield_icon",som = "shield_sound",
-                        radius=3, image_dict={"2":Shield_image}, size=(100,100), ang=0,
+                        radius=3, image_dict={"4":Shield_image}, size=(100,100), ang=0,
                         vel=(0,0), groups=[grupo])
         self.kill()
 

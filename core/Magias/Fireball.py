@@ -4,10 +4,14 @@ import time
 
 class Fireball(Magia):
     def __init__(self,grupo):
-        Fireball_image = pg.Surface((100, 100), pg.SRCALPHA)
-        pg.draw.circle(Fireball_image, (195, 48, 0), (20, 20), 20)
+        self.is_projectile = True
+        Fireball_image = pg.Surface((14, 14), pg.SRCALPHA)
+        pg.draw.circle(Fireball_image, (195, 48, 0), (7, 7), 7)
+        Fireball_explosion_image = pg.Surface((100, 100), pg.SRCALPHA)
+        pg.draw.circle(Fireball_explosion_image, (195, 48, 0), (50, 50), 50)
+        image_dict ={"2":Fireball_image, "3":Fireball_explosion_image}
         super().__init__(nome="Fireball", icone = "fireball_icon",som = "fireball_sound",
-                        radius=3, image_dict={"2":Fireball_image}, size=(20,20), ang=0,
+                        radius=3, image_dict=image_dict, size=(50,50), ang=0,
                         vel=(0,0), groups=[grupo])
                      
         self.kill()
@@ -15,7 +19,9 @@ class Fireball(Magia):
 
     def cast(self, mago): 
         self.__spawned_time = time.time()
-        self.is_projectile = True  
+        
+        self.vel = ( mago.angle_vector[0]*self.__abs_vel ,
+                    mago.angle_vector[1]*self.__abs_vel)  
         super().cast(mago)
 
     def update(self,dt):
