@@ -25,12 +25,8 @@ class Curse(Spell):
                          groups=groups)
         self.kill()
 
-    def cast(self, wiz):
-        self.__spawned_time = time.time()
-        super().cast(wiz)
-
     def update(self, dt):
-        if time.time() > self.__spawned_time + self.__area_duration:
+        if time.time() > self.spawned_time + self.__area_duration:
             self.kill()
         super().update(1)
 

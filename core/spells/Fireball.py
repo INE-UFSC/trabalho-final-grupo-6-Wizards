@@ -12,11 +12,11 @@ import time
 
 
 class Fireball(Spell):
-    __projectile_duration = 2
+    __projectile_duration = 1
     __area_duration = 0.25
+    __abs_vel = 5
 
     def __init__(self, wizard_id: int, groups: list):
-        self.is_projectile = True
 
         image_dict = {"1": circle(7, (195, 48, 0)),
                       "2": circle(50, (195, 48, 0))}
@@ -28,25 +28,26 @@ class Fireball(Spell):
         self.kill()
 
     def cast(self, wiz):
-        self.__spawned_time = time.time()
-
+        super().cast(wiz)
         self.vel = (wiz.angle_vector[0]*self.__abs_vel,
                     wiz.angle_vector[1]*self.__abs_vel)
-        super().cast(wiz)
+        self.is_projectile = True
 
     def update(self, dt):
         super().update(dt)
         now = time.time()
 
         if self.is_projectile:
-            if now > self.__spawned_time + 3:
-                self.__spawned_time = now
+            if now > self.spawned_time + self.__projectile_duration:
+                self.set_time()
                 self.is_projectile = False
         else:
-            if now > self.__spawned_time + 0.25:
+            if now > self.spawned_time + self.__area_duration:
                 self.kill()
 
-    def colisao(self, wiz):
+    def colision(self, wiz):
+        if self.wizard_id == wiz.idx:
+            return
         # se atingir como projetil o tempo enquanto projetil acaba
         if self.is_projectile:
             self.__spawned_time = time.time()

@@ -16,7 +16,7 @@ from pygame.sprite import groupcollide
 from managers import Inputs
 from managers.states import State
 from core import Wizard, RSurface
-from core.spells import Curse, Bullet, Shield
+from core.spells import Curse, Bullet, Shield, Fireball
 
 from core.MathFuncions import circle_colide
 
@@ -44,9 +44,10 @@ class Match(State):
             W_image_dict = {'temp': Mage_image}
             W_sound_dict = {'temp': "wizard_sound"}
 
-            spell_list = [Curse(p, self.__spell_group),
-                          Bullet(p, self.__spell_group),
-                          Shield(p, self.__spell_group)]
+            spell_list = [Curse(p, [self.__spell_group]),
+                          Bullet(p, [self.__spell_group]),
+                          Shield(p, [self.__spell_group]),
+                          Fireball(p, [self.__spell_group])]
 
             wizard = Wizard(idx=p, max_life=10, spell_list=spell_list,
                             base_damage=2, ang=0, groups=[self.__wizard_group],
@@ -72,22 +73,17 @@ class Match(State):
 
             if 4 in actions[p]:  # slot0
                 self.__wizards[p].castSpell(0)
-                print("spell1")
             if 5 in actions[p]:  # slot1
                 self.__wizards[p].castSpell(1)
-                print("spell2")
             if 6 in actions[p]:  # slot2
                 self.__wizards[p].castSpell(2)
-                print("spell3")
-            if 7 in actions[p]:  # slot3
-                pass
 
     def run(self):
         colided = groupcollide(self.__wizard_group, self.__spell_group,
                                False, False, circle_colide)
         for wizard, spells in colided.items():
             for spell in spells:
-                spell.colisao(wizard)
+                spell.colision(wizard)
 
         self.__process___inputs()
 

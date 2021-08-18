@@ -12,10 +12,10 @@ import time
 
 
 class Bullet(Spell):
-    def __init__(self, wizard_id: int, groups: list):
-        self.__spawned_time = 0
-        self.__abs_vel = 5.0
+    __projectile_duration = 8
+    __abs_vel = 5
 
+    def __init__(self, wizard_id: int, groups: list):
         image_dict = {"1": circle(7, (100, 100, 255))}
         sound_dict = {"casting": "bullet_sound"}
 
@@ -25,16 +25,14 @@ class Bullet(Spell):
         self.kill()
 
     def cast(self, wiz):
-        self.__spawned_time = time.time()
         super().cast(wiz)
-
         self.vel = (wiz.angle_vector[0]*self.__abs_vel,
                     wiz.angle_vector[1]*self.__abs_vel)
 
     def update(self, dt):
-        if time.time() > self.__spawned_time + 8:
+        if time.time() > self.spawned_time + self.__projectile_duration:
             self.kill()
         super().update(1)
 
-    def colision(self):
-        return super().colision()
+    def colision(self, wiz):
+        pass

@@ -16,7 +16,7 @@ class Shield(Spell):
 
     def __init__(self, wizard_id: int, groups: list):
 
-        image_dict = {"1": circle(50, (110, 0, 150))}
+        image_dict = {"1": circle(50, (0, 100, 0))}
         sound_dict = {"casting": "shield_sound"}
 
         super().__init__(wizard_id=wizard_id, name="Shield", icon="shield_icon",
@@ -24,13 +24,9 @@ class Shield(Spell):
                          groups=groups)
         self.kill()
 
-    def cast(self, wiz):
-        self.__spawned_time = time.time()
-        super().cast(wiz)
-
     def update(self, dt):
         # magia tem duração de 2s
-        if time.time() > self.__spawned_time + self.__effect_duration:
+        if time.time() > self.spawned_time + self.__effect_duration:
             self.kill()
         super().update(dt)
 

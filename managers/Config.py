@@ -24,16 +24,15 @@ class PlayerConf():
         self.__slot0: int = pg.key.key_code(slot0)
         self.__slot1: int = pg.key.key_code(slot1)
         self.__slot2: int = pg.key.key_code(slot2)
-        self.__slot3: int = pg.key.key_code(slot3)
 
         self.__dict_form: dict[str, int] = {
             "turn_r": self.turn_r, "turn_l": self.turn_l,
             "acc": self.acc, "dacc": self.dacc,
             "slot0": self.slot0, "slot1": self.slot1,
-            "slot2": self.slot2, "slot3": self.slot3}
+            "slot2": self.slot2}
 
         self.__command_list: list[str] = ["turn_r", "turn_l", "acc", "dacc",
-                                          "slot0", "slot1", "slot2", "slot3"]
+                                          "slot0", "slot1", "slot2"]
 
         self.__list_form: list[int] = []
         for i in range(len(self.__command_list)):
@@ -66,10 +65,6 @@ class PlayerConf():
     @property
     def slot2(self) -> int:
         return self.__slot2
-
-    @property
-    def slot3(self) -> int:
-        return self.__slot3
 
     @property
     def dict_form(self) -> dict[str, int]:

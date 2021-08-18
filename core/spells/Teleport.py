@@ -33,7 +33,7 @@ class Teleport(Spell):
 
     def update(self, dt):
         # magia tem duração de 2s
-        if time.time() > self.__spawned_time + self.__effect_duration:
+        if time.time() > self.spawned_time + self.__effect_duration:
             self.kill()
         super().update(dt)
 

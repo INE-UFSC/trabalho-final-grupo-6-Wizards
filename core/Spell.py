@@ -10,6 +10,7 @@
 """
 from abc import ABC, abstractmethod
 from core import GameObject, Wizard
+import time
 
 
 class Spell(ABC, GameObject):
@@ -17,10 +18,11 @@ class Spell(ABC, GameObject):
                  sound_dict: dict, ang: float, vel=(0, 0), groups=None):
         game_object_args = {"image_dict": image_dict, "sound_dict": sound_dict,
                             "ang": ang, "vel": vel, "groups": groups}
-        super(Spell, self).__init__(**game_object_args)
+        super().__init__(**game_object_args)
         self.__name = name
         self.__icon = icon
         self.__wizard_id = wizard_id
+        self.__spawned_time = 0
 
     @property
     def name(self):
@@ -33,18 +35,21 @@ class Spell(ABC, GameObject):
     @property
     def wizard_id(self):
         return self.__wizard_id
+    
+    @property
+    def spawned_time(self):
+        return self.__spawned_time
+    
+    def set_time(self):
+        self.__spawned_time = time.time()
 
-    @abstractmethod
     def cast(self, wiz: Wizard):
+        self.set_time()
         rect = wiz.rect.center
         x = rect[0] - self.rect.size[0]/2
         y = rect[1] - self.rect.size[1]/2
         self.rect.update(x, y, *self.rect.size)
         self.revive()
-
-    @abstractmethod
-    def update(self, dt):
-        pass
 
     @abstractmethod
     def colision(self):

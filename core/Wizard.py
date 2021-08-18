@@ -38,7 +38,8 @@ class Wizard(GameObject):
         self.calc_angle_vector()
 
         for x in range(3):
-            self.slots[x] = self.spell_list[x]
+            self.slots[x] = random.choice(self.spell_list)
+            self.spell_list.remove(self.slots[x])
 
         self.__spell_list = [self.slots[1]]
         self.delay = [3, 3, 3]
@@ -94,8 +95,8 @@ class Wizard(GameObject):
     def castSpell(self, n_slot: int):
         now = time.time()
         if self.delay[n_slot] < now:
-            # print("slots", self.slots)
-            # print("magias", self.spell_list)
+            print("slots", self.slots)
+            print("magias", self.spell_list)
             self.slots[n_slot].cast(self)
             spell_casted = self.slots[n_slot]
             new_spell = random.choice(self.spell_list)
@@ -103,8 +104,8 @@ class Wizard(GameObject):
             self.spell_list.remove(new_spell)
             self.spell_list.append(spell_casted)
             self.delay[n_slot] = time.time() + self.__cooldown
-            # print("pós slots", self.slots)
-            # print("pós magias", self.spell_list)
+            print("pós slots", self.slots)
+            print("pós magias", self.spell_list)
 
     def accelerate(self):
         self.__impulse = True
