@@ -21,6 +21,8 @@ class Curse(Magia):
             self.kill()
         super().update(1)
 
-    def colisao(self):
-      #if self.rect.colliderect()
-        return super().colisao()
+    def colisao(self, mago):
+        mago.add_effect(self)
+
+    def __call__(self, mago):
+        mago.accelerate()
