@@ -17,6 +17,7 @@ from managers.states import Match
 class Game():
     def __init__(self):
         pg.init()
+        pg.font.init()  # you have to call this at the start,
         self.config = Config()
         self.states_enum = {"Menu": 0, "Match": 1}
 
@@ -31,20 +32,17 @@ class Game():
         menu = Menu(self.window, self.config)
         match = Match(self.window, self.config)
         self.__states: list[State] = [menu, match]
-        self.__current_state = 1
+        self.__current_state = 0
 
         match.Start(n_players=2)
 
-        run = True
-        while run:
+        while self.__current_state >= 0:
             self.__states[self.__current_state].display()
             self.clock.tick(self.config.FPS)
 
             if pg.event.get(eventtype=pg.QUIT):
-                if self.__current_state == 1:
-                    run = False
-                else:
-                    self.__current_state += 1
-            self.__states[self.__current_state].run()
+                break
+
+            self.__current_state = self.__states[self.__current_state].run()
         print("end")
         pg.display.quit()

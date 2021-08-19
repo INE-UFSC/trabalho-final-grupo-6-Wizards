@@ -10,8 +10,7 @@
 """
 from Game import Game
 import pygame as pg
-
-
+print('232', '23232')
 game = Game()
 try:
     game.run()

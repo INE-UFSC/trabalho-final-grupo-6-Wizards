@@ -25,7 +25,7 @@ class Teleport(Spell):
                          groups=groups)
         self.kill()
 
-    def cast(self, wiz, dt):
+    def cast(self, wiz):
         # move automaticamente a determinada distancia
         dist = (wiz.angle_vector[0]*self.__dist,
                 wiz.angle_vector[1]*self.__dist)
