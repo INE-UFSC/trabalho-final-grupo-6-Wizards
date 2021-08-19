@@ -33,7 +33,7 @@ class Game():
         self.__states: list[State] = [menu, match]
         self.__current_state = 1
 
-        match.Start(n_players=1)
+        match.Start(n_players=2)
 
         run = True
         while run:

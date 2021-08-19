@@ -25,7 +25,6 @@ class Match(State):
     def Redefinir(self):
         self.__wizard_group = pg.sprite.Group()
         self.__spell_group = pg.sprite.Group()
-        self.__inputs = Inputs(self.config.p0)
 
     def Start(self, n_players: int = 1):
         self.Redefinir()
@@ -55,6 +54,8 @@ class Match(State):
                             accel=0.25, atr=0.99)
 
             self.__wizards.append(wizard)
+
+        self.__inputs = Inputs(*self.config.p[: n_players])
 
     def __process___inputs(self):
         actions = self.__inputs.get()

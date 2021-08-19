@@ -100,6 +100,7 @@ class Config():
             self.p1: PlayerConf = self.__def_p1
             self.p2: PlayerConf = self.__def_p2
             self.p3: PlayerConf = self.__def_p3
+            self.p = [self.p0, self.p1, self.p2, self.p3]
 
             self.save(config_file)
 
@@ -113,6 +114,7 @@ class Config():
             self.p1 = PlayerConf(**loaded_config["p1"])
             self.p2 = PlayerConf(**loaded_config["p2"])
             self.p3 = PlayerConf(**loaded_config["p3"])
+            self.p = [self.p0, self.p1, self.p2, self.p3]
 
     def as_dict(self) -> dict:
         return {
