@@ -41,6 +41,7 @@ class Fireball(Spell):
             if now > self.spawned_time + self.__projectile_duration:
                 self.set_time()
                 self.is_projectile = False
+                self.state = "2" 
         else:
             if now > self.spawned_time + self.__area_duration:
                 self.kill()
@@ -50,7 +51,8 @@ class Fireball(Spell):
             return
         # se atingir como projetil o tempo enquanto projetil acaba
         if self.is_projectile:
-            self.__spawned_time = time.time()
+            self.set_time()
             self.is_projectile = False
+            self.state = "2"
         else:  # dano da explosão
             wiz.damage(5)
