@@ -6,17 +6,18 @@
     Maria Fernanda Bittelbrunn Toniasso
     Vitor Hugo Homem Marzarotto
 """
-# from hashlib import new
-# from sys import displayhook
-from core import GameObject
+import pygame as pg
+from core import GameObject, RSurface
 import random
 import time
 
 
 class Wizard(GameObject):
+    __colors = [(200, 20, 20), (50, 50, 255), (20, 150, 20), (200, 200, 50)]
+
     def __init__(self, idx: int, max_life: int, spell_list: list,
-                 base_damage: int, ang: float, groups: list, Image_dict: dict,
-                 sound_dict: dict, acc_ang=5, accel=0.5, atr=0.99):
+                 base_damage: int, ang: float, groups: list, acc_ang=5,
+                 accel=0.5, atr=0.99):
         self.__idx = idx
         self.__max_life = max_life
         self.__spell_list = spell_list
@@ -27,7 +28,19 @@ class Wizard(GameObject):
         self.__effects = []
         self.__atr = atr
         self.__cooldown = 1
-        super().__init__(image_dict=Image_dict, sound_dict=sound_dict,
+        self.__color = self.__colors[idx]
+
+        R = 25
+        width = 3
+        Mage_image = RSurface(R, (R*2, R*2), pg.SRCALPHA)
+        pg.draw.circle(Mage_image, self.__color, (R, R), R)
+        pg.draw.rect(Mage_image, (0, 0, 0),
+                     pg.Rect(R, R-width/2, R, width))
+
+        image_dict = {'temp': Mage_image}
+        sound_dict = {'temp': "wizard_sound"}
+
+        super().__init__(image_dict=image_dict, sound_dict=sound_dict,
                          ang=ang, vel=(0, 0), groups=groups)
         self.__alive = True
         self.__impulse = False
@@ -41,7 +54,6 @@ class Wizard(GameObject):
             self.slots[x] = random.choice(self.spell_list)
             self.spell_list.remove(self.slots[x])
 
-        
         self.delay = [3, 3, 3]
 
     @property
@@ -66,11 +78,11 @@ class Wizard(GameObject):
 
     @property
     def life(self):
-        return self._life
+        return self.__life
 
     @life.setter
     def life(self, life: int):
-        self._life = life
+        self.__life = life
 
     @property
     def slots(self):
@@ -80,13 +92,13 @@ class Wizard(GameObject):
     def efects(self):
         return self.__efects
 
-    @efects.setter
-    def efects(self, efects: list):
-        self.__efects = efects
-
     @property
     def alive(self):
         return self.__alive
+
+    @property
+    def color(self):
+        return self.__color
 
     @alive.setter
     def alive(self, alive: bool):
@@ -95,7 +107,6 @@ class Wizard(GameObject):
     def castSpell(self, n_slot: int):
         now = time.time()
         if self.delay[n_slot] < now:
-           
             self.slots[n_slot].cast(self)
             spell_casted = self.slots[n_slot]
             new_spell = random.choice(self.spell_list)
@@ -103,9 +114,8 @@ class Wizard(GameObject):
             self.spell_list.remove(new_spell)
             self.spell_list.append(spell_casted)
             self.delay[n_slot] = time.time() + self.__cooldown
-            print("slots",self.slots)
-            print(self.spell_list)
-           
+            # print("slots",self.slots)
+            # print(self.spell_list)
 
     def accelerate(self):
         self.__impulse = True
@@ -144,7 +154,4 @@ class Wizard(GameObject):
         self.__effects.remove(effect)
 
     def damage(self, damage):
-        if self.protection() in self.__effects:
-            pass
-        else:
-            self.life -= damage
+        self.life -= damage

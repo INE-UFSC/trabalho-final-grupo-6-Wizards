@@ -24,7 +24,7 @@ class Fireball(Spell):
         super().__init__(
             wizard_id=wizard_id,
             name="Fireball",
-            icon=circle(10, (195, 48, 0)),
+            icon=circle(Spell.icon_radius, (195, 48, 0)),
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,

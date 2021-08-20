@@ -14,6 +14,8 @@ import time
 
 
 class Spell(ABC, GameObject):
+    icon_radius = 20
+
     def __init__(self, wizard_id: int, name: str, icon: str, image_dict: dict,
                  sound_dict: dict, ang: float, vel=(0, 0), groups=None):
         game_object_args = {"image_dict": image_dict, "sound_dict": sound_dict,

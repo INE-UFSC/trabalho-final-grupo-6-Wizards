@@ -15,7 +15,8 @@ from pygame.sprite import groupcollide
 
 from managers import Inputs
 from managers.states import State
-from core import Wizard, RSurface
+from managers.UI import UIcorner
+from core import Wizard
 from core.spells import Curse, Bullet, Shield, Fireball
 
 from core.MathFuncions import circle_colide
@@ -33,18 +34,8 @@ class Match(State):
 
         self.__n_players = n_players
 
-        R = 25
-        width = 3
         self.__wizards = []
         for p in range(n_players):
-            Mage_image = RSurface(R, (R*2, R*2), pg.SRCALPHA)
-            pg.draw.circle(Mage_image, (255, 0, 0), (R, R), R)
-            pg.draw.rect(Mage_image, (0, 255, 0),
-                         pg.Rect(R, R-width/2, R, width))
-
-            W_image_dict = {'temp': Mage_image}
-            W_sound_dict = {'temp': "wizard_sound"}
-
             spell_list = [Curse(p, [self.__spell_group]),
                           Bullet(p, [self.__spell_group]),
                           Shield(p, [self.__spell_group]),
@@ -52,13 +43,13 @@ class Match(State):
 
             wizard = Wizard(idx=p, max_life=10, spell_list=spell_list,
                             base_damage=2, ang=0, groups=[self.__wizard_group],
-                            Image_dict=W_image_dict, sound_dict=W_sound_dict,
                             accel=0.25, atr=0.99)
 
             wizard.rect.move_ip(*self.__init_pos[p])
             self.__wizards.append(wizard)
 
         self.__inputs = Inputs(*self.config.p[: n_players])
+        self.__UI = UIcorner(self.__wizards, self.canvas.get_size())
 
     def __process___inputs(self):
         actions = self.__inputs.get()
@@ -70,16 +61,13 @@ class Match(State):
                 self.__wizards[p].rotate(False)
 
             if 2 in actions[p]:  # acc
-                if 3 not in actions[p]:  # dacc
-                    self.__wizards[p].accelerate()
-            elif 3 in actions[p]:  # dacc
-                pass  # desacelerar
+                self.__wizards[p].accelerate()
 
-            if 4 in actions[p]:  # slot0
+            if 3 in actions[p]:  # slot0
                 self.__wizards[p].castSpell(0)
-            if 5 in actions[p]:  # slot1
+            if 4 in actions[p]:  # slot1
                 self.__wizards[p].castSpell(1)
-            if 6 in actions[p]:  # slot2
+            if 5 in actions[p]:  # slot2
                 self.__wizards[p].castSpell(2)
 
     def run(self):
@@ -91,11 +79,13 @@ class Match(State):
 
         self.__process___inputs()
 
-        self.canvas.fill((0, 200, 200))
+        self.canvas.fill((250, 250, 250))
+
+        self.__spell_group.update(1)
+        self.__wizard_group.update(1)
 
         self.__spell_group.draw(self.canvas)
-        self.__spell_group.update(1)
         self.__wizard_group.draw(self.canvas)
-        self.__wizard_group.update(1)
+        self.__UI.draw(self.canvas, time=0)
 
         return None

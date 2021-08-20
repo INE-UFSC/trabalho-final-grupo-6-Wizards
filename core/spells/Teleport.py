@@ -23,7 +23,7 @@ class Teleport(Spell):
         super().__init__(
             wizard_id=wizard_id,
             name="Teleport",
-            icon=circle(10, (110, 0, 150)),
+            icon=circle(Spell.icon_radius, (110, 0, 150)),
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,

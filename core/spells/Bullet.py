@@ -22,7 +22,7 @@ class Bullet(Spell):
         super().__init__(
             wizard_id=wizard_id,
             name="Bullet",
-            icon=circle(10, (100, 100, 255)),
+            icon=circle(Spell.icon_radius, (100, 100, 255)),
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,

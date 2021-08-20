@@ -22,7 +22,7 @@ class Shield(Spell):
         super().__init__(
             wizard_id=wizard_id,
             name="Shield",
-            icon=circle(10, (0, 100, 0)),
+            icon=circle(Spell.icon_radius, (0, 100, 0)),
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,
