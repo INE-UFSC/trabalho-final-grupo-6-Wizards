@@ -15,7 +15,7 @@ class Curse(Spell):
     __area_duration = 3
     __effect_duration = 2
 
-    def __init__(self, wizard_id: int, groups: list):
+    def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
 
         image_dict = {"1": circle(100, (150, 0, 150))}
         sound_dict = {"casting": "curse_sound"}
@@ -27,6 +27,7 @@ class Curse(Spell):
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,
+            screen_size=screen_size,
             groups=groups,
         )
         self.kill()

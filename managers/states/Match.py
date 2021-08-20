@@ -32,24 +32,27 @@ class Match(State):
     def Start(self, n_players: int = 1):
         self.redefine()
 
+        screen_size = self.canvas.get_size()
+
         self.__n_players = n_players
 
         self.__wizards = []
         for p in range(n_players):
-            spell_list = [Curse(p, [self.__spell_group]),
-                          Bullet(p, [self.__spell_group]),
-                          Shield(p, [self.__spell_group]),
-                          Fireball(p, [self.__spell_group])]
+            spell_list = [Curse(p, [self.__spell_group], screen_size),
+                          Bullet(p, [self.__spell_group], screen_size),
+                          Shield(p, [self.__spell_group], screen_size),
+                          Fireball(p, [self.__spell_group], screen_size)]
 
             wizard = Wizard(idx=p, max_life=10, spell_list=spell_list,
-                            base_damage=2, ang=0, groups=[self.__wizard_group],
-                            accel=0.25, atr=0.99)
+                            base_damage=2, ang=0, screen_size=screen_size,
+                            groups=[self.__wizard_group],  accel=0.25,
+                            atr=0.99)
 
             wizard.rect.move_ip(*self.__init_pos[p])
             self.__wizards.append(wizard)
 
         self.__inputs = Inputs(*self.config.p[: n_players])
-        self.__UI = UIcorner(self.__wizards, self.canvas.get_size())
+        self.__UI = UIcorner(self.__wizards, screen_size)
 
     def __process___inputs(self):
         actions = self.__inputs.get()

@@ -12,7 +12,7 @@ import time
 
 
 class Wind(Spell):
-    def __init__(self, wizard_id: int, groups: list):
+    def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
 
         image_dict = {"1": circle(50, (110, 0, 150))}
         sound_dict = {"casting": "wind_sound"}
@@ -24,6 +24,7 @@ class Wind(Spell):
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,
+            screen_size=screen_size,
             groups=groups,
         )
         self.kill()

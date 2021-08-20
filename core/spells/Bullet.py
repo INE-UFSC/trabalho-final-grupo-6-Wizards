@@ -15,7 +15,7 @@ class Bullet(Spell):
     __projectile_duration = 8
     __abs_vel = 5
 
-    def __init__(self, wizard_id: int, groups: list):
+    def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
         image_dict = {"1": circle(7, (100, 100, 255))}
         sound_dict = {"casting": "bullet_sound"}
 
@@ -26,6 +26,7 @@ class Bullet(Spell):
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,
+            screen_size=screen_size,
             groups=groups,
         )
         self.kill()

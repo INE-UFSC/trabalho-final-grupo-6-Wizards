@@ -14,7 +14,7 @@ import time
 class Shield(Spell):
     __effect_duration = 2
 
-    def __init__(self, wizard_id: int, groups: list):
+    def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
 
         image_dict = {"1": circle(50, (0, 100, 0))}
         sound_dict = {"casting": "shield_sound"}
@@ -26,6 +26,7 @@ class Shield(Spell):
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,
+            screen_size=screen_size,
             groups=groups,
         )
         self.kill()

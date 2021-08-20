@@ -23,22 +23,22 @@ class UIcorner(UIabstract):
         self.__bar_pos = [
             (self.__x_offset,
              self.__y_offset),
-            (self.canvas_size[0]-self.__x_offset-self.__bar_x,
+            (self.screen_size[0]-self.__x_offset-self.__bar_x,
              self.__y_offset),
             (self.__x_offset,
-             self.canvas_size[1]-self.__y_offset-self.__bar_y),
-            (self.canvas_size[0]-self.__x_offset-self.__bar_x,
-             self.canvas_size[1]-self.__y_offset-self.__bar_y)
+             self.screen_size[1]-self.__y_offset-self.__bar_y),
+            (self.screen_size[0]-self.__x_offset-self.__bar_x,
+             self.screen_size[1]-self.__y_offset-self.__bar_y)
             ]
         self.__icon_pos = [
             (self.__icon_offset,
              self.__icon_offset),
-            (self.canvas_size[0]-(self.__icon_offset + self.icon_size[0]) * 3,
+            (self.screen_size[0]-(self.__icon_offset + self.icon_size[0]) * 3,
              self.__icon_offset),
             (self.__icon_offset,
-             self.canvas_size[1]-self.__icon_offset-self.icon_size[1]),
-            (self.canvas_size[0]-(self.__icon_offset + self.icon_size[0]) * 3,
-             self.canvas_size[1]-self.__icon_offset-self.icon_size[1])
+             self.screen_size[1]-self.__icon_offset-self.icon_size[1]),
+            (self.screen_size[0]-(self.__icon_offset + self.icon_size[0]) * 3,
+             self.screen_size[1]-self.__icon_offset-self.icon_size[1])
             ]
 
     def __hp_bar(self, canvas):

@@ -17,9 +17,11 @@ class Spell(ABC, GameObject):
     icon_radius = 20
 
     def __init__(self, wizard_id: int, name: str, icon: str, image_dict: dict,
-                 sound_dict: dict, ang: float, vel=(0, 0), groups=None):
+                 sound_dict: dict, ang: float, screen_size: tuple,
+                 vel=(0, 0), groups=None):
         game_object_args = {"image_dict": image_dict, "sound_dict": sound_dict,
-                            "ang": ang, "vel": vel, "groups": groups}
+                            "ang": ang, "screen_size": screen_size, "vel": vel,
+                            "groups": groups}
         super().__init__(**game_object_args)
         self.__name = name
         self.__icon = icon

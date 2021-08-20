@@ -13,10 +13,10 @@ from core import Wizard
 
 
 class UIabstract(ABC):
-    def __init__(self, wizards: list[Wizard], canvas_size):
+    def __init__(self, wizards: list[Wizard], screen_size):
         self.__wizards = wizards
         self.__n_wiz = len(wizards)
-        self.__canvas_size = canvas_size
+        self.__screen_size = screen_size
         self.__group = pg.sprite.Group()
         self.__myfont = pg.font.SysFont('Comic Sans MS', 30)
         
@@ -41,8 +41,8 @@ class UIabstract(ABC):
         return self.__n_wiz
 
     @property
-    def canvas_size(self):
-        return self.__canvas_size
+    def screen_size(self):
+        return self.__screen_size
 
     @property
     def group(self):

@@ -16,7 +16,7 @@ class Fireball(Spell):
     __area_duration = 0.25
     __abs_vel = 5
 
-    def __init__(self, wizard_id: int, groups: list):
+    def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
 
         image_dict = {"1": circle(7, (195, 48, 0)), "2": circle(100, (195, 48, 0))}
         sound_dict = {"casting": "fireball_sound"}
@@ -28,6 +28,7 @@ class Fireball(Spell):
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,
+            screen_size=screen_size,
             groups=groups,
         )
         self.kill()

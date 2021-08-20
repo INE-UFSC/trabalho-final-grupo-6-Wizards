@@ -12,8 +12,8 @@ import math
 
 
 class GameObject(Sprite):
-    def __init__(self, image_dict: dict, sound_dict: dict,
-                 ang: float, vel=(0, 0), groups=None):
+    def __init__(self, image_dict: dict, sound_dict: dict, ang: float,
+                 screen_size: tuple, vel=(0, 0), groups=None):
         """
         Parameters
         ----------
@@ -36,6 +36,7 @@ class GameObject(Sprite):
         self.vel = vel
         self.ang = ang
         self.__change_ang = True
+        self.__screen_size = screen_size
 
         self.__state = list(self.__image_dict.keys())[0]
         self.__image = self.__image_dict[self.__state]
@@ -91,6 +92,10 @@ class GameObject(Sprite):
         self.__angle_vector = (math.cos(ang), -math.sin(ang))
 
     @property
+    def screen_size(self):
+        return self.__screen_size
+
+    @property
     def rect(self):
         return self.__rect
 
@@ -109,10 +114,32 @@ class GameObject(Sprite):
         self.__image = self.__image_dict[self.__state]
         new_center = self.__image.get_rect().center
 
+        img_size = self.__image.get_size()
         self.rect.update(self.rect[0]+old_center[0]-new_center[0],
                          self.rect[1]+old_center[1]-new_center[1],
-                         *self.__image.get_size())
+                         *img_size)
         self.radius = self.__image.radius
+
+        self.__lim_x_inf = self.__radius - img_size[0]/2
+        self.__lim_y_inf = self.__radius - img_size[1]/2
+        self.__lim_x_sup = self.__screen_size[0] - self.__radius - img_size[0]/2
+        self.__lim_y_sup = self.__screen_size[1] - self.__radius - img_size[0]/2
+
+    @property
+    def lim_x_inf(self):
+        return self.__lim_x_inf
+
+    @property
+    def lim_y_inf(self):
+        return self.__lim_y_inf
+
+    @property
+    def lim_x_sup(self):
+        return self.__lim_x_sup
+
+    @property
+    def lim_y_sup(self):
+        return self.__lim_y_sup
 
     def revive(self):
         for g in self.__savedgroup:
@@ -145,5 +172,21 @@ class GameObject(Sprite):
         """
         if self.__moving:
             self.rect.move_ip(*self.vel)
+            #  melhorar dps espelhando o excesso
+            if self.rect.x < self.lim_x_inf:
+                self.rect.x = self.lim_y_inf
+                self.vel = (-self.vel[0], self.vel[1])
+            elif self.rect.x > self.lim_x_sup:
+                self.rect.x = self.lim_x_sup
+                self.vel = (-self.vel[0], self.vel[1])
+
+            #  melhorar dps espelhando o excesso
+            if self.rect.y < self.lim_y_inf:
+                self.rect.y = self.lim_y_inf
+                self.vel = (self.vel[0], -self.vel[1])
+            elif self.rect.y > self.lim_y_sup:
+                self.rect.y = self.lim_y_sup
+                self.vel = (self.vel[0], -self.vel[1])
+
         if self.__new_angle:
             self.__rotate()

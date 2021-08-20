@@ -16,8 +16,8 @@ class Wizard(GameObject):
     __colors = [(200, 20, 20), (50, 50, 255), (20, 150, 20), (200, 200, 50)]
 
     def __init__(self, idx: int, max_life: int, spell_list: list,
-                 base_damage: int, ang: float, groups: list, acc_ang=5,
-                 accel=0.5, atr=0.99):
+                 base_damage: int, ang: float, screen_size: tuple,
+                 groups: list, acc_ang=5, accel=0.5, atr=0.99):
         self.__idx = idx
         self.__max_life = max_life
         self.__spell_list = spell_list
@@ -41,7 +41,8 @@ class Wizard(GameObject):
         sound_dict = {'temp': "wizard_sound"}
 
         super().__init__(image_dict=image_dict, sound_dict=sound_dict,
-                         ang=ang, vel=(0, 0), groups=groups)
+                         ang=ang, screen_size=screen_size, vel=(0, 0),
+                         groups=groups)
         self.__alive = True
         self.__impulse = False
         self.__acc_ang = acc_ang
