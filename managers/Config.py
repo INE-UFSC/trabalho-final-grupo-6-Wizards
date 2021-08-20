@@ -27,11 +27,10 @@ class PlayerConf():
 
         self.__dict_form: dict[str, int] = {
             "turn_r": self.turn_r, "turn_l": self.turn_l,
-            "acc": self.acc, "dacc": self.dacc,
-            "slot0": self.slot0, "slot1": self.slot1,
-            "slot2": self.slot2}
+            "acc": self.acc, "slot0": self.slot0,
+            "slot1": self.slot1, "slot2": self.slot2}
 
-        self.__command_list: list[str] = ["turn_r", "turn_l", "acc", "dacc",
+        self.__command_list: list[str] = ["turn_r", "turn_l", "acc",
                                           "slot0", "slot1", "slot2"]
 
         self.__list_form: list[int] = []
@@ -81,6 +80,9 @@ class PlayerConf():
     def json(self) -> dict[str, str]:
         return {key: pg.key.name(cd) for key, cd in self.dict_form.items()}
 
+    def define_key(self, old, new):
+        self.__dict_form[old] = new
+
 
 class Config():
     __def_FPS: int = 60
@@ -124,7 +126,7 @@ class Config():
             "p1": self.p1.json(),
             "p2": self.p2.json(),
             "p3": self.p3.json(),
-            }
+        }
 
     def save(self, save_file: str) -> None:
         with open(save_file, "w") as file:

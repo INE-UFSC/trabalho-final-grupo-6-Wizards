@@ -12,6 +12,7 @@ from managers.Config import Config
 from managers.states import State
 from managers.states import Menu
 from managers.states import Match
+from managers.states import Options
 
 
 class Game():
@@ -31,7 +32,8 @@ class Game():
         # Game states
         menu = Menu(self.window, self.config)
         match = Match(self.window, self.config)
-        self.__states: list[State] = [menu, match]
+        options = Options(self.window, self.config)
+        self.__states: list[State] = [menu, match, options]
         self.__current_state = 0
 
         while self.__current_state >= 0:
