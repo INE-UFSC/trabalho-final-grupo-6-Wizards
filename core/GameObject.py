@@ -36,7 +36,10 @@ class GameObject(Sprite):
         self.vel = vel
         self.ang = ang
         self.__change_ang = True
-        self.state = list(self.__image_dict.keys())[0]
+
+        self.__state = list(self.__image_dict.keys())[0]
+        self.__image = self.__image_dict[self.__state]
+        self.state = self.__state
 
         super().__init__(groups)
 
@@ -102,9 +105,13 @@ class GameObject(Sprite):
     @state.setter
     def state(self, new_state):
         self.__state = new_state
+        old_center = self.__image.get_rect().center
         self.__image = self.__image_dict[self.__state]
-        self.__rect = pg.Rect(self.__rect.x, self.__rect.y,
-                              *self.__image.size)
+        new_center = self.__image.get_rect().center
+
+        self.rect.update(self.rect[0]+old_center[0]-new_center[0],
+                         self.rect[1]+old_center[1]-new_center[1],
+                         *self.__image.get_size())
         self.radius = self.__image.radius
 
     def revive(self):

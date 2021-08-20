@@ -18,7 +18,7 @@ class Fireball(Spell):
 
     def __init__(self, wizard_id: int, groups: list):
 
-        image_dict = {"1": circle(7, (195, 48, 0)), "2": circle(50, (195, 48, 0))}
+        image_dict = {"1": circle(7, (195, 48, 0)), "2": circle(100, (195, 48, 0))}
         sound_dict = {"casting": "fireball_sound"}
 
         super().__init__(
