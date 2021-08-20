@@ -35,7 +35,7 @@ class Inputs():
                 else:
                     self.__inputs[player_command[com]] = [(player, com)]
 
-    def get(self) -> tuple[list[int]]:
+    def get(self) -> list[list[int]]:
         pressed: list[list[int]] = [[] for i in range(self.__n_players)]
 
         keys_state = pg.key.get_pressed()
@@ -43,5 +43,4 @@ class Inputs():
             if keys_state[key]:
                 for player, command in self.__inputs[key]:
                     pressed[player].append(command)
-        print(pressed)
         return pressed

@@ -24,12 +24,12 @@ from core.MathFuncions import circle_colide
 class Match(State):
     __init_pos = [(0, 0), (200, 0), (0, 200), (200, 200)]
 
-    def Redefinir(self):
+    def redefine(self):
         self.__wizard_group = pg.sprite.Group()
         self.__spell_group = pg.sprite.Group()
 
     def Start(self, n_players: int = 1):
-        self.Redefinir()
+        self.redefine()
 
         self.__n_players = n_players
 

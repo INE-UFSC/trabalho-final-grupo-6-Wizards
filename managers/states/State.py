@@ -19,7 +19,7 @@ class State(ABC):
         self.__window: pg.surface.Surface = window
         self.__canvas: pg.surface.Surface = pg.Surface(window.get_size())
         self.__config: Config = config
-        self.Redefinir()
+        self.redefine()
 
     @property
     def window(self):
@@ -34,7 +34,7 @@ class State(ABC):
         return self.__config
 
     @abstractmethod
-    def Redefinir(self):
+    def redefine(self):
         pass
 
     @abstractmethod

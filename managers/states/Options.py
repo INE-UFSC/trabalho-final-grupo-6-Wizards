@@ -16,13 +16,8 @@ from managers.Config import Config
 class Options(State):
     def __init__(self, window: pg.surface.Surface, config: Config):
 
-        super().__init__(window, config)
-        self.__config = config
         self.__config_dict = config.as_dict()
-        self.__config_players = [config.p0, config.p1, config.p2, config.p3]
-        self.__sel = 0
         self.__controler = len(config.p0.command_list)
-        self.__p_sel = 0
         self.__players = 4
         # def images(i): return os.path.join('images', 'menu_'+str(i)+'.png')
         # self.__menu_images = [pg.image.load(images(i)) for i in range(3)]
@@ -34,15 +29,11 @@ class Options(State):
         superficie.blit(self.waiting_image, (0, 0))
         self.waiting_image = superficie
 
-        self.Redefine_keys()
+        super().__init__(window, config)
 
     def run(self):
         buttons = self.buttons_info[self.__p_sel][self.__sel]
         for event in pg.event.get():
-
-            if event.type == pg.QUIT:
-                return
-
             if event.type == pg.KEYDOWN:
 
                 if event.key == pg.K_UP:
@@ -61,10 +52,10 @@ class Options(State):
 
                     tecla = self.wait_for_key()
 
-                    self.__config_players[self.__p_sel].define_key(
+                    self.config.p[self.__p_sel].define_key(
                         buttons[1], tecla)
-                    self.__config.save('data\config.json')
-                    self.Redefine_keys()
+                    self.config.save()
+                    self.__render_keys()
 
         self.__menu_images = self.__original_image.copy()
 
@@ -73,14 +64,14 @@ class Options(State):
             pg.Rect(buttons[0]), width=3)
         self.canvas.blit(self.__menu_images, (0, 0))
 
-        return 2
+        return None
 
-    def Redefinir(self):
-        pass
+    def redefine(self):
+        self.__sel = 0
+        self.__p_sel = 0
+        self.__render_keys()
 
-    def Redefine_keys(self):
-        self.__config_dict = self.__config.as_dict()
-
+    def __render_keys(self):
         temp_image = self.canvas.copy()
         temp_image.fill((50, 250, 50))
 
@@ -91,7 +82,7 @@ class Options(State):
 
         for count in range(4):
             player = 'Player '+str(count+1)
-            x = canvas_size[0]*(count/5) + 80
+            x = canvas_size[0]*(count/5) + 150
             temp_image.blit(self.__myfont.render(
                 player, False, (0, 0, 0)), (x, 50))
 
@@ -118,8 +109,9 @@ class Options(State):
         while True:
             canvas_size = self.canvas.get_size()
             image = self.waiting_image.get_size()
-            self.canvas.blit(self.waiting_image,
-                             (canvas_size[0]/2-image[0], canvas_size[1]/2-image[1]))
+            self.canvas.blit(
+                self.waiting_image,
+                (canvas_size[0]/2-image[0], canvas_size[1]/2-image[1]))
             self.display()
             for event in pg.event.get():
                 if event.type == pg.QUIT:

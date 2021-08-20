@@ -15,12 +15,11 @@ import pygame as pg
 
 class PlayerConf():
     # falta implementar enter
-    def __init__(self, turn_r="d", turn_l="a", acc="w", dacc="s",
-                 slot0="j", slot1="k", slot2="l", slot3="ç", pause="enter"):
+    def __init__(self, turn_r="d", turn_l="a", acc="w",
+                 slot0="j", slot1="k", slot2="l", pause="enter"):
         self.__turn_r: int = pg.key.key_code(turn_r)
         self.__turn_l: int = pg.key.key_code(turn_l)
         self.__acc: int = pg.key.key_code(acc)
-        self.__dacc: int = pg.key.key_code(dacc)
         self.__slot0: int = pg.key.key_code(slot0)
         self.__slot1: int = pg.key.key_code(slot1)
         self.__slot2: int = pg.key.key_code(slot2)
@@ -30,12 +29,17 @@ class PlayerConf():
             "acc": self.acc, "slot0": self.slot0,
             "slot1": self.slot1, "slot2": self.slot2}
 
+        self.__set_dict = {
+            "turn_r": self.__set_turn_r, "turn_l": self.__set_turn_l,
+            "acc": self.__set_acc, "slot0": self.__set_slot0,
+            "slot1": self.__set_slot1, "slot2": self.__set_slot2}
+
         self.__command_list: list[str] = ["turn_r", "turn_l", "acc",
                                           "slot0", "slot1", "slot2"]
 
         self.__list_form: list[int] = []
-        for i in range(len(self.__command_list)):
-            self.__list_form.append(self.__dict_form[self.__command_list[i]])
+        for cmd in self.__command_list:
+            self.__list_form.append(self.__dict_form[cmd])
 
     @property
     def turn_r(self) -> int:
@@ -50,10 +54,6 @@ class PlayerConf():
         return self.__acc
 
     @property
-    def dacc(self) -> int:
-        return self.__dacc
-
-    @property
     def slot0(self) -> int:
         return self.__slot0
 
@@ -64,6 +64,24 @@ class PlayerConf():
     @property
     def slot2(self) -> int:
         return self.__slot2
+
+    def __set_turn_r(self, key):
+        self.__turn_r = key
+
+    def __set_turn_l(self, key):
+        self.__turn_l = key
+
+    def __set_acc(self, key):
+        self.__acc = key
+
+    def __set_slot0(self, key):
+        self.__slot0 = key
+
+    def __set_slot1(self, key):
+        self.__slot1 = key
+
+    def __set_slot2(self, key):
+        self.__slot2 = key
 
     @property
     def dict_form(self) -> dict[str, int]:
@@ -80,8 +98,10 @@ class PlayerConf():
     def json(self) -> dict[str, str]:
         return {key: pg.key.name(cd) for key, cd in self.dict_form.items()}
 
-    def define_key(self, old, new):
-        self.__dict_form[old] = new
+    def define_key(self, cmd, key):
+        self.__dict_form[cmd] = key
+        self.__set_dict[cmd] = key
+        self.__list_form[self.__command_list.index(cmd)] = key
 
 
 class Config():
@@ -94,6 +114,7 @@ class Config():
 
     def __init__(self, config_file: str = "data/config.json"):
         try:
+            self.__config_file = config_file
             self.load(config_file)
         except FileNotFoundError:
             self.FPS: int = self.__def_FPS
@@ -104,7 +125,7 @@ class Config():
             self.p3: PlayerConf = self.__def_p3
             self.p = [self.p0, self.p1, self.p2, self.p3]
 
-            self.save(config_file)
+            self.save()
 
     def load(self, config_file: str = "data/config.json") -> None:
         with open(config_file, "r") as file:
@@ -128,6 +149,6 @@ class Config():
             "p3": self.p3.json(),
         }
 
-    def save(self, save_file: str) -> None:
-        with open(save_file, "w") as file:
+    def save(self) -> None:
+        with open(self.__config_file, "w") as file:
             json.dump(self.as_dict(), file)

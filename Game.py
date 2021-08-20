@@ -7,6 +7,7 @@
     Vitor Hugo Homem Marzarotto
 """
 import pygame as pg
+import os
 
 from managers.Config import Config
 from managers.states import State
@@ -19,7 +20,7 @@ class Game():
     def __init__(self):
         pg.init()
         pg.font.init()  # you have to call this at the start,
-        self.config = Config()
+        self.config = Config(os.path.join("data", "config.json"))
         self.states_enum = {"Menu": 0, "Match": 1}
 
     def run(self):

@@ -54,7 +54,7 @@ class Menu(State):
     def players(self):
         return self.__players
 
-    def Redefinir(self):
+    def redefine(self):
         self.__sel = 0
         self.__players = 2
 
