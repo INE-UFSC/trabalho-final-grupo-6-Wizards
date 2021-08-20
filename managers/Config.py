@@ -84,7 +84,7 @@ class PlayerConf():
 
 class Config():
     __def_FPS: int = 60
-    __def_screen_size: tuple[int, int] = (864, 540)
+    __def_screen_size: tuple[int, int] = (1200, 720)
     __def_p0: PlayerConf = PlayerConf()
     __def_p1: PlayerConf = PlayerConf()
     __def_p2: PlayerConf = PlayerConf()

@@ -22,6 +22,8 @@ from core.MathFuncions import circle_colide
 
 
 class Match(State):
+    __init_pos = [(0, 0), (200, 0), (0, 200), (200, 200)]
+
     def Redefinir(self):
         self.__wizard_group = pg.sprite.Group()
         self.__spell_group = pg.sprite.Group()
@@ -53,6 +55,7 @@ class Match(State):
                             Image_dict=W_image_dict, sound_dict=W_sound_dict,
                             accel=0.25, atr=0.99)
 
+            wizard.rect.move_ip(*self.__init_pos[p])
             self.__wizards.append(wizard)
 
         self.__inputs = Inputs(*self.config.p[: n_players])
@@ -95,4 +98,4 @@ class Match(State):
         self.__wizard_group.draw(self.canvas)
         self.__wizard_group.update(1)
 
-        return 1
+        return None

@@ -24,7 +24,7 @@ class Menu(State):
         temp_image = self.canvas.copy()
         temp_image.fill((50, 250, 50))
         canvas_size = self.canvas.get_size()
-        button_text = [("Play", 0.3), ("Config", 0.5), ("Quit", 0.7)]
+        button_text = [("Play", 0.3), ("Settings", 0.5), ("Quit", 0.7)]
         for i in range(len(button_text)):
             text, pos = button_text[i]
             textsurface = self.__myfont.render(text, False, (0, 0, 0))
@@ -32,11 +32,11 @@ class Menu(State):
             y = canvas_size[1] * pos
             temp_image.blit(textsurface, (x, y))
             button_text[i] = (textsurface, (x, y))
-        self.__button_play = button_text[0][1]
-        self.__button_play[1][0] += 50
+        self.__button_play = (button_text[0][1][0] + 110, button_text[0][1][1])
         textsurface = self.__myfont.render("N° players", False, (0, 0, 0))
         temp_image.blit(
-            textsurface, (self.__button_play[0], self.__button_play[1] - 50)
+            textsurface,
+            (self.__button_play[0] - 50, self.__button_play[1] - 50)
         )
 
         self.__menu_images = []
@@ -98,4 +98,4 @@ class Menu(State):
         textsurface = self.__myfont.render(str(self.__players), False, (0, 0, 0))
         self.canvas.blit(textsurface, self.__button_play)
 
-        return 0  # continua no menu
+        return None  # continua no menu

@@ -34,8 +34,6 @@ class Game():
         self.__states: list[State] = [menu, match]
         self.__current_state = 0
 
-        match.Start(n_players=2)
-
         while self.__current_state >= 0:
             self.__states[self.__current_state].display()
             self.clock.tick(self.config.FPS)
@@ -43,6 +41,12 @@ class Game():
             if pg.event.get(eventtype=pg.QUIT):
                 break
 
-            self.__current_state = self.__states[self.__current_state].run()
+            next_state = self.__states[self.__current_state].run()
+
+            if not (next_state is None):
+                self.__current_state = next_state
+                if self.__current_state == 1:
+                    match.Start(n_players=menu.players)
+
         print("end")
         pg.display.quit()
