@@ -19,9 +19,15 @@ class Shield(Spell):
         image_dict = {"1": circle(50, (0, 100, 0))}
         sound_dict = {"casting": "shield_sound"}
 
-        super().__init__(wizard_id=wizard_id, name="Shield", icon="shield_icon",
-                         image_dict=image_dict, sound_dict=sound_dict, ang=0,
-                         groups=groups)
+        super().__init__(
+            wizard_id=wizard_id,
+            name="Shield",
+            icon=circle(10, (0, 100, 0)),
+            image_dict=image_dict,
+            sound_dict=sound_dict,
+            ang=0,
+            groups=groups,
+        )
         self.kill()
 
     def update(self, dt):

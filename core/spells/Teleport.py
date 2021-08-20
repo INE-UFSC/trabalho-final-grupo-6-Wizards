@@ -20,15 +20,20 @@ class Teleport(Spell):
         image_dict = {"1": circle(50, (110, 0, 150))}
         sound_dict = {"casting": "teleport_sound"}
 
-        super().__init__(wizard_id=wizard_id, name="Teleport", icon="Teleport_icon",
-                         image_dict=image_dict, sound_dict=sound_dict, ang=0,
-                         groups=groups)
+        super().__init__(
+            wizard_id=wizard_id,
+            name="Teleport",
+            icon=circle(10, (110, 0, 150)),
+            image_dict=image_dict,
+            sound_dict=sound_dict,
+            ang=0,
+            groups=groups,
+        )
         self.kill()
 
     def cast(self, wiz):
         # move automaticamente a determinada distancia
-        dist = (wiz.angle_vector[0]*self.__dist,
-                wiz.angle_vector[1]*self.__dist)
+        dist = (wiz.angle_vector[0] * self.__dist, wiz.angle_vector[1] * self.__dist)
         wiz.rect.move_ip(*dist)
 
     def update(self, dt):

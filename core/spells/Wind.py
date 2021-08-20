@@ -17,9 +17,15 @@ class Wind(Spell):
         image_dict = {"1": circle(50, (110, 0, 150))}
         sound_dict = {"casting": "wind_sound"}
 
-        super().__init__(wizard_id=wizard_id, name="Wind", icon="Wind_icon",
-                         image_dict=image_dict, sound_dict=sound_dict, ang=0,
-                         groups=groups)
+        super().__init__(
+            wizard_id=wizard_id,
+            name="Wind",
+            icon=circle(10, (110, 0, 150)),
+            image_dict=image_dict,
+            sound_dict=sound_dict,
+            ang=0,
+            groups=groups,
+        )
         self.kill()
 
     def cast(self, wiz):
