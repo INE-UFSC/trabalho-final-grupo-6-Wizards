@@ -15,7 +15,7 @@ from managers.Config import Config
 
 class Options(State):
     def __init__(self, window: pg.surface.Surface, config: Config):
-
+        self.__config = config
         self.__config_dict = config.as_dict()
         self.__controler = len(config.p0.command_list)
         self.__players = 4
@@ -72,6 +72,7 @@ class Options(State):
         self.__render_keys()
 
     def __render_keys(self):
+        self.__config_dict = self.__config.as_dict()
         temp_image = self.canvas.copy()
         temp_image.fill((50, 250, 50))
 
