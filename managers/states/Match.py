@@ -10,6 +10,7 @@
 """
 import pygame as pg
 from pygame.sprite import groupcollide
+
 # import time
 # from pygame.constants import K_0
 
@@ -35,23 +36,33 @@ class Match(State):
         screen_size = self.canvas.get_size()
 
         self.__n_players = n_players
+        self.__deaths = []  # lista de magos que morreram
 
         self.__wizards = []
         for p in range(n_players):
-            spell_list = [Curse(p, [self.__spell_group], screen_size),
-                          Bullet(p, [self.__spell_group], screen_size),
-                          Shield(p, [self.__spell_group], screen_size),
-                          Fireball(p, [self.__spell_group], screen_size)]
+            spell_list = [
+                Curse(p, [self.__spell_group], screen_size),
+                Bullet(p, [self.__spell_group], screen_size),
+                Shield(p, [self.__spell_group], screen_size),
+                Fireball(p, [self.__spell_group], screen_size),
+            ]
 
-            wizard = Wizard(idx=p, max_life=10, spell_list=spell_list,
-                            base_damage=2, ang=0, screen_size=screen_size,
-                            groups=[self.__wizard_group],  accel=0.25,
-                            atr=0.99)
+            wizard = Wizard(
+                idx=p,
+                max_life=10,
+                spell_list=spell_list,
+                base_damage=2,
+                ang=0,
+                screen_size=screen_size,
+                groups=[self.__wizard_group],
+                accel=0.25,
+                atr=0.99,
+            )
 
             wizard.rect.move_ip(*self.__init_pos[p])
             self.__wizards.append(wizard)
 
-        self.__inputs = Inputs(*self.config.p[: n_players])
+        self.__inputs = Inputs(*self.config.p[:n_players])
         self.__UI = UIcorner(self.__wizards, screen_size)
 
     def __process___inputs(self):
@@ -74,8 +85,9 @@ class Match(State):
                 self.__wizards[p].castSpell(2)
 
     def run(self):
-        colided = groupcollide(self.__wizard_group, self.__spell_group,
-                               False, False, circle_colide)
+        colided = groupcollide(
+            self.__wizard_group, self.__spell_group, False, False, circle_colide
+        )
         for wizard, spells in colided.items():
             for spell in spells:
                 spell.colision(wizard)
@@ -90,5 +102,9 @@ class Match(State):
         self.__spell_group.draw(self.canvas)
         self.__wizard_group.draw(self.canvas)
         self.__UI.draw(self.canvas, time=0)
+        for wizard in self.__wizards:
+            if wizard not in self.__deaths:
+                if not wizard.__alive:
+                    self.__deaths.append(wizard)
 
         return None

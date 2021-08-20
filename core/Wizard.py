@@ -15,9 +15,19 @@ import time
 class Wizard(GameObject):
     __colors = [(200, 20, 20), (50, 50, 255), (20, 150, 20), (200, 200, 50)]
 
-    def __init__(self, idx: int, max_life: int, spell_list: list,
-                 base_damage: int, ang: float, screen_size: tuple,
-                 groups: list, acc_ang=5, accel=0.5, atr=0.99):
+    def __init__(
+        self,
+        idx: int,
+        max_life: int,
+        spell_list: list,
+        base_damage: int,
+        ang: float,
+        screen_size: tuple,
+        groups: list,
+        acc_ang=5,
+        accel=0.5,
+        atr=0.99,
+    ):
         self.__idx = idx
         self.__max_life = max_life
         self.__spell_list = spell_list
@@ -29,20 +39,25 @@ class Wizard(GameObject):
         self.__atr = atr
         self.__cooldown = 1
         self.__color = self.__colors[idx]
+        self.shield = None
 
         R = 25
         width = 3
-        Mage_image = RSurface(R, (R*2, R*2), pg.SRCALPHA)
+        Mage_image = RSurface(R, (R * 2, R * 2), pg.SRCALPHA)
         pg.draw.circle(Mage_image, self.__color, (R, R), R)
-        pg.draw.rect(Mage_image, (0, 0, 0),
-                     pg.Rect(R, R-width/2, R, width))
+        pg.draw.rect(Mage_image, (0, 0, 0), pg.Rect(R, R - width / 2, R, width))
 
-        image_dict = {'temp': Mage_image}
-        sound_dict = {'temp': "wizard_sound"}
+        image_dict = {"temp": Mage_image}
+        sound_dict = {"temp": "wizard_sound"}
 
-        super().__init__(image_dict=image_dict, sound_dict=sound_dict,
-                         ang=ang, screen_size=screen_size, vel=(0, 0),
-                         groups=groups)
+        super().__init__(
+            image_dict=image_dict,
+            sound_dict=sound_dict,
+            ang=ang,
+            screen_size=screen_size,
+            vel=(0, 0),
+            groups=groups,
+        )
         self.__alive = True
         self.__impulse = False
         self.__acc_ang = acc_ang
@@ -134,14 +149,16 @@ class Wizard(GameObject):
             self.__rotating = False
 
         if self.__impulse:  # mover para frente se ha impulso
-            new_vel = (self.vel[0] + self.angle_vector[0] * self.__accel,
-                       self.vel[1] + self.angle_vector[1] * self.__accel)
+            new_vel = (
+                self.vel[0] + self.angle_vector[0] * self.__accel,
+                self.vel[1] + self.angle_vector[1] * self.__accel,
+            )
             self.__impulse = False
         else:
             new_vel = self.vel
 
         # perda de velocidade por atrito:
-        self.vel = (new_vel[0]*self.__atr, new_vel[1]*self.__atr)
+        self.vel = (new_vel[0] * self.__atr, new_vel[1] * self.__atr)
 
         for effect in self.__effects:
             effect(self)
@@ -155,4 +172,10 @@ class Wizard(GameObject):
         self.__effects.remove(effect)
 
     def damage(self, damage):
-        self.life -= damage
+        if self.shield == None:
+            damage = self.shield.block(damage)
+        self.__life -= damage
+
+        if self.__life <= 0:
+            self.kill()
+            self.alive = False
