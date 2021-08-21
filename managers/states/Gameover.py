@@ -21,7 +21,7 @@ class Gameover(State):
 
         self.__sel = 1
         self.__myfont = pg.font.SysFont("Comic Sans MS", 30)
-        self.__menu_images = []
+        self.__raw_images = []
 
         canvas_size = self.canvas.get_size()
         button_text = [("Exit Game", 0.3), ("Play Again", 0.5), ("Menu", 0.7)]
@@ -34,10 +34,10 @@ class Gameover(State):
             button_text[i] = (textsurface, (x, y))
 
         for text, pos in button_text:
-            self.__menu_images.append(temp_image.copy())
+            self.__raw_images.append(temp_image.copy())
 
             pg.draw.rect(
-                self.__menu_images[-1],
+                self.__raw_images[-1],
                 (200, 50, 50),
                 pg.Rect(pos, text.get_size()),
                 width=3,
@@ -48,6 +48,7 @@ class Gameover(State):
 
     def Start(self, deaths):
         self.__scores = list(reversed(deaths))
+        self.__menu_images = [i.copy() for i in self.__raw_images]
         screen_size_x = self.canvas.get_size()[0]
         pg.font.init()
         myfont = pg.font.SysFont('Comic Sans MS', 30)
