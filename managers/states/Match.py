@@ -92,6 +92,9 @@ class Match(State):
         )
         atual_time = time.time() - self.__init_time
         contador = 90 - int(atual_time)
+        if contador <= 0:
+            self.__deaths += self.get_winner()
+            return 3
         myfont = pg.font.SysFont('Comic Sans MS', 30)
         textsurface = myfont.render(str(contador), False, (0, 0, 0))
 
