@@ -33,14 +33,16 @@ class Shield(Spell):
 
     def cast(self, wiz: Wizard):
         self.__wiz = wiz
-        self.__wizard.shield = ShieldEffect(self.__effect_duration)
+        self.__wiz.shield = ShieldEffect(self.__effect_duration, self)
         super().cast(wiz)
 
     def update(self, dt):
         # magia tem duração de 2s
         if time.time() > self.spawned_time + self.__effect_duration:
             self.kill()
-        self.rect.update((self.__wiz.rect.x, self.__wiz.rect.y),
+        center = self.__wiz.rect.center
+        self.rect.update((center[0] - self.rect.size[0]/2,
+                          center[1] - self.rect.size[1]/2),
                          self.rect.size)
 
     def colision(self, wiz):
@@ -48,14 +50,16 @@ class Shield(Spell):
 
 
 class ShieldEffect(SpellEffect):
-    def __init__(self, duration):
+    def __init__(self, duration, orig_spell):
         super().__init__(duration, Shield)
+        self.__spell = orig_spell
         self.__used = False
 
     def call(self, wiz):  # talvez implementar colisão
         if self.__used:
             wiz.effect_remove(self)
             wiz.shield = None
+            self.__spell.kill()
 
     def block(self, damage):
         if not self.__used:

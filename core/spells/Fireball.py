@@ -42,7 +42,6 @@ class Fireball(Spell):
         self.state = "1"
 
     def update(self, dt):
-
         super().update(dt)
         now = time.time()
 
