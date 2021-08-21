@@ -7,7 +7,7 @@
     Vitor Hugo Homem Marzarotto
 """
 from images.circle import circle
-from core import Spell, SpellEffect
+from core import Spell, SpellEffect, Wizard
 import time
 
 
@@ -31,11 +31,17 @@ class Shield(Spell):
         )
         self.kill()
 
+    def cast(self, wiz: Wizard):
+        self.__wiz = wiz
+        self.__wizard.shield = ShieldEffect(self.__effect_duration)
+        super().cast(wiz)
+
     def update(self, dt):
         # magia tem duração de 2s
         if time.time() > self.spawned_time + self.__effect_duration:
             self.kill()
-        super().update(dt)
+        self.rect.update((self.__wiz.rect.x, self.__wiz.rect.y),
+                         self.rect.size)
 
     def colision(self, wiz):
         pass
@@ -44,6 +50,14 @@ class Shield(Spell):
 class ShieldEffect(SpellEffect):
     def __init__(self, duration):
         super().__init__(duration, Shield)
+        self.__used = False
 
-    def call(self, wiz):
-        wiz.accelerate()
+    def call(self, wiz):  # talvez implementar colisão
+        if self.__used:
+            wiz.effect_remove(self)
+            wiz.shield = None
+
+    def block(self, damage):
+        if not self.__used:
+            self.__used = True
+            return max(0, damage-2)

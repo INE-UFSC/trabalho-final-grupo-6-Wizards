@@ -27,6 +27,7 @@ class Spell(ABC, GameObject):
         self.__icon = icon
         self.__wizard_id = wizard_id
         self.__spawned_time = 0
+        self.kill()
 
     @property
     def name(self):

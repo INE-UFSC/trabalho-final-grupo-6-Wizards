@@ -31,7 +31,6 @@ class Fireball(Spell):
             screen_size=screen_size,
             groups=groups,
         )
-        self.kill()
 
     def cast(self, wiz):
         super().cast(wiz)
@@ -59,12 +58,15 @@ class Fireball(Spell):
         self.is_projectile = False
         self.state = "2"  # estado 2 = explodindo
         self.vel = (0, 0)  # parar a fireball
+        self.__dmg_wiz = []
 
     def colision(self, wiz):
-        if self.wizard_id == wiz.idx:
-            return
         # se atingir como projetil o tempo enquanto projetil acaba
         if self.is_projectile:
+            if self.wizard_id == wiz.idx:
+                return
             self.explosion()
         else:  # dano da explosão
-            wiz.damage(5)
+            if not wiz.idx in self.__dmg_wiz:
+                self.__dmg_wiz.append(wiz.idx)
+                wiz.damage(5)

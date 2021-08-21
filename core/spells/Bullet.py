@@ -14,6 +14,7 @@ import time
 class Bullet(Spell):
     __projectile_duration = 8
     __abs_vel = 5
+    __damge = 2
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
         image_dict = {"1": circle(7, (100, 100, 255))}
@@ -29,7 +30,6 @@ class Bullet(Spell):
             screen_size=screen_size,
             groups=groups,
         )
-        self.kill()
 
     def cast(self, wiz):
         super().cast(wiz)
@@ -44,4 +44,6 @@ class Bullet(Spell):
         super().update(1)
 
     def colision(self, wiz):
-        pass
+        if wiz.idx != self.wizard_id:
+            wiz.damage(self.__damge)
+            self.kill()
