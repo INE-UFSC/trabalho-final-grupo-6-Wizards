@@ -14,6 +14,7 @@ from managers.states import State
 from managers.states import Menu
 from managers.states import Match
 from managers.states import Options
+from managers.states import Gameover
 
 
 class Game():
@@ -34,7 +35,8 @@ class Game():
         menu = Menu(self.window, self.config)
         match = Match(self.window, self.config)
         options = Options(self.window, self.config)
-        self.__states: list[State] = [menu, match, options]
+        gameover = Gameover(self.window, self.config)
+        self.__states: list[State] = [menu, match, options, gameover]
         self.__current_state = 0
 
         while self.__current_state >= 0:
@@ -50,6 +52,8 @@ class Game():
                 self.__current_state = next_state
                 if self.__current_state == 1:
                     match.Start(n_players=menu.players)
+                if self.__current_state == 3:
+                    gameover.Start(match.deaths)
 
         print("end")
         pg.display.quit()

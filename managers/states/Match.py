@@ -115,9 +115,22 @@ class Match(State):
             if wizard not in self.__deaths:
                 if not wizard.alive:
                     self.__deaths.append(wizard)
-
+                    if len(self.__deaths) == self.__n_players - 1:
+                        self.__deaths += self.get_winner()
+                        return 3
         screen_size = self.canvas.get_size()
         text_size = textsurface.get_size()
         self.canvas.blit(textsurface, (screen_size[0]/2-text_size[0], 0))
 
         return None
+
+    def get_winner(self):
+        alive = []
+        for wizard in self.__wizards:
+            if wizard not in self.__deaths:
+                alive.append(wizard)
+        return alive
+
+    @property
+    def deaths(self):
+        return self.__deaths
