@@ -10,6 +10,7 @@
 """
 import pygame as pg
 from pygame.sprite import groupcollide
+
 # import time
 # from pygame.constants import K_0
 
@@ -20,12 +21,14 @@ from core import Wizard
 from core.spells import Curse, Bullet, Shield, Fireball
 
 from core.MathFuncions import circle_colide
+import time
 
 
 class Match(State):
     __init_pos = [(0, 0), (200, 0), (0, 200), (200, 200)]
 
     def redefine(self):
+        self.__init_time = time.time()
         self.__wizard_group = pg.sprite.Group()
         self.__spell_group = pg.sprite.Group()
 
@@ -35,23 +38,33 @@ class Match(State):
         screen_size = self.canvas.get_size()
 
         self.__n_players = n_players
+        self.__deaths = []  # lista de magos que morreram
 
         self.__wizards = []
         for p in range(n_players):
-            spell_list = [Curse(p, [self.__spell_group], screen_size),
-                          Bullet(p, [self.__spell_group], screen_size),
-                          Shield(p, [self.__spell_group], screen_size),
-                          Fireball(p, [self.__spell_group], screen_size)]
+            spell_list = [
+                Curse(p, [self.__spell_group], screen_size),
+                Bullet(p, [self.__spell_group], screen_size),
+                Shield(p, [self.__spell_group], screen_size),
+                Fireball(p, [self.__spell_group], screen_size),
+            ]
 
-            wizard = Wizard(idx=p, max_life=10, spell_list=spell_list,
-                            base_damage=2, ang=0, screen_size=screen_size,
-                            groups=[self.__wizard_group],  accel=0.25,
-                            atr=0.99)
+            wizard = Wizard(
+                idx=p,
+                max_life=10,
+                spell_list=spell_list,
+                base_damage=2,
+                ang=0,
+                screen_size=screen_size,
+                groups=[self.__wizard_group],
+                accel=0.25,
+                atr=0.99,
+            )
 
             wizard.rect.move_ip(*self.__init_pos[p])
             self.__wizards.append(wizard)
 
-        self.__inputs = Inputs(*self.config.p[: n_players])
+        self.__inputs = Inputs(*self.config.p[:n_players])
         self.__UI = UIcorner(self.__wizards, screen_size)
 
     def __process___inputs(self):
@@ -74,8 +87,19 @@ class Match(State):
                 self.__wizards[p].castSpell(2)
 
     def run(self):
+<<<<<<< HEAD
+        colided = groupcollide(
+            self.__wizard_group, self.__spell_group, False, False, circle_colide
+        )
+=======
+        atual_time = time.time() - self.__init_time
+        contador = 90 - int(atual_time)
+        myfont = pg.font.SysFont('Comic Sans MS', 30)
+        textsurface = myfont.render(str(contador), False, (0, 0, 0))
+
         colided = groupcollide(self.__wizard_group, self.__spell_group,
                                False, False, circle_colide)
+>>>>>>> 089fef53ad3ec60f2c11f3cd0c85370cdf762654
         for wizard, spells in colided.items():
             for spell in spells:
                 spell.colision(wizard)
@@ -90,5 +114,13 @@ class Match(State):
         self.__spell_group.draw(self.canvas)
         self.__wizard_group.draw(self.canvas)
         self.__UI.draw(self.canvas, time=0)
+        for wizard in self.__wizards:
+            if wizard not in self.__deaths:
+                if not wizard.__alive:
+                    self.__deaths.append(wizard)
+
+        screen_size = self.canvas.get_size()
+        text_size = textsurface.get_size()
+        self.canvas.blit(textsurface, (screen_size[0]/2-text_size[0], 0))
 
         return None
