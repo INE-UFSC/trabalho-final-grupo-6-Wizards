@@ -21,12 +21,14 @@ from core import Wizard
 from core.spells import Curse, Bullet, Shield, Fireball
 
 from core.MathFuncions import circle_colide
+import time
 
 
 class Match(State):
     __init_pos = [(0, 0), (200, 0), (0, 200), (200, 200)]
 
     def redefine(self):
+        self.__init_time = time.time()
         self.__wizard_group = pg.sprite.Group()
         self.__spell_group = pg.sprite.Group()
 
@@ -85,9 +87,19 @@ class Match(State):
                 self.__wizards[p].castSpell(2)
 
     def run(self):
+<<<<<<< HEAD
         colided = groupcollide(
             self.__wizard_group, self.__spell_group, False, False, circle_colide
         )
+=======
+        atual_time = time.time() - self.__init_time
+        contador = 90 - int(atual_time)
+        myfont = pg.font.SysFont('Comic Sans MS', 30)
+        textsurface = myfont.render(str(contador), False, (0, 0, 0))
+
+        colided = groupcollide(self.__wizard_group, self.__spell_group,
+                               False, False, circle_colide)
+>>>>>>> 089fef53ad3ec60f2c11f3cd0c85370cdf762654
         for wizard, spells in colided.items():
             for spell in spells:
                 spell.colision(wizard)
@@ -106,5 +118,9 @@ class Match(State):
             if wizard not in self.__deaths:
                 if not wizard.__alive:
                     self.__deaths.append(wizard)
+
+        screen_size = self.canvas.get_size()
+        text_size = textsurface.get_size()
+        self.canvas.blit(textsurface, (screen_size[0]/2-text_size[0], 0))
 
         return None
