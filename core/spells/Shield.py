@@ -65,3 +65,5 @@ class ShieldEffect(SpellEffect):
         if not self.__used:
             self.__used = True
             return max(0, damage-2)
+        else:
+            return damage

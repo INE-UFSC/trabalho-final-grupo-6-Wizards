@@ -173,8 +173,9 @@ class Wizard(GameObject):
 
     def damage(self, damage):
         if self.shield != None:
-            damage = self.shield.block(damage)
-        self.__life -= damage
+            self.__life -= self.shield.block(damage)
+        else:
+            self.__life -= damage
 
         if self.__life <= 0:
             self.kill()
