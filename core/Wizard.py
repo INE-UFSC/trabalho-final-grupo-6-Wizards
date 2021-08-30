@@ -172,7 +172,7 @@ class Wizard(GameObject):
         self.__effects.remove(effect)
 
     def damage(self, damage):
-        if self.shield != None:
+        if self.shield is not None:
             self.__life -= self.shield.block(damage)
         else:
             self.__life -= damage

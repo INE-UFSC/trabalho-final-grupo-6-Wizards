@@ -40,11 +40,11 @@ class Spell(ABC, GameObject):
     @property
     def wizard_id(self):
         return self.__wizard_id
-    
+
     @property
     def spawned_time(self):
         return self.__spawned_time
-    
+
     def set_time(self):
         self.__spawned_time = time.time()
 
@@ -70,7 +70,7 @@ class SpellEffect(ABC):
     @property
     def spawned_time(self):
         return self.__spawned_time
-    
+
     def renew(self):
         self.__spawned_time = time.time()
 
@@ -81,13 +81,13 @@ class SpellEffect(ABC):
     @property
     def spell_type(self):
         return self.__spell_type
-    
+
     def __call__(self, wiz):
         if time.time() > self.__spawned_time+self.__duration:
             wiz.effect_remove(self)
         else:
             self.call(wiz)
-    
+
     @abstractmethod
     def call(self, wiz: Wizard):
         pass

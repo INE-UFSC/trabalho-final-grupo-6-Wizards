@@ -14,7 +14,7 @@ from managers.Config import PlayerConf
 class Inputs():
     def __init__(self, *players: PlayerConf):
         self.__n_players: int = len(players)
-        self.__players: tuple[PlayerConf, ...] = players
+        self.__players: tuple = players
         self.update()
 
     def update(self) -> None:
@@ -26,17 +26,17 @@ class Inputs():
         número do jogador e o segundo é o comando correspondente ao botão
         pressionado.
         """
-        self.__inputs: dict[int, list[tuple[int, int]]] = {}
+        self.__inputs: dict = {}
         for player in range(self.__n_players):
-            player_command: list[int] = self.__players[player].list_form
+            player_command: list = self.__players[player].list_form
             for com in range(len(player_command)):
                 if player_command[com] in self.__inputs:
                     self.__inputs[player_command[com]].append((player, com))
                 else:
                     self.__inputs[player_command[com]] = [(player, com)]
 
-    def get(self) -> list[list[int]]:
-        pressed: list[list[int]] = [[] for i in range(self.__n_players)]
+    def get(self) -> list:
+        pressed: list = [[] for i in range(self.__n_players)]
 
         keys_state = pg.key.get_pressed()
         for key in self.__inputs:
