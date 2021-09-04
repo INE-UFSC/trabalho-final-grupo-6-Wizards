@@ -13,7 +13,7 @@ from core import Wizard
 
 
 class UIabstract(ABC):
-    def __init__(self, wizards: list[Wizard], screen_size):
+    def __init__(self, wizards, screen_size):
         self.__wizards = wizards
         self.__n_wiz = len(wizards)
         self.__screen_size = screen_size

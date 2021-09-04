@@ -84,18 +84,18 @@ class PlayerConf():
         self.__slot2 = key
 
     @property
-    def dict_form(self) -> dict[str, int]:
+    def dict_form(self):
         return self.__dict_form
 
     @property
-    def list_form(self) -> list[int]:
+    def list_form(self):
         return self.__list_form
 
     @property
-    def command_list(self) -> list[str]:
+    def command_list(self):
         return self.__command_list
 
-    def json(self) -> dict[str, str]:
+    def json(self):
         return {key: pg.key.name(cd) for key, cd in self.dict_form.items()}
 
     def define_key(self, cmd, key):
@@ -105,8 +105,8 @@ class PlayerConf():
 
 
 class Config():
-    __def_FPS: int = 60
-    __def_screen_size: tuple[int, int] = (1200, 720)
+    __def_FPS = 60
+    __def_screen_size = (1200, 720)
     __def_p0: PlayerConf = PlayerConf()
     __def_p1: PlayerConf = PlayerConf()
     __def_p2: PlayerConf = PlayerConf()
