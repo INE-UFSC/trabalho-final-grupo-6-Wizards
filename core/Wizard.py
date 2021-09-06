@@ -7,7 +7,9 @@
     Vitor Hugo Homem Marzarotto
 """
 import pygame as pg
+from pygame import gfxdraw
 from core import GameObject, RSurface
+from images import circle
 import random
 import time
 
@@ -42,10 +44,13 @@ class Wizard(GameObject):
         self.shield = None
 
         R = 25
-        width = 3
-        Mage_image = RSurface(R, (R * 2, R * 2), pg.SRCALPHA)
-        pg.draw.circle(Mage_image, self.__color, (R, R), R)
-        pg.draw.rect(Mage_image, (0, 0, 0), pg.Rect(R, R - width / 2, R, width))
+        width = 4
+        Mage_image = RSurface(R, (R * 2+2, R * 2+2), pg.SRCALPHA)
+        circle(R, self.__color, surface=Mage_image, pos=(R, R))
+        #draw_circle(Mage_image, R, R, R, self.__color)
+        gfxdraw.box(Mage_image, pg.Rect(R, R - width / 2, R, width), (0, 0, 0))
+        #pg.draw.circle(Mage_image, self.__color, (R, R), R)
+        #pg.draw.rect(Mage_image, (0, 0, 0), pg.Rect(R, R - width / 2, R, width))
 
         image_dict = {"temp": Mage_image}
         sound_dict = {"temp": "wizard_sound"}
@@ -112,13 +117,13 @@ class Wizard(GameObject):
     def alive(self):
         return self.__alive
 
-    @property
-    def color(self):
-        return self.__color
-
     @alive.setter
     def alive(self, alive: bool):
         self.__alive = alive
+
+    @property
+    def color(self):
+        return self.__color
 
     def castSpell(self, n_slot: int):
         now = time.time()

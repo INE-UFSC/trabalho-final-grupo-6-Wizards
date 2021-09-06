@@ -61,7 +61,7 @@ class Match(State):
                 atr=0.99,
             )
 
-            wizard.rect.move_ip(*self.__init_pos[p])
+            wizard.center = self.__init_pos[p]
             self.__wizards.append(wizard)
 
         self.__inputs = Inputs(*self.config.p[:n_players])

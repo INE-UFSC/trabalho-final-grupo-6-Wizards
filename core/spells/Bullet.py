@@ -6,7 +6,7 @@
     Maria Fernanda Bittelbrunn Toniasso
     Vitor Hugo Homem Marzarotto
 """
-from images.circle import circle
+from images import circle
 from core import Spell
 import time
 

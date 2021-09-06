@@ -12,6 +12,8 @@ import math
 
 
 class GameObject(Sprite):
+    __bounce_dist = 30
+
     def __init__(self, image_dict: dict, sound_dict: dict, ang: float,
                  screen_size: tuple, vel=(0, 0), groups=None):
         """
@@ -31,6 +33,7 @@ class GameObject(Sprite):
             Grupo inicial. The default is None.
         """
         self.__rect = pg.Rect(0, 0, 0, 0)
+        self.__center = [0, 0]
 
         self.__image_dict = image_dict
         self.vel = vel
@@ -100,6 +103,23 @@ class GameObject(Sprite):
         return self.__rect
 
     @property
+    def center(self):
+        return self.__center
+
+    @center.setter
+    def center(self, pos: list):
+        try:
+            pos = list(pos)
+            assert len(pos) == 2
+        except (TypeError, AssertionError) as e:
+            print("'pos' must be an iterable with x in the first" +
+                  "position and y in the second")
+            raise e
+
+        self.__center = pos
+        self.__centralize_image()
+
+    @property
     def image(self):
         return self.__image
 
@@ -110,20 +130,16 @@ class GameObject(Sprite):
     @state.setter
     def state(self, new_state):
         self.__state = new_state
-        old_center = self.__image.get_rect().center
         self.__image = self.__image_dict[self.__state]
-        new_center = self.__image.get_rect().center
 
-        img_size = self.__image.get_size()
-        self.rect.update(self.rect[0]+old_center[0]-new_center[0],
-                         self.rect[1]+old_center[1]-new_center[1],
-                         *img_size)
+        self.__centralize_image()
         self.radius = self.__image.radius
 
-        self.__lim_x_inf = self.__radius - img_size[0]/2
-        self.__lim_y_inf = self.__radius - img_size[1]/2
-        self.__lim_x_sup = self.__screen_size[0] - self.__radius - img_size[0]/2
-        self.__lim_y_sup = self.__screen_size[1] - self.__radius - img_size[0]/2
+        self.__lim_x_inf = self.__radius + self.__bounce_dist
+        self.__lim_y_inf = self.__radius + self.__bounce_dist
+        temp = self.__radius + self.__bounce_dist
+        self.__lim_x_sup = self.__screen_size[0] - temp
+        self.__lim_y_sup = self.__screen_size[1] - temp
 
     @property
     def lim_x_inf(self):
@@ -145,15 +161,39 @@ class GameObject(Sprite):
         for g in self.__savedgroup:
             g.add(self)
 
+    def __centralize_image(self):
+        img_size = self.__image.get_size()
+        h_size = (img_size[0]/2, img_size[1]/2,)
+        self.__rect.update(self.__center[0]-h_size[0],
+                           self.__center[1]-h_size[1],
+                           *img_size)
+
     def __rotate(self):
-        old_center = self.__image.get_rect().center
         self.__image = pg.transform.rotate(self.__image_dict[self.state],
                                            self.ang)
-        new_center = self.__image.get_rect().center
+        self.__centralize_image()
 
-        self.rect.update(self.rect[0]+old_center[0]-new_center[0],
-                         self.rect[1]+old_center[1]-new_center[1],
-                         *self.__image.get_size())
+    def move(self, x, y):
+        self.__center[0] += x
+        self.__center[1] += y
+
+        #  melhorar dps espelhando o excesso
+        if self.__center[0] < self.lim_x_inf:
+            self.__center[0] = self.lim_x_inf
+            self.vel = (-self.vel[0], self.vel[1])
+        elif self.__center[0] > self.lim_x_sup:
+            self.__center[0] = self.lim_x_sup
+            self.vel = (-self.vel[0], self.vel[1])
+
+        #  melhorar dps espelhando o excesso
+        if self.__center[1] < self.lim_y_inf:
+            self.__center[1] = self.lim_y_inf
+            self.vel = (self.vel[0], -self.vel[1])
+        elif self.__center[1] > self.lim_y_sup:
+            self.__center[1] = self.lim_y_sup
+            self.vel = (self.vel[0], -self.vel[1])
+
+        self.__centralize_image()
 
     def update(self, dt):
         """
@@ -171,22 +211,7 @@ class GameObject(Sprite):
 
         """
         if self.__moving:
-            self.rect.move_ip(*self.vel)
-            #  melhorar dps espelhando o excesso
-            if self.rect.x < self.lim_x_inf:
-                self.rect.x = self.lim_y_inf
-                self.vel = (-self.vel[0], self.vel[1])
-            elif self.rect.x > self.lim_x_sup:
-                self.rect.x = self.lim_x_sup
-                self.vel = (-self.vel[0], self.vel[1])
-
-            #  melhorar dps espelhando o excesso
-            if self.rect.y < self.lim_y_inf:
-                self.rect.y = self.lim_y_inf
-                self.vel = (self.vel[0], -self.vel[1])
-            elif self.rect.y > self.lim_y_sup:
-                self.rect.y = self.lim_y_sup
-                self.vel = (self.vel[0], -self.vel[1])
+            self.move(*self.vel)
 
         if self.__new_angle:
             self.__rotate()

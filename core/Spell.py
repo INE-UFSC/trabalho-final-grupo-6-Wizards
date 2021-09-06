@@ -50,10 +50,7 @@ class Spell(ABC, GameObject):
 
     def cast(self, wiz: Wizard):
         self.set_time()
-        rect = wiz.rect.center
-        x = rect[0] - self.rect.size[0]/2
-        y = rect[1] - self.rect.size[1]/2
-        self.rect.update(x, y, *self.rect.size)
+        self.center = wiz.center
         self.revive()
 
     @abstractmethod
