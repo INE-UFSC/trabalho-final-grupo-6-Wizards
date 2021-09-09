@@ -10,6 +10,7 @@ import pygame as pg
 from pygame import gfxdraw
 from core import GameObject, RSurface
 from images import circle
+import os
 import random
 import time
 
@@ -45,16 +46,25 @@ class Wizard(GameObject):
 
         R = 25
         width = 4
+
         Mage_image = RSurface(R, (R * 2+2, R * 2+2), pg.SRCALPHA)
         circle(R, self.__color, surface=Mage_image, pos=(R, R))
-        #draw_circle(Mage_image, R, R, R, self.__color)
-        gfxdraw.box(Mage_image, pg.Rect(R, R - width / 2, R, width), (0, 0, 0))
-        #pg.draw.circle(Mage_image, self.__color, (R, R), R)
-        #pg.draw.rect(Mage_image, (0, 0, 0), pg.Rect(R, R - width / 2, R, width))
+
+        imagem = pg.image.load(os.path.join(
+            'images', 'mago_teste.png')).convert()
+        imagem = pg.transform.scale(imagem, (R*2, R*2))
+        Mage_image.blit(imagem, (0, 0))
+        # draw_circle(Mage_image, R, R, R, self.__color)
+        # gfxdraw.box(Mage_image, pg.Rect(R, R - width / 2, R, width), (0, 0, 0))
+        # pg.draw.circle(Mage_image, self.__color, (R, R), R)
+        # pg.draw.rect(Mage_image, (0, 0, 0), pg.Rect(R, R - width / 2, R, width))
 
         image_dict = {"temp": Mage_image}
         sound_dict = {"temp": "wizard_sound"}
-
+        self.__damageSound = pg.mixer.Sound(os.path.join(
+            'Sounds', sound_dict["temp"]+".wav"))
+        self.__shieldSound = pg.mixer.Sound(
+            os.path.join('Sounds', 'spells', "shield_sound.wav"))
         super().__init__(
             image_dict=image_dict,
             sound_dict=sound_dict,
@@ -77,51 +87,51 @@ class Wizard(GameObject):
 
         self.delay = [3, 3, 3]
 
-    @property
+    @ property
     def idx(self):
         return self.__idx
 
-    @property
+    @ property
     def max_life(self):
         return self.__max_life
 
-    @property
+    @ property
     def spell_list(self):
         return self.__spell_list
 
-    @property
+    @ property
     def base_damage(self):
         return self.__base_damage
 
-    @property
+    @ property
     def accel(self):
         return self.__accel
 
-    @property
+    @ property
     def life(self):
         return self.__life
 
-    @life.setter
+    @ life.setter
     def life(self, life: int):
         self.__life = life
 
-    @property
+    @ property
     def slots(self):
         return self.__slots
 
-    @property
+    @ property
     def efects(self):
         return self.__efects
 
-    @property
+    @ property
     def alive(self):
         return self.__alive
 
-    @alive.setter
+    @ alive.setter
     def alive(self, alive: bool):
         self.__alive = alive
 
-    @property
+    @ property
     def color(self):
         return self.__color
 
@@ -179,7 +189,9 @@ class Wizard(GameObject):
     def damage(self, damage):
         if self.shield is not None:
             self.__life -= self.shield.block(damage)
+            self.__shieldSound.play()
         else:
+            self.__damageSound.play()
             self.__life -= damage
 
         if self.__life <= 0:

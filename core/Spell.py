@@ -10,6 +10,8 @@
 """
 from abc import ABC, abstractmethod
 from core import GameObject, Wizard
+import pygame as pg
+import os
 import time
 
 
@@ -27,6 +29,8 @@ class Spell(ABC, GameObject):
         self.__icon = icon
         self.__wizard_id = wizard_id
         self.__spawned_time = 0
+        self.__cast_sound = pg.mixer.Sound(
+            os.path.join('Sounds', 'spells', sound_dict["casting"]+".wav"))
         self.kill()
 
     @property
@@ -51,6 +55,7 @@ class Spell(ABC, GameObject):
     def cast(self, wiz: Wizard):
         self.set_time()
         self.center = wiz.center
+        self.__cast_sound.play()
         self.revive()
 
     @abstractmethod

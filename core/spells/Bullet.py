@@ -9,6 +9,8 @@
 from images import circle
 from core import Spell
 import time
+import pygame as pg
+import os
 
 
 class Bullet(Spell):

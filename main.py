@@ -10,7 +10,7 @@
 """
 from Game import Game
 import pygame as pg
-
+pg.mixer.init()
 game = Game()
 try:
     game.run()
