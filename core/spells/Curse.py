@@ -17,7 +17,7 @@ class Curse(Spell):
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
 
-        image_dict = {"1": circle(100, (150, 0, 150))}
+        image_dict = {"1": "curse_img"}  # circle(100, (150, 0, 150))}
         sound_dict = {"casting": "curse_sound"}
 
         super().__init__(

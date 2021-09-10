@@ -9,6 +9,7 @@
 from pygame.sprite import Sprite
 import pygame as pg
 import math
+import os
 
 
 class GameObject(Sprite):
@@ -43,6 +44,7 @@ class GameObject(Sprite):
 
         self.__state = list(self.__image_dict.keys())[0]
         self.__image = self.__image_dict[self.__state]
+
         self.state = self.__state
 
         super().__init__(groups)

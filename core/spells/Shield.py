@@ -16,7 +16,7 @@ class Shield(Spell):
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
 
-        image_dict = {"1": circle(50, (0, 100, 0))}
+        image_dict = {"1": "shield_img"}  # circle(50, (0, 100, 0))}
         sound_dict = {"casting": "shield_sound"}
 
         super().__init__(

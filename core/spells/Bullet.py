@@ -19,7 +19,7 @@ class Bullet(Spell):
     __damge = 2
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
-        image_dict = {"1": circle(7, (100, 100, 255))}
+        image_dict = {"1": "bullet_img"}  # circle(7, (100, 100, 255))}
         sound_dict = {"casting": "bullet_sound"}
 
         super().__init__(
