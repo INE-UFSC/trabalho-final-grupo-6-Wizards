@@ -26,16 +26,6 @@ class Spell(ABC, GameObject):
                             "ang": ang, "screen_size": screen_size, "vel": vel,
                             "groups": groups}
 
-        R = 25
-
-        superficie = RSurface(R, (R * 2+2, R * 2+2), pg.SRCALPHA)
-
-        image = pg.image.load(os.path.join(
-            'images', 'spells_img', image_dict["1"]+'.png'))
-        image = pg.transform.scale(R*2, R*2)
-        superficie.blit(image, (0, 0))
-        image_dict['1'] = superficie  # .blit(image, (0, 0))
-
         super().__init__(**game_object_args)
         self.__name = name
         self.__icon = icon

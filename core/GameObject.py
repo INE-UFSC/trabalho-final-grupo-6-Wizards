@@ -6,7 +6,9 @@
     Maria Fernanda Bittelbrunn Toniasso
     Vitor Hugo Homem Marzarotto
 """
+import images
 from pygame.sprite import Sprite
+from core import RSurface
 import pygame as pg
 import math
 import os
@@ -36,7 +38,8 @@ class GameObject(Sprite):
         self.__rect = pg.Rect(0, 0, 0, 0)
         self.__center = [0, 0]
 
-        self.__image_dict = image_dict
+        self.__image_dict = {key: self.load_img(
+            **args) for key, args in image_dict.itens()}
         self.vel = vel
         self.ang = ang
         self.__change_ang = True
@@ -158,6 +161,18 @@ class GameObject(Sprite):
     @property
     def lim_y_sup(self):
         return self.__lim_y_sup
+
+    def load_img(self, R=None, path=None, size=None, image=None):
+
+        if image is not None:
+            return image
+
+        superficie = RSurface(R, size, pg.SRCALPHA)
+
+        image = pg.image.load(path)
+        image = pg.transform.scale(image, size)
+        superficie.blit(image, (0, 0))
+        return superficie
 
     def revive(self):
         for g in self.__savedgroup:
