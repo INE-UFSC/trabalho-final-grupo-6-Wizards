@@ -17,12 +17,12 @@ class PlayerConf():
     # falta implementar enter
     def __init__(self, turn_r="d", turn_l="a", acc="w",
                  slot0="j", slot1="k", slot2="l", pause="enter"):
-        self.__turn_r: int = pg.key.key_code(turn_r)
-        self.__turn_l: int = pg.key.key_code(turn_l)
-        self.__acc: int = pg.key.key_code(acc)
-        self.__slot0: int = pg.key.key_code(slot0)
-        self.__slot1: int = pg.key.key_code(slot1)
-        self.__slot2: int = pg.key.key_code(slot2)
+        self.__turn_r: int = self.get_key_code(turn_r)
+        self.__turn_l: int = self.get_key_code(turn_l)
+        self.__acc: int = self.get_key_code(acc)
+        self.__slot0: int = self.get_key_code(slot0)
+        self.__slot1: int = self.get_key_code(slot1)
+        self.__slot2: int = self.get_key_code(slot2)
 
         self.__dict_form: dict[str, int] = {
             "turn_r": self.turn_r, "turn_l": self.turn_l,
@@ -102,6 +102,11 @@ class PlayerConf():
         self.__dict_form[cmd] = key
         self.__set_dict[cmd] = key
         self.__list_form[self.__command_list.index(cmd)] = key
+
+    def get_key_code(self, key):
+        if '[' in key:
+            key = 'keypad ' + key[1]
+        return pg.key.key_code(key)
 
 
 class Config():
