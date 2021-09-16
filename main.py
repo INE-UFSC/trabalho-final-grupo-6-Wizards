@@ -8,7 +8,7 @@
 
     Run the game
 """
-from Game import Game
+from managers import Game
 import pygame as pg
 pg.mixer.init()
 game = Game()

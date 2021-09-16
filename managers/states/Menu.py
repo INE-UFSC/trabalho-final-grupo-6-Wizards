@@ -12,10 +12,11 @@ import os
 from managers.states import State
 from managers.Config import Config
 
+from managers import Game
 
 class Menu(State):
-    def __init__(self, window: pg.surface.Surface, config: Config):
-        super().__init__(window, config)
+    def __init__(self, game: Game):
+        super().__init__(game)
         self.__states = 3
         # def images(i): return os.path.join('images', 'menu_'+str(i)+'.png')
         # self.__menu_images = [pg.image.load(images(i)) for i in range(3)]
@@ -63,7 +64,7 @@ class Menu(State):
         for event in pg.event.get():
 
             if event.type == pg.QUIT:
-                return
+                return self.game.states_enum.Exit
 
             if event.type == pg.KEYDOWN:
                 if event.key == pg.K_UP:
@@ -74,11 +75,11 @@ class Menu(State):
 
                 if event.key == pg.K_RETURN:
                     if self.__sel == 0:
-                        return 1  # play
+                        return self.game.states_enum.Match
                     elif self.__sel == 1:
-                        return 2  # settings
+                        return self.game.states_enum.Options
                     elif self.__sel == 2:
-                        return -1  # quit
+                        return self.game.states_enum.Exit
 
                 if event.key == pg.K_LEFT:
                     if self.__sel == 0:

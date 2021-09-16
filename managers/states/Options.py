@@ -12,16 +12,19 @@ from pygame.constants import K_ESCAPE
 from managers.states import State
 from managers.Config import Config
 
+from managers import Game
+
 
 class Options(State):
-    def __init__(self, window: pg.surface.Surface, config: Config):
-        self.__config = config
-        self.__config_dict = config.as_dict()
-        self.__controler = len(config.p0.command_list)
+    def __init__(self, game: Game):
+        self.__myfont = pg.font.SysFont('Comic Sans MS', 30)
+        
+        super().__init__(game)
+        self.__config_dict = self.config.as_dict()
+        self.__controler = len(self.config.p0.command_list)
         self.__players = 4
         # def images(i): return os.path.join('images', 'menu_'+str(i)+'.png')
         # self.__menu_images = [pg.image.load(images(i)) for i in range(3)]
-        self.__myfont = pg.font.SysFont('Comic Sans MS', 30)
 
         self.waiting_image = self.__myfont.render(
             "press the input", False, (255, 255, 255))
@@ -29,7 +32,6 @@ class Options(State):
         superficie.blit(self.waiting_image, (0, 0))
         self.waiting_image = superficie
 
-        super().__init__(window, config)
 
     def run(self):
         buttons = self.buttons_info[self.__p_sel][self.__sel]
@@ -46,7 +48,7 @@ class Options(State):
                 if event.key == pg.K_LEFT:
                     self.__p_sel = (self.__p_sel-1) % (self.__players)
                 if event.key == K_ESCAPE:
-                    return 0
+                    return self.game.states_enum.Menu
 
                 if event.key == pg.K_RETURN:
 
@@ -72,7 +74,7 @@ class Options(State):
         self.__render_keys()
 
     def __render_keys(self):
-        self.__config_dict = self.__config.as_dict()
+        self.__config_dict = self.config.as_dict()
         temp_image = self.canvas.copy()
         temp_image.fill((50, 250, 50))
 

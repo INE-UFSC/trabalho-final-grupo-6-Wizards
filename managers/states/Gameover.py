@@ -12,10 +12,12 @@ import os
 from managers.states import *
 from managers.Config import *
 
+from managers import Game
+
 
 class Gameover(State):
-    def __init__(self, window: pg.surface.Surface, config: Config):
-        super().__init__(window, config)
+    def __init__(self, game: Game):
+        super().__init__(game)
         temp_image = self.canvas.copy()
         temp_image.fill((50, 250, 50))
 
@@ -82,10 +84,10 @@ class Gameover(State):
 
                 if event.key == pg.K_RETURN:
                     if self.__sel == 0:
-                        return -1  # exit
+                        return self.game.states_enum.Exit
                     elif self.__sel == 1:
-                        return 1  # play
+                        return self.game.states_enum.Match
                     elif self.__sel == 2:
-                        return 0  # menu
+                        return self.game.states_enum.Menu
 
         self.canvas.blit(self.__menu_images[self.__sel], (0, 0))

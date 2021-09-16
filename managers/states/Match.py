@@ -87,45 +87,50 @@ class Match(State):
                 self.__wizards[p].castSpell(2)
 
     def run(self):
-        colided = groupcollide(
-            self.__wizard_group, self.__spell_group, False, False, circle_colide
-        )
-        atual_time = time.time() - self.__init_time
-        contador = 90 - int(atual_time)
-        if contador <= 0:
+        time_now = time.time() - self.__init_time
+        self.__now = 90 - int(time_now)
+        if self.__now <= 0:
             self.__deaths += self.get_winner()
             return 3
-        myfont = pg.font.SysFont('Comic Sans MS', 30)
-        textsurface = myfont.render(str(contador), False, (0, 0, 0))
 
+        self.__process___inputs()
+
+        self.__spell_group.update(1)
+        self.__wizard_group.update(1)
+
+        self.__draw()
+        return None
+
+    def __colision_detect(self):
         colided = groupcollide(self.__wizard_group, self.__spell_group,
                                False, False, circle_colide)
         for wizard, spells in colided.items():
             for spell in spells:
                 spell.colision(wizard)
 
-        self.__process___inputs()
-
+    def __draw(self):
         self.canvas.fill((250, 250, 250))
-
-        self.__spell_group.update(1)
-        self.__wizard_group.update(1)
-
         self.__spell_group.draw(self.canvas)
         self.__wizard_group.draw(self.canvas)
         self.__UI.draw(self.canvas, time=0)
+        if (self.verify_end):
+            return self.game.states_enum.Gameover
+        screen_size = self.canvas.get_size()
+        
+        myfont = pg.font.SysFont('Comic Sans MS', 30)
+        textsurface = myfont.render(str(self.__now), False, (0, 0, 0))
+        text_size = textsurface.get_size()
+        self.canvas.blit(textsurface, (screen_size[0]/2-text_size[0], 0))
+
+    def verify_end(self):
         for wizard in self.__wizards:
             if wizard not in self.__deaths:
                 if not wizard.alive:
                     self.__deaths.append(wizard)
                     if len(self.__deaths) == self.__n_players - 1:
                         self.__deaths += self.get_winner()
-                        return 3
-        screen_size = self.canvas.get_size()
-        text_size = textsurface.get_size()
-        self.canvas.blit(textsurface, (screen_size[0]/2-text_size[0], 0))
-
-        return None
+                        return True
+        return False
 
     def get_winner(self):
         alive = []

@@ -11,19 +11,22 @@
 from abc import ABC, abstractmethod
 import pygame as pg
 
-from managers.Config import Config
+from managers import Game
 
 
 class State(ABC):
-    def __init__(self, window: pg.surface.Surface, config: Config):
-        self.__window: pg.surface.Surface = window
-        self.__canvas: pg.surface.Surface = pg.Surface(window.get_size())
-        self.__config: Config = config
+    def __init__(self, game: Game):
+        self.__game: Game = game
+        self.__canvas: pg.surface.Surface = pg.Surface(self.window.get_size())
         self.redefine()
 
     @property
+    def game(self):
+        return self.__game
+
+    @property
     def window(self):
-        return self.__window
+        return self.__game.window
 
     @property
     def canvas(self):
@@ -31,7 +34,7 @@ class State(ABC):
 
     @property
     def config(self):
-        return self.__config
+        return self.game.config
 
     @abstractmethod
     def redefine(self):
