@@ -65,9 +65,9 @@ class Wizard(GameObject):
             R*2+2, R*2+2)}}
         sound_dict = {"temp": "wizard_sound"}
         self.__damageSound = pg.mixer.Sound(os.path.join(
-            'Sounds', sound_dict["temp"]+".wav"))
+            'sounds', sound_dict["temp"]+".wav"))
         self.__shieldSound = pg.mixer.Sound(
-            os.path.join('Sounds', 'spells', "shield_sound.wav"))
+            os.path.join('sounds', 'spells', "shield_sound.wav"))
         super().__init__(
             image_dict=image_dict,
             sound_dict=sound_dict,

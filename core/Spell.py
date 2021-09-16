@@ -32,7 +32,7 @@ class Spell(ABC, GameObject):
         self.__wizard_id = wizard_id
         self.__spawned_time = 0
         self.__cast_sound = pg.mixer.Sound(
-            os.path.join('Sounds', 'spells', sound_dict["casting"]+".wav"))
+            os.path.join('sounds', 'spells', sound_dict["casting"]+".wav"))
         self.kill()
 
     @property
