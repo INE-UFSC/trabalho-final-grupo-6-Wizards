@@ -20,14 +20,14 @@ class Fireball(Spell):
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
 
         # circle(7, (195, 48, 0)), "2": circle(100, (195, 48, 0))} tamanhos
-        image_dict = {"1": {"path": os.path.join(["images", "spells_img", "fireball_img.png"]), "R": 7, "size": (16, 16)},
+        image_dict = {"1": {"path": os.path.join("images", "spells_img", "fireball_img.png"), "R": 7, "size": (16, 16)},
                       "2": {"image": circle(100, (195, 48, 0))}}
         sound_dict = {"casting": "fireball_sound"}
 
         super().__init__(
             wizard_id=wizard_id,
             name="Fireball",
-            icon=circle(Spell.icon_radius, (195, 48, 0)),
+            icon="fireball_icon",  # circle(Spell.icon_radius, (195, 48, 0)),
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,

@@ -39,7 +39,7 @@ class GameObject(Sprite):
         self.__center = [0, 0]
 
         self.__image_dict = {key: self.load_img(
-            **args) for key, args in image_dict.itens()}
+            **args) for key, args in image_dict.items()}
         self.vel = vel
         self.ang = ang
         self.__change_ang = True
@@ -170,6 +170,8 @@ class GameObject(Sprite):
         superficie = RSurface(R, size, pg.SRCALPHA)
 
         image = pg.image.load(path)
+        image.set_colorkey((255, 255, 255))
+        image = image.convert_alpha()
         image = pg.transform.scale(image, size)
         superficie.blit(image, (0, 0))
         return superficie

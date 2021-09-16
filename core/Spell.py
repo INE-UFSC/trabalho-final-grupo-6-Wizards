@@ -28,7 +28,7 @@ class Spell(ABC, GameObject):
 
         super().__init__(**game_object_args)
         self.__name = name
-        self.__icon = icon
+        self.load_icon(icon)
         self.__wizard_id = wizard_id
         self.__spawned_time = 0
         self.__cast_sound = pg.mixer.Sound(
@@ -63,6 +63,16 @@ class Spell(ABC, GameObject):
     @abstractmethod
     def colision(self):
         pass
+
+    def load_icon(self, icon):
+        icon = icon + ".png"
+
+        image = pg.image.load(os.path.join(
+            'images', 'spells_img', 'icons', icon))
+        image.set_colorkey((255, 255, 255))
+        image = image.convert_alpha()
+
+        self.__icon = pg.transform.scale(image, (42, 42))
 
 
 class SpellEffect(ABC):

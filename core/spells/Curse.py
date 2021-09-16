@@ -9,6 +9,7 @@
 from images import circle
 from core import Spell, SpellEffect
 import time
+import os
 
 
 class Curse(Spell):
@@ -16,14 +17,16 @@ class Curse(Spell):
     __effect_duration = 2
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
+        R = 100
+        image_dict = {"1": {"path": os.path.join("images", "spells_img", "curse_img.png"), "R": R, "size": (
+            R*2+2, R*2+2)}}  # circle(100, (150, 0, 150))}
 
-        image_dict = {"1": "curse_img"}  # circle(100, (150, 0, 150))}
         sound_dict = {"casting": "curse_sound"}
 
         super().__init__(
             wizard_id=wizard_id,
             name="Curse",
-            icon=circle(Spell.icon_radius, (150, 0, 150)),
+            icon="curse_icon",  # circle(Spell.icon_radius, (150, 0, 150)),
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,

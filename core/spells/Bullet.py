@@ -20,14 +20,14 @@ class Bullet(Spell):
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
         image_dict = {"1": {"path": os.path.join(
-            ["images", "spells_img", "bullet_img.png"]), "R": 7, "size": (16, 16)}}
+            "images", "spells_img", "bullet_img.png"), "R": 7, "size": (16, 16)}}
 
         sound_dict = {"casting": "bullet_sound"}
 
         super().__init__(
             wizard_id=wizard_id,
             name="Bullet",
-            icon=circle(Spell.icon_radius, (100, 100, 255)),
+            icon="bullet_icon",  # circle(Spell.icon_radius, (100, 100, 255)),
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,

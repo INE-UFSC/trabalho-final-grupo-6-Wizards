@@ -9,6 +9,7 @@
 from images import circle
 from core import Spell, SpellEffect, Wizard
 import time
+import os
 
 
 class Shield(Spell):
@@ -16,13 +17,17 @@ class Shield(Spell):
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
 
-        image_dict = {"1": "shield_img"}  # circle(50, (0, 100, 0))}
+        R = 50
+        image_dict = {"1": {"path": os.path.join(
+            "images", "spells_img", "shield_img.png"), "R": R, "size": (R*2+2, R*2+2)}}
+        # circle(50, (0, 100, 0))}
+
         sound_dict = {"casting": "shield_sound"}
 
         super().__init__(
             wizard_id=wizard_id,
             name="Shield",
-            icon=circle(Spell.icon_radius, (0, 100, 0)),
+            icon="shield_icon",  # circle(Spell.icon_radius, (0, 100, 0)),
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,

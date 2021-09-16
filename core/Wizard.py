@@ -50,16 +50,19 @@ class Wizard(GameObject):
         Mage_image = RSurface(R, (R * 2+2, R * 2+2), pg.SRCALPHA)
         circle(R, self.__color, surface=Mage_image, pos=(R, R))
 
-        imagem = pg.image.load(os.path.join(
-            'images', 'mago_teste.png')).convert()
-        imagem = pg.transform.scale(imagem, (R*2, R*2))
-        Mage_image.blit(imagem, (0, 0))
+        # imagem = pg.image.load(os.path.join(
+        #    'images', 'mago_teste.png')).convert()
+        #imagem = pg.transform.scale(imagem, (R*2, R*2))
+        #Mage_image.blit(imagem, (0, 0))
+
         # draw_circle(Mage_image, R, R, R, self.__color)
         # gfxdraw.box(Mage_image, pg.Rect(R, R - width / 2, R, width), (0, 0, 0))
         # pg.draw.circle(Mage_image, self.__color, (R, R), R)
         # pg.draw.rect(Mage_image, (0, 0, 0), pg.Rect(R, R - width / 2, R, width))
 
-        image_dict = {"temp": Mage_image}
+        image_dict = {"1": {"path": os.path.join(
+            'images', 'mago_teste.png'), "R": R, "size": (
+            R*2+2, R*2+2)}}
         sound_dict = {"temp": "wizard_sound"}
         self.__damageSound = pg.mixer.Sound(os.path.join(
             'Sounds', sound_dict["temp"]+".wav"))
