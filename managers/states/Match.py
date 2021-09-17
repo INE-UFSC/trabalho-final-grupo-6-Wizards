@@ -18,7 +18,7 @@ from managers import Inputs
 from managers.states import State
 from managers.UI import UIcorner
 from core import Wizard
-from core.spells import Curse, Bullet, Shield, Fireball, Teleport
+from core.spells import Curse, Bullet, Shield, Fireball, Teleport, Wind
 
 from core.MathFuncions import circle_colide
 import time
@@ -47,7 +47,8 @@ class Match(State):
                 Bullet(p, [self.__spell_group], screen_size),
                 Shield(p, [self.__spell_group], screen_size),
                 Fireball(p, [self.__spell_group], screen_size),
-                Teleport(p, [self.__spell_group], screen_size)
+                Teleport(p, [self.__spell_group], screen_size),
+                Wind(p, [self.__spell_group], screen_size)
             ]
 
             wizard = Wizard(
@@ -101,7 +102,7 @@ class Match(State):
         self.__wizard_group.update(1)
 
         self.__draw()
-        
+
         if self.verify_end():
             return self.game.states_enum.Gameover
         return None
