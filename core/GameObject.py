@@ -196,6 +196,7 @@ class GameObject(Sprite):
         self.__image = pg.transform.rotate(self.__image_dict[self.state],
                                            self.ang)
         self.__centralize_image()
+        self.__new_angle = False
 
     def move(self, x, y):
         self.__center[0] += x

@@ -15,7 +15,7 @@ import os
 class Fireball(Spell):
     __projectile_duration = 1
     __area_duration = 0.25
-    __abs_vel = 5
+    __abs_vel = 7
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
 

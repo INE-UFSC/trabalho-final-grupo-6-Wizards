@@ -92,7 +92,7 @@ class Match(State):
         self.__now = 90 - int(time_now)
         if self.__now <= 0:
             self.__deaths += self.get_winner()
-            return 3
+            return self.game.states_enum.Gameover
 
         self.__process___inputs()
         self.__colision_detect()
@@ -101,6 +101,9 @@ class Match(State):
         self.__wizard_group.update(1)
 
         self.__draw()
+        
+        if self.verify_end():
+            return self.game.states_enum.Gameover
         return None
 
     def __colision_detect(self):
@@ -115,8 +118,7 @@ class Match(State):
         self.__spell_group.draw(self.canvas)
         self.__wizard_group.draw(self.canvas)
         self.__UI.draw(self.canvas, time=0)
-        if (self.verify_end):
-            return self.game.states_enum.Gameover
+
         screen_size = self.canvas.get_size()
 
         myfont = pg.font.SysFont('Comic Sans MS', 30)

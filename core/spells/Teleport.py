@@ -13,7 +13,7 @@ import os
 
 
 class Teleport(Spell):
-    __dist = 200
+    __dist = 400
     __image_duration = 0.5
     __effect_duration = 2
 

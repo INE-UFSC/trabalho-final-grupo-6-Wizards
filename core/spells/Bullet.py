@@ -15,8 +15,8 @@ import numpy as n
 
 
 class Bullet(Spell):
-    __projectile_duration = 8
-    __abs_vel = 5
+    __projectile_duration = 5
+    __abs_vel = 10
     __damge = 2
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
@@ -49,6 +49,8 @@ class Bullet(Spell):
             self.kill()
 
         self.ang = n.rad2deg(n.arctan(-self.vel[1]/self.vel[0]))
+        if self.vel[0] < 0:
+            self.ang = (self.ang+180) % 360
         super().update(1)
 
     def colision(self, wiz):
