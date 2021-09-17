@@ -43,12 +43,12 @@ class Match(State):
         self.__wizards = []
         for p in range(n_players):
             spell_list = [
+                Wind(p, [self.__spell_group], screen_size),
+                Teleport(p, [self.__spell_group], screen_size),
                 Curse(p, [self.__spell_group], screen_size),
                 Bullet(p, [self.__spell_group], screen_size),
                 Shield(p, [self.__spell_group], screen_size),
-                Fireball(p, [self.__spell_group], screen_size),
-                Teleport(p, [self.__spell_group], screen_size),
-                Wind(p, [self.__spell_group], screen_size)
+                Fireball(p, [self.__spell_group], screen_size)
             ]
 
             wizard = Wizard(

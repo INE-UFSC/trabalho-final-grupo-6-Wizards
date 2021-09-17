@@ -15,12 +15,12 @@ import os
 class Teleport(Spell):
     __dist = 400
     __image_duration = 0.5
-    __effect_duration = 2
+    __effect_duration = 1
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
 
         image_dict = {"1": {"path": os.path.join(
-            "images", "spells_img", "teleport_img.png"), "R": 7, "size": (16, 16)}}
+            "images", "spells_img", "teleport_img.png"), "R": 25, "size": (52, 52)}}
         sound_dict = {"casting": "teleport_sound"}
 
         super().__init__(

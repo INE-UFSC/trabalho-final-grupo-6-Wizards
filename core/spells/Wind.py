@@ -13,8 +13,9 @@ import os
 
 
 class Wind(Spell):
-
+    __hitbox_duration = 500
     __effect_duration = 1
+    __force = 25
     R = 100
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
@@ -37,27 +38,34 @@ class Wind(Spell):
         self.kill()
 
     def cast(self, wiz):
+        self.__affected_wiz = []
         super().cast(wiz)
         self.direction = wiz.angle_vector
         new_center = (self.center[0] + wiz.angle_vector[0]
-                      * self.R + 55, self.center[1] + wiz.angle_vector[1] * self.R + 55)
+                      * (self.R + 55), self.center[1] + wiz.angle_vector[1] * (self.R + 55))
         self.center = new_center
 
     def update(self, dt):
-        if time.time() > self.spawned_time + self.__effect_duration:
+        if time.time() > self.spawned_time + self.__hitbox_duration:
             self.kill()
         super().update(1)
 
     def colision(self, wiz):
-        wiz.add_effect(WindEffect(self.__effect_duration, self.direction))
+
+        if wiz.idx not in self.__affected_wiz:
+            print(self.__affected_wiz)
+            self.__affected_wiz.append(wiz.idx)
+            wiz.vel = (wiz.vel[0] + self.__force * self.direction[0],
+                       wiz.vel[1] + self.__force * self.direction[1])
 
 
 class WindEffect(SpellEffect):
+    __force = 5
+
     def __init__(self, duration, direction):
         super().__init__(duration, Wind)
         self.direction = direction
 
     def call(self, wiz):
-        wiz.accelerate()
-        wiz.vel = (wiz.vel[0] + 20 * self.direction[0],
-                   wiz.vel[1] + 20 * self.direction[1])
+        wiz.vel = (wiz.vel[0] + self.__force * self.direction[0],
+                   wiz.vel[1] + self.__force * self.direction[1])
