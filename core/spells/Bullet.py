@@ -11,6 +11,7 @@ from core import Spell
 import time
 import pygame as pg
 import os
+import numpy as n
 
 
 class Bullet(Spell):
@@ -20,14 +21,14 @@ class Bullet(Spell):
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
         image_dict = {"1": {"path": os.path.join(
-            "images", "spells_img", "bullet_img.png"), "R": 7, "size": (16, 16)}}
+            "images", "spells_img", "bullet_img.png"), "R": 7, "size": (32, 32)}}
 
         sound_dict = {"casting": "bullet_sound"}
 
         super().__init__(
             wizard_id=wizard_id,
             name="Bullet",
-            icon="bullet_icon",  # circle(Spell.icon_radius, (100, 100, 255)),
+            icon="bullet_icon",  # circle(Spell.icon_radius, (100, 100, 255)),+
             image_dict=image_dict,
             sound_dict=sound_dict,
             ang=0,
@@ -46,6 +47,8 @@ class Bullet(Spell):
     def update(self, dt):
         if time.time() > self.spawned_time + self.__projectile_duration:
             self.kill()
+
+        self.ang = n.rad2deg(n.arctan(-self.vel[1]/self.vel[0]))
         super().update(1)
 
     def colision(self, wiz):

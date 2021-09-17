@@ -38,8 +38,8 @@ class Teleport(Spell):
     def cast(self, wiz):
         super().cast(wiz)
         # move automaticamente a determinada distancia
-        dist = (wiz.angle_vector[0] * (self.__dist + self.center[0]),
-                wiz.angle_vector[1] * (self.__dist + self.center[1]))
+        dist = (wiz.angle_vector[0] * self.__dist + self.center[0],
+                wiz.angle_vector[1] * self.__dist + self.center[1])
         dist = (dist[0] % self.screen_size[0], dist[1] % self.screen_size[1])
         wiz.center = dist
 
