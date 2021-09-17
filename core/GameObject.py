@@ -107,6 +107,11 @@ class GameObject(Sprite):
     def rect(self):
         return self.__rect
 
+    @rect.setter
+    def rect(self, position):
+        self.__rect.x = position[0]
+        self.__rect.y = position[1]
+
     @property
     def center(self):
         return self.__center

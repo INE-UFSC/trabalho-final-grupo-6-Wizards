@@ -18,7 +18,7 @@ from managers import Inputs
 from managers.states import State
 from managers.UI import UIcorner
 from core import Wizard
-from core.spells import Curse, Bullet, Shield, Fireball
+from core.spells import Curse, Bullet, Shield, Fireball, Teleport
 
 from core.MathFuncions import circle_colide
 import time
@@ -47,6 +47,7 @@ class Match(State):
                 Bullet(p, [self.__spell_group], screen_size),
                 Shield(p, [self.__spell_group], screen_size),
                 Fireball(p, [self.__spell_group], screen_size),
+                Teleport(p, [self.__spell_group], screen_size)
             ]
 
             wizard = Wizard(
@@ -94,6 +95,7 @@ class Match(State):
             return 3
 
         self.__process___inputs()
+        self.__colision_detect()
 
         self.__spell_group.update(1)
         self.__wizard_group.update(1)
@@ -116,7 +118,7 @@ class Match(State):
         if (self.verify_end):
             return self.game.states_enum.Gameover
         screen_size = self.canvas.get_size()
-        
+
         myfont = pg.font.SysFont('Comic Sans MS', 30)
         textsurface = myfont.render(str(self.__now), False, (0, 0, 0))
         text_size = textsurface.get_size()

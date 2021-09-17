@@ -37,6 +37,7 @@ class Bullet(Spell):
 
     def cast(self, wiz):
         super().cast(wiz)
+        self.ang = wiz.ang
         self.vel = (
             wiz.angle_vector[0] * self.__abs_vel,
             wiz.angle_vector[1] * self.__abs_vel,
