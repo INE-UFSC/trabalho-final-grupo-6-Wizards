@@ -22,6 +22,8 @@ from core.spells import Curse, Bullet, Shield, Fireball, Teleport, Wind
 
 from core.MathFuncions import circle_colide
 import time
+import cv2
+import pygame
 
 
 class Match(State):
@@ -33,6 +35,18 @@ class Match(State):
         self.__spell_group = pg.sprite.Group()
 
     def Start(self, n_players: int = 1):
+        self.can_go = True
+
+        pygame.mixer.music.load('music.mp3')
+
+        pygame.mixer.music.play()
+
+        self.cap = cv2.VideoCapture('video.mp4')
+        self.success, self.img = self.cap.read()
+        self.shape = self.img.shape[1::-1]
+        # wn = pygame.display.set_mode(shape)
+        self.clock = pygame.time.Clock()
+
         self.redefine()
 
         screen_size = self.canvas.get_size()
@@ -89,6 +103,7 @@ class Match(State):
                 self.__wizards[p].castSpell(2)
 
     def run(self):
+
         time_now = time.time() - self.__init_time
         self.__now = 90 - int(time_now)
         if self.__now <= 0:
@@ -115,7 +130,18 @@ class Match(State):
                 spell.colision(wizard)
 
     def __draw(self):
-        self.canvas.fill((250, 250, 250))
+        self.clock.tick(60)
+
+        if self.can_go:
+            self.success, self.img = self.cap.read()
+            frame = pygame.image.frombuffer(
+                self.img.tobytes(), self.shape, "BGR")
+            frame = pg.transform.scale(frame, (1200, 700))
+            self.canvas.blit(frame, (0, 0))
+            self.can_go = False
+        else:
+            self.can_go = True
+        # self.canvas.fill((250, 250, 250))
         self.__spell_group.draw(self.canvas)
         self.__wizard_group.draw(self.canvas)
         self.__UI.draw(self.canvas, time=0)
@@ -144,6 +170,6 @@ class Match(State):
                 alive.append(wizard)
         return alive
 
-    @property
+    @ property
     def deaths(self):
         return self.__deaths
