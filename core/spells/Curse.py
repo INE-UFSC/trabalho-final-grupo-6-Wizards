@@ -41,7 +41,8 @@ class Curse(Spell):
         super().update(1)
 
     def colision(self, wiz):
-        wiz.add_effect(CurseEffect(self.__effect_duration))
+        if wiz.idx != self.wizard_id:
+            wiz.add_effect(CurseEffect(self.__effect_duration))
 
 
 class CurseEffect(SpellEffect):

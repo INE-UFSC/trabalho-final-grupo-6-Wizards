@@ -13,12 +13,14 @@ from core import Wizard
 
 
 class UIabstract(ABC):
-    def __init__(self, wizards, screen_size):
+    def __init__(self, wizards, screen_size, canvas):
         self.__wizards = wizards
         self.__n_wiz = len(wizards)
         self.__screen_size = screen_size
         self.__group = pg.sprite.Group()
         self.__myfont = pg.font.SysFont('Comic Sans MS', 30)
+        self.__timefont = pg.font.SysFont('Comic Sans MS', 50)
+        self.canvas = canvas
 
         self.__icon_size = wizards[0].slots[0].icon.get_size()
 
@@ -56,14 +58,20 @@ class UIabstract(ABC):
     def icon_size(self):
         return self.__icon_size
 
-    def __draw_player_identifier(self, canvas):
+    def __draw_player_identifier(self):
         for i in range(self.__n_wiz):
             wizard = self.__wizards[i]
             if wizard.alive:
                 size = self.__player_id_size[i]
                 x = wizard.rect.center[0] - size[0] / 2
                 y = wizard.rect.center[1] - 50 - size[1] / 2
-                canvas.blit(self.__player_id[i], (x, y))
+                self.canvas.blit(self.__player_id[i], (x, y))
 
-    def draw(self, canvas, time: int):
-        self.__draw_player_identifier(canvas)
+    def __draw_time(self, time):
+        textsurface = self.__timefont.render(str(time), False, (0, 0, 0))
+        text_size = textsurface.get_size()
+        self.canvas.blit(textsurface, (self.screen_size[0]/2-text_size[0], 10))
+
+    def draw(self, time: int):
+        self.__draw_player_identifier()
+        self.__draw_time(time)

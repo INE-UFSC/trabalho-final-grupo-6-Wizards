@@ -25,7 +25,10 @@ import time
 
 
 class Match(State):
-    __init_pos = [(0, 0), (200, 0), (0, 200), (200, 200)]
+    __init_pos = [lambda size: (size[0]*0.1, size[1]*0.2),
+                  lambda size: (size[0]*0.9, size[1]*0.2),
+                  lambda size: (size[0]*0.1, size[1]*0.8),
+                  lambda size: (size[0]*0.9, size[1]*0.8)]
 
     def redefine(self):
         self.__init_time = time.time()
@@ -63,11 +66,11 @@ class Match(State):
                 atr=0.99,
             )
 
-            wizard.center = self.__init_pos[p]
+            wizard.center = self.__init_pos[p](screen_size)
             self.__wizards.append(wizard)
 
         self.__inputs = Inputs(*self.config.p[:n_players])
-        self.__UI = UIcorner(self.__wizards, screen_size)
+        self.__UI = UIcorner(self.__wizards, screen_size, self.canvas)
 
     def __process___inputs(self):
         actions = self.__inputs.get()
@@ -118,14 +121,7 @@ class Match(State):
         self.canvas.fill((250, 250, 250))
         self.__spell_group.draw(self.canvas)
         self.__wizard_group.draw(self.canvas)
-        self.__UI.draw(self.canvas, time=0)
-
-        screen_size = self.canvas.get_size()
-
-        myfont = pg.font.SysFont('Comic Sans MS', 30)
-        textsurface = myfont.render(str(self.__now), False, (0, 0, 0))
-        text_size = textsurface.get_size()
-        self.canvas.blit(textsurface, (screen_size[0]/2-text_size[0], 0))
+        self.__UI.draw(time=self.__now)
 
     def verify_end(self):
         for wizard in self.__wizards:

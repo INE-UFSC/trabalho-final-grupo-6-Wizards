@@ -8,20 +8,22 @@
 """
 from images import circle
 from core import Spell, SpellEffect
+from core.MathFuncions import calc_angle
 import time
 import os
+import math
 
 
 class Wind(Spell):
-    __hitbox_duration = 500
-    __effect_duration = 1
+    __hitbox_duration = 0.2
+    __effect_duration = 0.2
     __force = 25
-    R = 100
+    R = 200
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
 
         image_dict = {"1": {"path": os.path.join(
-            "images", "spells_img", "curse_img.png"), "R": self.R, "size": (
+            "images", "spells_img", "wind_img.png"), "R": self.R, "size": (
             self.R*2+2, self.R*2+2)}}
         sound_dict = {"casting": "teleport_sound"}
 
@@ -38,12 +40,12 @@ class Wind(Spell):
         self.kill()
 
     def cast(self, wiz):
-        self.__affected_wiz = []
+        self.__affected_wiz = [self.wizard_id]
         super().cast(wiz)
-        self.direction = wiz.angle_vector
-        new_center = (self.center[0] + wiz.angle_vector[0]
-                      * (self.R + 55), self.center[1] + wiz.angle_vector[1] * (self.R + 55))
-        self.center = new_center
+        self.ang = wiz.ang
+        new_center = (wiz.center[0] + wiz.angle_vector[0]*15,
+                      wiz.center[1] + wiz.angle_vector[1]*15)
+        self.center = wiz.center
 
     def update(self, dt):
         if time.time() > self.spawned_time + self.__hitbox_duration:
@@ -51,13 +53,18 @@ class Wind(Spell):
         super().update(1)
 
     def colision(self, wiz):
-
         if wiz.idx not in self.__affected_wiz:
-            print(self.__affected_wiz)
-            self.__affected_wiz.append(wiz.idx)
-            wiz.vel = (wiz.vel[0] + self.__force * self.direction[0],
-                       wiz.vel[1] + self.__force * self.direction[1])
+            wiz_ang = calc_angle(wiz.center[0] - self.center[0],
+                                 wiz.center[1] - self.center[1])
 
+            ang_dif = (wiz_ang - self.ang) % 360
+            if ang_dif <= 45 or ang_dif >= 315:
+                self.__affected_wiz.append(wiz.idx)
+                ang = math.radians(wiz_ang)
+                angle_vector = (math.cos(ang), -math.sin(ang))
+                wiz.vel = (wiz.vel[0] + self.__force * angle_vector[0],
+                           wiz.vel[1] + self.__force * angle_vector[1])
+                wiz.damage(1)
 
 class WindEffect(SpellEffect):
     __force = 5

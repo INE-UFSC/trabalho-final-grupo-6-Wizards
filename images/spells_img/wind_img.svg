@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   version="1.1"
+   id="svg2"
+   width="400"
+   height="400"
+   viewBox="0 0 400 400"
+   sodipodi:docname="wind_img.png.svg"
+   inkscape:version="1.1 (c4e8f9ed74, 2021-05-24)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs6" />
+  <sodipodi:namedview
+     id="namedview4"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     showgrid="true"
+     inkscape:zoom="0.45225695"
+     inkscape:cx="372.57581"
+     inkscape:cy="159.20154"
+     inkscape:window-width="1366"
+     inkscape:window-height="694"
+     inkscape:window-x="0"
+     inkscape:window-y="720"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="g8">
+    <inkscape:grid
+       type="xygrid"
+       id="grid1599" />
+  </sodipodi:namedview>
+  <g
+     inkscape:groupmode="layer"
+     id="layer1"
+     inkscape:label="Image 1" />
+  <g
+     inkscape:groupmode="layer"
+     inkscape:label="Image"
+     id="g8">
+    <path
+       style="fill:#60ffa2;stroke-width:1.81359;stroke-dasharray:0, 19.9495;fill-opacity:0.87363702"
+       id="path1081"
+       sodipodi:type="arc"
+       sodipodi:cx="200"
+       sodipodi:cy="200"
+       sodipodi:rx="200"
+       sodipodi:ry="200"
+       sodipodi:start="5.4977871"
+       sodipodi:end="0.78539816"
+       sodipodi:arc-type="slice"
+       d="M 341.42135,58.578638 A 200,200 0 0 1 400,200 200,200 0 0 1 341.42136,341.42136 L 200,200 Z" />
+  </g>
+</svg>

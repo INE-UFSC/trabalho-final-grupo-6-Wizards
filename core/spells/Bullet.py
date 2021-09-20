@@ -8,6 +8,7 @@
 """
 from images import circle
 from core import Spell, RSurface
+from core.MathFuncions import calc_angle
 import time
 import pygame as pg
 import os
@@ -57,12 +58,6 @@ class Bullet(Spell):
         self.target = None
         self.target_dist2 = self.__targeting_r**2
 
-    def calc_angle(self, x, y):
-        ang = np.rad2deg(np.arctan(-y/x)) % 360
-        if x < 0:
-            ang = (ang+180) % 360
-        return ang
-
     def update(self, dt):
         if time.time() > self.spawned_time + self.__projectile_duration:
             self.kill()
@@ -70,13 +65,13 @@ class Bullet(Spell):
         if self.state == "targeting":
             self.state = "projectile"
 
-        temp_ang = self.calc_angle(*self.vel)
+        temp_ang = calc_angle(*self.vel)
 
         if (time.time() > self.spawned_time + self.__target_cooldown) and\
            (time.time() < self.spawned_time + self.__target_duration):
-            target_ang = self.calc_angle(
-                self.target.center[0] + self.target.vel[0] - self.center[0],
-                self.target.center[1] + self.target.vel[0] - self.center[1])
+            target_ang = calc_angle(
+                self.target.center[0] + self.target.vel[0]*5 - self.center[0],
+                self.target.center[1] + self.target.vel[1]*5 - self.center[1])
             ang_dif = (target_ang-temp_ang) % 360
             if ang_dif > 180:
                 ang_dif = ang_dif-360
@@ -86,12 +81,6 @@ class Bullet(Spell):
                 self.angle_vector[0] * self.__abs_vel,
                 self.angle_vector[1] * self.__abs_vel,
             )
-            print("bullet:", temp_ang)
-            print("target:", target_ang)
-            print("dif:", target_ang-temp_ang)
-            print("dif:", ang_dif)
-            print("new_bullet:", self.ang)
-            print()
             if temp_ang>360 or temp_ang<0:
                 raise ValueError
         else:

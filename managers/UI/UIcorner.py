@@ -41,7 +41,7 @@ class UIcorner(UIabstract):
              self.screen_size[1]-self.__icon_offset-self.icon_size[1])
             ]
 
-    def __hp_bar(self, canvas):
+    def __hp_bar(self):
         for i in range(self.n_wiz):
             wiz = self.wizards[i]
             percentage = int(self.__bar_x * wiz.life / wiz.max_life)
@@ -49,18 +49,18 @@ class UIcorner(UIabstract):
             bar = pg.Surface((self.__bar_x, self.__bar_y))
             bar.fill((255, 0, 0))
             pg.draw.rect(bar, (0, 255, 50), pg.Rect(0, 0, percentage, 10))
-            canvas.blit(bar, self.__bar_pos[i])
+            self.canvas.blit(bar, self.__bar_pos[i])
 
-    def __spell_icons(self, canvas):
+    def __spell_icons(self):
         for i in range(self.n_wiz):
             slots = self.wizards[i].slots
             x = self.__icon_pos[i][0]
             y = self.__icon_pos[i][1]
             for s in range(3):
-                canvas.blit(slots[s].icon, (x, y))
+                self.canvas.blit(slots[s].icon, (x, y))
                 x += self.icon_size[0] + self.__icon_offset
 
-    def draw(self, canvas, time: int):
-        super().draw(canvas, time)
-        self.__hp_bar(canvas)
-        self.__spell_icons(canvas)
+    def draw(self, time):
+        super().draw(time)
+        self.__hp_bar()
+        self.__spell_icons()

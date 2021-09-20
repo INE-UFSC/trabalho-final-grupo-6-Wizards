@@ -8,20 +8,23 @@
 """
 from images import circle
 from core import Spell
+from core.MathFuncions import dist_sq
 import time
 import os
+import math
 
 
 class Fireball(Spell):
     __projectile_duration = 1
     __area_duration = 0.25
-    __abs_vel = 7
+    __abs_vel = 8
+    R = 200
 
     def __init__(self, wizard_id: int, groups: list, screen_size: tuple):
 
         # circle(7, (195, 48, 0)), "2": circle(100, (195, 48, 0))} tamanhos
         image_dict = {"1": {"path": os.path.join("images", "spells_img", "fireball_img.png"), "R": 7, "size": (16, 16)},
-                      "2": {"image": circle(100, (195, 48, 0))}}
+                      "2": {"image": circle(self.R, (195, 48, 0))}}
         sound_dict = {"casting": "fireball_sound"}
 
         super().__init__(
@@ -71,4 +74,5 @@ class Fireball(Spell):
         else:  # dano da explosão
             if not wiz.idx in self.__dmg_wiz:
                 self.__dmg_wiz.append(wiz.idx)
-                wiz.damage(5)
+                dist = math.sqrt(dist_sq(self.center, wiz.center))*5//self.R
+                wiz.damage(5-dist)

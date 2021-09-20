@@ -36,7 +36,7 @@ class Game():
     def run(self):
         # Initializa window
         self.window = pg.display.set_mode(self.config.screen_size)
-        
+
         # Game states
         menu = Menu(self)
         match = Match(self)
@@ -73,5 +73,4 @@ class Game():
                     self.__states[self.states_enum.Gameover].Start(
                         self.__states[self.states_enum.Match].deaths)
 
-        print("end")
         pg.display.quit()
