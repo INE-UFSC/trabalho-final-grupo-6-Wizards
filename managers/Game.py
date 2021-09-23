@@ -38,10 +38,10 @@ class Game():
         self.window = pg.display.set_mode(self.config.screen_size)
 
         # Game states
-        menu = Menu(self)
-        match = Match(self)
-        options = Options(self)
-        gameover = Gameover(self)
+        menu = Menu(self, 'menu')
+        match = Match(self, 'match')
+        options = Options(self, 'options')
+        gameover = Gameover(self, 'options')
         self.__states: dict = {
             self.states_enum.Menu: menu,
             self.states_enum.Match: match,

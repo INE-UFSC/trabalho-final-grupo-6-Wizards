@@ -10,15 +10,23 @@
 """
 from abc import ABC, abstractmethod
 import pygame as pg
-
+import os
 from managers import Game
 
 
 class State(ABC):
-    def __init__(self, game: Game):
+    def __init__(self, game: Game, state_name):
         self.__game: Game = game
+        self.__image = pg.image.load(
+            os.path.join('images', state_name+'_img.png'))
+        self.__image = pg.transform.scale(self.__image, self.window.get_size())
         self.__canvas: pg.surface.Surface = pg.Surface(self.window.get_size())
+        self.__canvas.blit(self.__image, (0, 0))
         self.redefine()
+
+    @property
+    def image(self):
+        return self.__image
 
     @property
     def game(self):

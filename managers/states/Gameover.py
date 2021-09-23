@@ -16,8 +16,8 @@ from managers import Game
 
 
 class Gameover(State):
-    def __init__(self, game: Game):
-        super().__init__(game)
+    def __init__(self, game: Game, state_name):
+        super().__init__(game, state_name)
         temp_image = self.canvas.copy()
         temp_image.fill((50, 250, 50))
 

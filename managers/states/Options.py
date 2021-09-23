@@ -16,10 +16,10 @@ from managers import Game
 
 
 class Options(State):
-    def __init__(self, game: Game):
+    def __init__(self, game: Game, state_image):
         self.__myfont = pg.font.SysFont('Comic Sans MS', 30)
-        
-        super().__init__(game)
+
+        super().__init__(game, state_image)
         self.__config_dict = self.config.as_dict()
         self.__controler = len(self.config.p0.command_list)
         self.__players = 4
@@ -31,7 +31,6 @@ class Options(State):
         superficie = pg.Surface(self.waiting_image.get_size())
         superficie.blit(self.waiting_image, (0, 0))
         self.waiting_image = superficie
-
 
     def run(self):
         buttons = self.buttons_info[self.__p_sel][self.__sel]
@@ -75,8 +74,8 @@ class Options(State):
 
     def __render_keys(self):
         self.__config_dict = self.config.as_dict()
-        temp_image = self.canvas.copy()
-        temp_image.fill((50, 250, 50))
+        temp_image = self.image.copy()
+        #temp_image.fill((50, 250, 50))
 
         canvas_size = self.canvas.get_size()
 
