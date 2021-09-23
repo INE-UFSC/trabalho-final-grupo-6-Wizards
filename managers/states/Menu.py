@@ -9,40 +9,45 @@
 import pygame as pg
 import os
 
+from pygame.constants import CONTROLLER_AXIS_INVALID
+
 from managers.states import State
 from managers.Config import Config
 
 from managers import Game
 
+
 class Menu(State):
-    def __init__(self, game: Game):
-        super().__init__(game)
+    def __init__(self, game: Game, state_name):
+        super().__init__(game, state_name)
         self.__states = 3
         # def images(i): return os.path.join('images', 'menu_'+str(i)+'.png')
         # self.__menu_images = [pg.image.load(images(i)) for i in range(3)]
         self.__myfont = pg.font.SysFont("Comic Sans MS", 30)
 
-        temp_image = self.canvas.copy()
-        temp_image.fill((50, 250, 50))
+        #temp_image = pg.image.load(os.path.join('images', 'menu_img.png'))
         canvas_size = self.canvas.get_size()
+        #temp_image.fill((50, 250, 50))
+        #temp_image = pg.transform.scale(temp_image, canvas_size)
+
         button_text = [("Play", 0.3), ("Settings", 0.5), ("Quit", 0.7)]
         for i in range(len(button_text)):
             text, pos = button_text[i]
             textsurface = self.__myfont.render(text, False, (0, 0, 0))
             x = (canvas_size[0] - textsurface.get_size()[0]) / 2
             y = canvas_size[1] * pos
-            temp_image.blit(textsurface, (x, y))
+            self.image.blit(textsurface, (x, y))
             button_text[i] = (textsurface, (x, y))
         self.__button_play = (button_text[0][1][0] + 110, button_text[0][1][1])
         textsurface = self.__myfont.render("N° players", False, (0, 0, 0))
-        temp_image.blit(
+        self.image.blit(
             textsurface,
             (self.__button_play[0] - 50, self.__button_play[1] - 50)
         )
 
         self.__menu_images = []
         for text, pos in button_text:
-            self.__menu_images.append(temp_image.copy())
+            self.__menu_images.append(self.image.copy())
 
             pg.draw.rect(
                 self.__menu_images[-1],
@@ -96,7 +101,8 @@ class Menu(State):
                             self.__players += 1
 
         self.canvas.blit(self.__menu_images[self.__sel].copy(), (0, 0))
-        textsurface = self.__myfont.render(str(self.__players), False, (0, 0, 0))
+        textsurface = self.__myfont.render(
+            str(self.__players), False, (0, 0, 0))
         self.canvas.blit(textsurface, self.__button_play)
 
         return None  # continua no menu

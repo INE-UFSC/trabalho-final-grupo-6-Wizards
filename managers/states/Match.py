@@ -22,6 +22,7 @@ from core.spells import Curse, Bullet, Shield, Fireball, Teleport, Wind
 
 from core.MathFuncions import circle_colide
 import time
+import os
 
 
 class Match(State):
@@ -39,7 +40,6 @@ class Match(State):
         self.redefine()
 
         screen_size = self.canvas.get_size()
-
         self.__n_players = n_players
         self.__deaths = []  # lista de magos que morreram
 
@@ -118,7 +118,7 @@ class Match(State):
                 spell.colision(wizard)
 
     def __draw(self):
-        self.canvas.fill((250, 250, 250))
+        self.canvas.blit(self.image, (0, 0))
         self.__spell_group.draw(self.canvas)
         self.__wizard_group.draw(self.canvas)
         self.__UI.draw(time=self.__now)
