@@ -21,9 +21,11 @@ class Menu(State):
     def __init__(self, game: Game, state_name):
         super().__init__(game, state_name)
         self.__states = 3
+
         # def images(i): return os.path.join('images', 'menu_'+str(i)+'.png')
         # self.__menu_images = [pg.image.load(images(i)) for i in range(3)]
-        self.__myfont = pg.font.SysFont("Comic Sans MS", 30)
+        self.__myfont = pg.font.Font(
+            'fonts/EquipmentPro.ttf', 30)
 
         #temp_image = pg.image.load(os.path.join('images', 'menu_img.png'))
         canvas_size = self.canvas.get_size()
@@ -63,6 +65,13 @@ class Menu(State):
     def redefine(self):
         self.__sel = 0
         self.__players = 2
+
+    def Start(self, n_players: int = 1):
+        self.redefine()
+        pg.mixer.music.load(
+            os.path.join('sounds', 'states', "match_sound.wav"))
+        pg.mixer.music.set_volume(0.15)
+        pg.mixer.music.play(-1)
 
     def run(self):
 

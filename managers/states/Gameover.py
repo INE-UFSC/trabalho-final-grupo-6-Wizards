@@ -18,11 +18,11 @@ from managers import Game
 class Gameover(State):
     def __init__(self, game: Game, state_name):
         super().__init__(game, state_name)
-        temp_image = self.canvas.copy()
-        temp_image.fill((50, 250, 50))
+        temp_image = self.image.copy()
 
         self.__sel = 1
-        self.__myfont = pg.font.SysFont("Comic Sans MS", 30)
+        self.__myfont = pg.font.Font(
+            'fonts/EquipmentPro.ttf', 30)
         self.__raw_images = []
 
         canvas_size = self.canvas.get_size()

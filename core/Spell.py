@@ -57,6 +57,7 @@ class Spell(ABC, GameObject):
     def cast(self, wiz: Wizard):
         self.set_time()
         self.center = wiz.center
+        self.__cast_sound.set_volume(1.0)
         self.__cast_sound.play()
         self.revive()
 

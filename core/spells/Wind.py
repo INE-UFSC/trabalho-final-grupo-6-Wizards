@@ -15,8 +15,7 @@ import math
 
 
 class Wind(Spell):
-    __hitbox_duration = 0.2
-    __effect_duration = 0.2
+    __hitbox_duration = 100
     __force = 25
     R = 200
 
@@ -65,6 +64,7 @@ class Wind(Spell):
                 wiz.vel = (wiz.vel[0] + self.__force * angle_vector[0],
                            wiz.vel[1] + self.__force * angle_vector[1])
                 wiz.damage(1)
+
 
 class WindEffect(SpellEffect):
     __force = 5

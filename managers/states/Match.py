@@ -22,6 +22,7 @@ from core.spells import Curse, Bullet, Shield, Fireball, Teleport, Wind
 
 from core.MathFuncions import circle_colide
 import time
+from managers import Game
 import os
 
 
@@ -31,6 +32,12 @@ class Match(State):
                   lambda size: (size[0]*0.1, size[1]*0.8),
                   lambda size: (size[0]*0.9, size[1]*0.8)]
 
+    def __init__(self, game: Game, state_image):
+        super().__init__(game, state_image)
+        pg.mixer.music.load(
+            os.path.join('sounds', 'states', "match_sound.wav"))
+        pg.mixer.music.set_volume(0.15)
+
     def redefine(self):
         self.__init_time = time.time()
         self.__wizard_group = pg.sprite.Group()
@@ -38,6 +45,7 @@ class Match(State):
 
     def Start(self, n_players: int = 1):
         self.redefine()
+        pg.mixer.music.play(-1)
 
         screen_size = self.canvas.get_size()
         self.__n_players = n_players

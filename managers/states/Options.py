@@ -17,7 +17,8 @@ from managers import Game
 
 class Options(State):
     def __init__(self, game: Game, state_image):
-        self.__myfont = pg.font.SysFont('Comic Sans MS', 30)
+        self.__myfont = pg.font.Font(
+            'fonts/EquipmentPro.ttf', 30)
 
         super().__init__(game, state_image)
         self.__config_dict = self.config.as_dict()
