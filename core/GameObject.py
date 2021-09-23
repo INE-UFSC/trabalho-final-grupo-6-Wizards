@@ -42,7 +42,6 @@ class GameObject(Sprite):
             **args) for key, args in image_dict.items()}
         self.vel = vel
         self.ang = ang
-        self.__change_ang = True
         self.__screen_size = screen_size
 
         self.__state = list(self.__image_dict.keys())[0]

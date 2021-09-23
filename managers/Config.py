@@ -100,7 +100,7 @@ class PlayerConf():
 
     def define_key(self, cmd, key):
         self.__dict_form[cmd] = key
-        self.__set_dict[cmd] = key
+        self.__set_dict[cmd](key)
         self.__list_form[self.__command_list.index(cmd)] = key
 
     def get_key_code(self, key):

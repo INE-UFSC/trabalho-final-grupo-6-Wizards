@@ -27,7 +27,6 @@ class Wizard(GameObject):
         ang: float,
         screen_size: tuple,
         groups: list,
-        acc_ang=5,
         accel=0.5,
         atr=0.99,
     ):
@@ -78,7 +77,6 @@ class Wizard(GameObject):
         )
         self.__alive = True
         self.__impulse = False
-        self.__acc_ang = acc_ang
         self.__vel_ang = 5
         self.__rotating = False
         self.__clockwise = False
