@@ -17,6 +17,8 @@ import time
 
 class Wizard(GameObject):
     __colors = [(200, 20, 20), (50, 50, 255), (20, 150, 20), (200, 200, 50)]
+    __front_colors = [(255, 50, 50), (150, 150, 255),
+                      (50, 255, 50), (255, 255, 150)]
 
     def __init__(
         self,
@@ -41,6 +43,7 @@ class Wizard(GameObject):
         self.__atr = atr
         self.__cooldown = 1
         self.__color = self.__colors[idx]
+        self.__front_color = self.__front_colors[idx]
         self.shield = None
 
         R = 25
@@ -198,3 +201,21 @@ class Wizard(GameObject):
         if self.__life <= 0:
             self.kill()
             self.alive = False
+
+    def load_img(self, R=None, path=None, size=None, image=None):
+
+        if image is not None:
+            return image
+
+        superficie = RSurface(R, size, pg.SRCALPHA)
+
+        image = pg.image.load(path)
+        var = pg.PixelArray(image)
+        var.replace((1, 168, 255), self.__color)
+        var.replace((255, 242, 0), self.__front_color)
+        del var
+        image.set_colorkey((255, 255, 255))
+        image = image.convert_alpha()
+        image = pg.transform.scale(image, size)
+        superficie.blit(image, (0, 0))
+        return superficie
