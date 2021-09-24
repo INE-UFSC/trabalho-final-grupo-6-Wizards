@@ -1,4 +1,5 @@
-# Wizards in Flying Saucers: The Battle!!!!
+![alt text](https://github.com/vishmaria/trabalho-final-grupo-6-Wizards
+/blob/main/title_img.png?raw=true
 
 Para jogar basta executar o arquivo main.py
 
