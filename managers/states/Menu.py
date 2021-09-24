@@ -25,12 +25,18 @@ class Menu(State):
         # def images(i): return os.path.join('images', 'menu_'+str(i)+'.png')
         # self.__menu_images = [pg.image.load(images(i)) for i in range(3)]
         self.__myfont = pg.font.Font(
-            'fonts/EquipmentPro.ttf', 30)
+            'fonts/EquipmentPro.ttf', 50)
 
         #temp_image = pg.image.load(os.path.join('images', 'menu_img.png'))
         canvas_size = self.canvas.get_size()
         #temp_image.fill((50, 250, 50))
         #temp_image = pg.transform.scale(temp_image, canvas_size)
+
+        textsurface = self.__myfont.render(
+            "Wizards in Flying Saucers", False, (0, 0, 0))
+        x = (canvas_size[0] - textsurface.get_size()[0]) / 2
+        y = canvas_size[1] * 0.1
+        self.image.blit(textsurface, (x, y))
 
         button_text = [("Play", 0.3), ("Settings", 0.5), ("Quit", 0.7)]
         for i in range(len(button_text)):

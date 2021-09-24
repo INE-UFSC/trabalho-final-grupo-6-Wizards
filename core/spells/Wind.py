@@ -24,7 +24,7 @@ class Wind(Spell):
         image_dict = {"1": {"path": os.path.join(
             "images", "spells_img", "wind_img.png"), "R": self.R, "size": (
             self.R*2+2, self.R*2+2)}}
-        sound_dict = {"casting": "teleport_sound"}
+        sound_dict = {"casting": "wind_sound"}
 
         super().__init__(
             wizard_id=wizard_id,
