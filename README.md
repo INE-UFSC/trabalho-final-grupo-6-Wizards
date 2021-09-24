@@ -1,4 +1,4 @@
-![alt text](https://github.com/vishmaria/trabalho-final-grupo-6-Wizards/blob/main/title_img.png?raw=true)
+![Wizards in Flying Saucers!!!](https://github.com/INE-UFSC/trabalho-final-grupo-6-Wizards/blob/main/images/Title_banner.png?raw=true)
 
 Para jogar basta executar o arquivo main.py
 
