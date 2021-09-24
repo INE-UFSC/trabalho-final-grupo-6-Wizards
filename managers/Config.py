@@ -14,9 +14,8 @@ import pygame as pg
 
 
 class PlayerConf():
-    # falta implementar enter
     def __init__(self, turn_r="d", turn_l="a", acc="w",
-                 slot0="j", slot1="k", slot2="l", pause="enter"):
+                 slot0="j", slot1="k", slot2="l"):
         self.__turn_r: int = self.get_key_code(turn_r)
         self.__turn_l: int = self.get_key_code(turn_l)
         self.__acc: int = self.get_key_code(acc)

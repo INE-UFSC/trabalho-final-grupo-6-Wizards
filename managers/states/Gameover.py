@@ -59,10 +59,17 @@ class Gameover(State):
             imagem = self.__scores[x].image
             if x == 0:
                 Text_image = myfont.render('winner', False, (255, 255, 0))
+                hat_brigth_color = self.__scores[0].front_color
+                hat_darker_color = self.__scores[0].color
+
             else:
                 Text_image = myfont.render('loser', False, (0, 0, 0))
 
             for screen in self.__menu_images:
+                var = pg.PixelArray(screen)
+                var.replace((255, 127, 39), hat_brigth_color)
+                var.replace((185, 122, 87), hat_darker_color)
+                del var
                 screen.blit(
                     imagem, (screen_size_x/5*(x+1), 200))
                 screen.blit(

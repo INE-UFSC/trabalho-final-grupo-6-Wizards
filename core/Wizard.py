@@ -139,6 +139,10 @@ class Wizard(GameObject):
     def color(self):
         return self.__color
 
+    @property
+    def front_color(self):
+        return self.__front_color
+
     def castSpell(self, n_slot: int):
         now = time.time()
         if self.delay[n_slot] < now:

@@ -20,6 +20,7 @@ class State(ABC):
         self.__image = pg.image.load(
             os.path.join('images', state_name+'_img.png'))
         self.__image = pg.transform.scale(self.__image, self.window.get_size())
+        self.__image = self.__image.convert()
         self.__canvas: pg.surface.Surface = pg.Surface(self.window.get_size())
         self.__canvas.blit(self.__image, (0, 0))
         self.redefine()

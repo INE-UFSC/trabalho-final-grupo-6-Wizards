@@ -41,7 +41,7 @@ class Game():
         menu = Menu(self, 'menu')
         match = Match(self, 'match')
         options = Options(self, 'options')
-        gameover = Gameover(self, 'options')
+        gameover = Gameover(self, 'gameover')
         self.__states: dict = {
             self.states_enum.Menu: menu,
             self.states_enum.Match: match,
