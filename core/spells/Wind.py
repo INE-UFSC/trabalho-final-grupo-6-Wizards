@@ -15,7 +15,7 @@ import math
 
 
 class Wind(Spell):
-    __hitbox_duration = 100
+    __hitbox_duration = 0.2
     __force = 25
     R = 200
 

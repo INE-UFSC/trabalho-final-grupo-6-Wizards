@@ -22,21 +22,18 @@ class Menu(State):
         super().__init__(game, state_name)
         self.__states = 3
 
-        # def images(i): return os.path.join('images', 'menu_'+str(i)+'.png')
-        # self.__menu_images = [pg.image.load(images(i)) for i in range(3)]
         self.__myfont = pg.font.Font(
-            'fonts/EquipmentPro.ttf', 50)
+            'fonts/EquipmentPro.ttf', 100)
 
-        #temp_image = pg.image.load(os.path.join('images', 'menu_img.png'))
         canvas_size = self.canvas.get_size()
-        #temp_image.fill((50, 250, 50))
-        #temp_image = pg.transform.scale(temp_image, canvas_size)
 
-        textsurface = self.__myfont.render(
-            "Wizards in Flying Saucers", False, (0, 0, 0))
-        x = (canvas_size[0] - textsurface.get_size()[0]) / 2
-        y = canvas_size[1] * 0.1
-        self.image.blit(textsurface, (x, y))
+        title_img = pg.image.load(
+            os.path.join('images', 'title_img.png'))
+        title_img = pg.transform.scale(
+            title_img, (int(canvas_size[0] * 0.9), int(canvas_size[0] * 0.087)))
+        x = (canvas_size[0] - title_img.get_size()[0]) / 2
+        y = canvas_size[1] * 0.01
+        self.image.blit(title_img, (x, y))
 
         button_text = [("Play", 0.3), ("Settings", 0.5), ("Quit", 0.7)]
         for i in range(len(button_text)):
@@ -48,9 +45,10 @@ class Menu(State):
             button_text[i] = (textsurface, (x, y))
         self.__button_play = (button_text[0][1][0] + 110, button_text[0][1][1])
         textsurface = self.__myfont.render("N° players", False, (0, 0, 0))
+        self.__n_players_size = textsurface.get_size()
         self.image.blit(
             textsurface,
-            (self.__button_play[0] - 50, self.__button_play[1] - 50)
+            (self.__button_play[0] + 40, self.__button_play[1] - 70)
         )
 
         self.__menu_images = []
@@ -64,7 +62,7 @@ class Menu(State):
                 width=3,
             )
 
-    @property
+    @ property
     def players(self):
         return self.__players
 
@@ -72,10 +70,10 @@ class Menu(State):
         self.__sel = 0
         self.__players = 2
 
-    def Start(self, n_players: int = 1):
+    def Start(self):
         self.redefine()
         pg.mixer.music.load(
-            os.path.join('sounds', 'states', "match_sound.wav"))
+            os.path.join('sounds', 'states', "menu_sound.wav"))
         pg.mixer.music.set_volume(0.15)
         pg.mixer.music.play(-1)
 
@@ -118,6 +116,7 @@ class Menu(State):
         self.canvas.blit(self.__menu_images[self.__sel].copy(), (0, 0))
         textsurface = self.__myfont.render(
             str(self.__players), False, (0, 0, 0))
-        self.canvas.blit(textsurface, self.__button_play)
+        self.canvas.blit(
+            textsurface, (self.__button_play[0] + 40 + self.__n_players_size[0]/2, self.__button_play[1] + 30))
 
         return None  # continua no menu

@@ -54,6 +54,7 @@ class Game():
         for state in self.__states.values():
             state.redefine()
         self.__current_state = self.states_enum.Menu
+        self.__states[self.__current_state].Start()
 
         while self.__current_state is not self.states_enum.Exit:
             self.__states[self.__current_state].display()
@@ -69,8 +70,10 @@ class Game():
                 if self.__current_state == self.states_enum.Match:
                     self.__states[self.states_enum.Match].Start(
                         self.__states[self.states_enum.Menu].players)
-                if self.__current_state == self.states_enum.Gameover:
+                elif self.__current_state == self.states_enum.Gameover:
                     self.__states[self.states_enum.Gameover].Start(
                         self.__states[self.states_enum.Match].deaths)
+                elif self.__current_state == self.states_enum.Menu:
+                    self.__states[self.__current_state].Start()
 
         pg.display.quit()

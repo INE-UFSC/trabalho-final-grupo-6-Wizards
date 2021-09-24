@@ -22,8 +22,6 @@ class State(ABC):
         self.__image = pg.transform.scale(self.__image, self.window.get_size())
         self.__canvas: pg.surface.Surface = pg.Surface(self.window.get_size())
         self.__canvas.blit(self.__image, (0, 0))
-        # self.__myfont = pg.font.Font(
-        # 'fonts/EquipmentPro.ttf', 30)
         self.redefine()
 
     @property
