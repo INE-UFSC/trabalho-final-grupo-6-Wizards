@@ -80,21 +80,23 @@ class Match(State):
     def __process___inputs(self):
         actions = self.__inputs.get()
         for p in range(self.__n_players):
-            if 0 in actions[p]:  # turn_r
-                if 1 not in actions[p]:  # not turn_l
-                    self.__wizards[p].rotate(True)
-            elif 1 in actions[p]:  # turn_l
-                self.__wizards[p].rotate(False)
+            if self.__wizards[p].alive:
 
-            if 2 in actions[p]:  # acc
-                self.__wizards[p].accelerate()
+                if 0 in actions[p]:  # turn_r
+                    if 1 not in actions[p]:  # not turn_l
+                        self.__wizards[p].rotate(True)
+                elif 1 in actions[p]:  # turn_l
+                    self.__wizards[p].rotate(False)
 
-            if 3 in actions[p]:  # slot0
-                self.__wizards[p].castSpell(0)
-            if 4 in actions[p]:  # slot1
-                self.__wizards[p].castSpell(1)
-            if 5 in actions[p]:  # slot2
-                self.__wizards[p].castSpell(2)
+                if 2 in actions[p]:  # acc
+                    self.__wizards[p].accelerate()
+
+                if 3 in actions[p]:  # slot0
+                    self.__wizards[p].castSpell(0)
+                if 4 in actions[p]:  # slot1
+                    self.__wizards[p].castSpell(1)
+                if 5 in actions[p]:  # slot2
+                    self.__wizards[p].castSpell(2)
 
     def run(self):
         time_now = time.time() - self.__init_time
