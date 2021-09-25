@@ -24,7 +24,8 @@ class Fireball(Spell):
 
         # circle(7, (195, 48, 0)), "2": circle(100, (195, 48, 0))} tamanhos
         image_dict = {"1": {"path": os.path.join("images", "spells_img", "fireball_img.png"), "R": 7, "size": (16, 16)},
-                      "2": {"image": circle(self.R, (195, 48, 0))}}
+                      "2": {"path": os.path.join("images", "spells_img", "fireball_img_2.png"), "R": self.R, "size": (self.R*2+2, self.R*2+2)}}
+        # "2": {"image": circle(self.R, (195, 48, 0))}}
         sound_dict = {"casting": "fireball_sound"}
 
         super().__init__(
